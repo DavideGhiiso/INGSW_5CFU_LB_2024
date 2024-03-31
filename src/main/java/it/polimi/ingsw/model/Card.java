@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Class that defines a card
@@ -46,5 +47,13 @@ public class Card implements Serializable, Comparable<Card> {
     @Override
     public String toString() {
         return number + " of " + suit.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return number == card.number && suit == card.suit;
     }
 }

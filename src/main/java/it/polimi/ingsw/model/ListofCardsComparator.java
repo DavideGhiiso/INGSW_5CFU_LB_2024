@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.utils.CardListUtils;
+
 import java.util.Comparator;
 import java.util.List;
 
@@ -26,14 +28,10 @@ public class ListofCardsComparator implements Comparator<List<Card>> {
     public int compare(List<Card> o1, List<Card> o2) {
         int integerCompare = Integer.compare(o1.size(), o2.size());
         if(integerCompare != 0) return integerCompare;
-        return goldsCount(o2) - goldsCount(o1);
+        return CardListUtils.suitsCount(o2, Suit.GOLDS) - CardListUtils.suitsCount(o1, Suit.GOLDS);
     }
 
-    private int goldsCount(List<Card> cards) {
-        return cards.stream()
-                .map(c -> (c.getSuit().equals(Suit.GOLDS) ? 1:0))
-                .reduce(0, Integer::sum);
-    }
+
 }
 
 

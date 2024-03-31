@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import it.polimi.ingsw.utils.CardListUtils;
+
 public class Table {
     private final List<Card> placedCards;
     public Table() {
@@ -45,7 +47,7 @@ public class Table {
 
         // if card can take 1 or more cards, adds it and takenCard to takenCards:
         for(List<Card> combination: combinations) {
-            if(card.getNumber() == sumOfNumbers(combination)) {
+            if(card.getNumber() == CardListUtils.sumOfNumbers(combination)) {
                 takenCards.add(card);
                 takenCards.addAll(combination);
                 placedCards.removeAll(combination);
@@ -57,11 +59,7 @@ public class Table {
         return takenCards;
     }
 
-    private int sumOfNumbers(List<Card> cards) {
-        return cards.stream()
-                .map(Card::getNumber)
-                .reduce(0, Integer::sum);
-    }
+
 
     /**
      * Method that generates every possible unordered combination without repetition of length maxCombinationsLength
