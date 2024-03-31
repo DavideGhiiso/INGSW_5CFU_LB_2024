@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class Table {
@@ -76,9 +75,9 @@ public class Table {
         for(Card card: placedCards) {
             List<Card> firstElement = new ArrayList<>();
             firstElement.add(card);
-            getCombinations(combinations, firstElement, placedCards, placedCards.indexOf(card), 4);
+            getCombinations(combinations, firstElement, placedCards, placedCards.indexOf(card), maxCombinationsLength);
         }
-        combinations.sort(Comparator.comparingInt(List::size));
+        combinations.sort((l1, l2) -> (new ListofCardsComparator()).compare(l1, l2));
         return combinations;
     }
 

@@ -16,7 +16,7 @@ public class Card implements Serializable, Comparable<Card> {
     }
 
     /**
-     * Method that allows to sort the cards inside an Iterable. Cards are sorted in an descending order by their number.
+     * Method that allows to sort the cards inside an Iterable. Cards are sorted in descending order by their number.
      * If the numbers are equal, the GOLDS suit has the priority.
      * @param otherCard the card to be compared.
      * @return

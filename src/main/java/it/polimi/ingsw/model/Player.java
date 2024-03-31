@@ -13,7 +13,7 @@ public class Player {
         this.isBot = false;
     }
 
-    public void removeCard(Card card) {
+    public void playCard(Card card) {
         this.hand.remove(card);
     }
 

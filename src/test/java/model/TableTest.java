@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TableTest {
     @Test
-    public void correctPlaceCardTest() {
+    public void correctAddCardTest() {
         Table table = new Table();
         List<Card> expectedSortedCardList = new ArrayList<>();
         try {
@@ -61,5 +61,25 @@ public class TableTest {
         }
         combo.sort(Comparator.comparingInt(List::size));
         System.out.println(combo.toString());
+    }
+    @Test
+    public void correctPlaceCardTest() {
+        Table table = new Table();
+        List<Card> expectedTableCards = new ArrayList<>();
+        List<Card> expectedTakenCards = new ArrayList<>();
+
+        try {
+            expectedTableCards.add(new Card(Suit.CUPS, 1));
+            assertArrayEquals(table.getPlacedCards().toArray(), table.placeCard(expectedTableCards.getFirst()).toArray());
+
+            expectedTableCards.add(new Card(Suit.SWORDS, 2));
+            table.placeCard(expectedTableCards.get(1));
+            expectedTakenCards.add(new Card(Suit.CLUBS, 3));
+            expectedTakenCards.addAll(expectedTableCards);
+
+            assertArrayEquals(expectedTakenCards.toArray(), table.placeCard(expectedTakenCards.getFirst()).toArray());
+        } catch (IllegalCardConstructionException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
