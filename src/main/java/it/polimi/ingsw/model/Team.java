@@ -6,6 +6,9 @@ import it.polimi.ingsw.utils.CardListUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that represents a team. It contains all information necessary to calculate end game points
+ */
 public class Team {
     final static int MAX_TEAM_SIZE = 2;
     /**

@@ -43,7 +43,7 @@ public class Table {
      */
     public List<Card> placeCard(Card card) {
         List<Card> takenCards = new ArrayList<>();
-        List<List<Card>> combinations = getAllCombinations(3); // is not possible to take more than 3 cards with 1 card
+        List<List<Card>> combinations = getAllCombinations(4); // is not possible to take more than 4 cards with 1 card
 
         // if card can take 1 or more cards, adds it and takenCard to takenCards:
         for(List<Card> combination: combinations) {
