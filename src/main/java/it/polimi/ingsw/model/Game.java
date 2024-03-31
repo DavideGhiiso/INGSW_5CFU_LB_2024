@@ -27,4 +27,10 @@ public class Game {
         teams[1].removePlayer(player);
     }
 
+    public List<Player> getPlayers() {
+        List<Player> result = new ArrayList<>(teams[0].getPlayers());
+        result.addAll(teams[1].getPlayers());
+        return result;
+    }
+
 }

@@ -52,5 +52,4 @@ public class Team {
         players.remove(player);
     }
 
-
 }

@@ -7,10 +7,10 @@ public class Player {
     private final List<Card> hand;
     private boolean isBot;
 
-    public Player(String username, List<Card> generatedHand) {
+    public Player(String username, List<Card> generatedHand, boolean isBot) {
         this.name = username;
         this.hand = generatedHand;
-        this.isBot = false;
+        this.isBot = isBot;
     }
 
     public void playCard(Card card) {
