@@ -1,4 +1,4 @@
-package it.polimi.ingsw.messages;
+package it.polimi.ingsw.messages.data;
 
 public class NewGameMessage extends Message {
     private final String username;

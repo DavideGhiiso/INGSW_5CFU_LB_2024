@@ -1,4 +1,4 @@
-package it.polimi.ingsw.messages;
+package it.polimi.ingsw.messages.data;
 
 public abstract class Message {
     protected String ID;
