@@ -43,7 +43,7 @@ public class Table {
      */
     public List<Card> placeCard(Card card) {
         List<Card> takenCards = new ArrayList<>();
-        List<List<Card>> combinations = getAllCombinations(4); // is not possible to take more than 4 cards with 1 card
+        List<List<Card>> combinations = CardListUtils.getAllCombinations(placedCards,4); // is not possible to take more than 4 cards with 1 card
 
         // if card can take 1 or more cards, adds it and takenCard to takenCards:
         for(List<Card> combination: combinations) {
@@ -60,49 +60,4 @@ public class Table {
     }
 
 
-
-    /**
-     * Method that generates every possible unordered combination without repetition of length maxCombinationsLength
-     * from this placedCards. The combinations are ordered in ascending length order. If two combinations are the same
-     * size, a combination containing GOLDS comes first.
-     * @param maxCombinationsLength max length of the combinations
-     * @return a list of list containing every possible unordered combination without repetition
-     */
-    private List<List<Card>> getAllCombinations(int maxCombinationsLength) {
-        List<List<Card>> combinations = new ArrayList<>();
-        for(Card card: placedCards) {
-            List<Card> firstElement = new ArrayList<>();
-            firstElement.add(card);
-            getCombinations(combinations, firstElement, placedCards, placedCards.indexOf(card), maxCombinationsLength);
-        }
-        combinations.sort((l1, l2) -> (new ListofCardsComparator()).compare(l1, l2));
-        return combinations;
-    }
-
-    /**
-     * TODO: set private
-     * Method that generates all possible unordered combination of a single card of length less or equal than maxLength
-     * and puts them in combinationsContainer list of lists of card
-     * @param combinationsContainer list of lists that will contain all combinations at the end of the recursion
-     * @param previousCombination previous recursive call combination
-     * @param cards List from which combination are generated
-     * @param startingIndex index to start iteration
-     * @param maxLength max combinations length
-     */
-    public void getCombinations(
-            List<List<Card>> combinationsContainer,
-            List<Card> previousCombination,
-            List<Card> cards,
-            int startingIndex,
-            int maxLength
-    ) {
-        if(previousCombination.size() >= maxLength) return;
-        for(int i = startingIndex ; i < cards.size(); i++) {
-            List<Card> newCombination = new ArrayList<>(previousCombination);
-
-            if(! newCombination.contains(cards.get(i))) newCombination.add(cards.get(i));
-            if(! combinationsContainer.contains(newCombination)) combinationsContainer.add(newCombination);
-            getCombinations(combinationsContainer,newCombination,cards,++startingIndex, maxLength);
-        }
-    }
 }

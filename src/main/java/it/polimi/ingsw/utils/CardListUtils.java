@@ -1,8 +1,10 @@
 package it.polimi.ingsw.utils;
 
 import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.ListofCardsComparator;
 import it.polimi.ingsw.model.Suit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CardListUtils {
@@ -13,14 +15,60 @@ public class CardListUtils {
     }
 
     public static int suitsCount(List<Card> cards, Suit queriedSuit) {
-        return cards.stream()
-                .map(c -> (c.getSuit().equals(queriedSuit) ? 1 : 0))
-                .reduce(0, Integer::sum);
+        return (int) cards.stream()
+                .filter(card -> card.getSuit() == queriedSuit)
+                .count();
     }
 
     public static int numbersCount(List<Card> cards, int queriedNumber) {
-        return cards.stream()
-                .map(c -> (c.getNumber() == queriedNumber ? 1 : 0))
-                .reduce(0, Integer::sum);
+        return (int) cards.stream()
+                .filter(card -> card.getNumber() == queriedNumber)
+                .count();
+    }
+
+    /**
+     * Method that generates every possible unordered combination without repetition of length maxCombinationsLength
+     * of passed card list. The combinations are ordered in ascending length order. If two combinations are the same
+     * size, a combination containing GOLDS comes first.
+     * @param cardList target list
+     * @param maxCombinationsLength max length of the combinations
+     * @return a list of list containing every possible unordered combination without repetition
+     */
+    public static List<List<Card>> getAllCombinations(List<Card> cardList, int maxCombinationsLength) {
+        List<List<Card>> combinations = new ArrayList<>();
+        for(Card card: cardList) {
+            List<Card> firstElement = new ArrayList<>();
+            firstElement.add(card);
+            getCombinations(combinations, firstElement, cardList, cardList.indexOf(card), maxCombinationsLength);
+        }
+        combinations.sort((l1, l2) -> (new ListofCardsComparator()).compare(l1, l2));
+        return combinations;
+    }
+
+    /**
+     * TODO: set private
+     * Method that generates all possible unordered combination of a single card of length less or equal than maxLength
+     * and puts them in combinationsContainer list of lists of card
+     * @param combinationsContainer list of lists that will contain all combinations at the end of the recursion
+     * @param previousCombination previous recursive call combination
+     * @param cards List from which combination are generated
+     * @param startingIndex index to start iteration
+     * @param maxLength max combinations length
+     */
+    public static void getCombinations(
+            List<List<Card>> combinationsContainer,
+            List<Card> previousCombination,
+            List<Card> cards,
+            int startingIndex,
+            int maxLength
+    ) {
+        if(previousCombination.size() >= maxLength) return;
+        for(int i = startingIndex ; i < cards.size(); i++) {
+            List<Card> newCombination = new ArrayList<>(previousCombination);
+
+            if(! newCombination.contains(cards.get(i))) newCombination.add(cards.get(i));
+            if(! combinationsContainer.contains(newCombination)) combinationsContainer.add(newCombination);
+            getCombinations(combinationsContainer,newCombination,cards,++startingIndex, maxLength);
+        }
     }
 }

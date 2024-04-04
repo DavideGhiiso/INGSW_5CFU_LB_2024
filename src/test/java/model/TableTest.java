@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.IllegalCardConstructionException;
 import it.polimi.ingsw.model.Suit;
 import it.polimi.ingsw.model.Table;
+import it.polimi.ingsw.utils.CardListUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.ReflectionUtils;
 
@@ -57,7 +58,7 @@ public class TableTest {
         for(Card card: table.getPlacedCards()) {
             List<Card> firstElement = new ArrayList<>();
             firstElement.add(card);
-            table.getCombinations(combo, firstElement, table.getPlacedCards(), table.getPlacedCards().indexOf(card), 4);
+            CardListUtils.getCombinations(combo, firstElement, table.getPlacedCards(), table.getPlacedCards().indexOf(card), 4);
         }
         combo.sort(Comparator.comparingInt(List::size));
         System.out.println(combo.toString());
