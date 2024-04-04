@@ -26,6 +26,7 @@ public class Dealer {
     public List<Card> getCardsHand() {
         List<Card> result = new ArrayList<>(cards.subList(0,HAND_SIZE));
         cards.subList(0,HAND_SIZE).clear();
+        result.sort(Card::compareTo);
         return result;
     }
 
