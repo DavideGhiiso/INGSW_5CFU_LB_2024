@@ -8,15 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Difficulty {
-    protected static int IN_HAND_COUNT_WEIGHT;
-    protected static int IN_HAND_VALUE_WEIGHT;
-    protected static int TAKEN_CARDS_WEIGHT;
-    protected static int IS_SEVEN_WEIGHT;
-    protected static int SCOPA_RISK_WEIGHT;
-    protected static int DOES_SCOPA_WEIGHT;
-    protected static int GOLD_PROFITABILITY_WEIGHT;
-    protected static int SEVEN_PROFITABILITY_WEIGHT;
-    protected static int GOLDS_WEIGHT;
+    protected static int IN_HAND_COUNT_WEIGHT = 1;
+    protected static int IN_HAND_VALUE_WEIGHT = 1;
+    protected static int TAKEN_CARDS_WEIGHT = 1;
+    protected static int SCOPA_RISK_WEIGHT = 1;
+    protected static int SEVEN_RISK_WEIGHT = 1;
+    protected static int DOES_SCOPA_WEIGHT = 1;
+    protected static int GOLD_PROFITABILITY_WEIGHT = 1;
+    protected static int SEVEN_PROFITABILITY_WEIGHT = 1;
     public abstract Card chooseCard(List<Card> inHandList, List<Card> onTableList, List<Card> playedCards);
 
     /**
@@ -37,27 +36,30 @@ public abstract class Difficulty {
                 return finalOnTableList;
             }
         }
+        finalOnTableList.add(card);
         return finalOnTableList;
     }
 
     /**
      * Prioritizes low number cards with more intensity in the first turns
      */
-    protected static double calculateInHandValueWeight(Card card, List<Card> inHandList) {
+    protected static double calculateInHandValueProfitability(Card card, List<Card> inHandList) {
         return (11 - card.getNumber()) * Math.exp((double) (inHandList.size() - 10) / 4) * IN_HAND_VALUE_WEIGHT; // the intensity is max in the first turn and goes down rapidly
     }
 
     /**
-     * Prioritizes cards that takes card
+     * Prioritizes cards that takes card.
+     * This weight is always positive or null
      */
-    protected static double calculateTakenCardsWeight(Card card, List<Card> onTableList, List<Card> onTableListIfPlaced) {
-        return (onTableList.size() - onTableListIfPlaced.size()) * TAKEN_CARDS_WEIGHT;
+    protected static double calculateTakenCardsProfitability(Card card, List<Card> onTableList, List<Card> onTableListIfPlaced) {
+        double result = (onTableList.size() - onTableListIfPlaced.size()) * TAKEN_CARDS_WEIGHT;;
+        return result >= 0 ? result : 0;
     }
 
     /**
      * Prioritizes cards that does Scopa
      */
-    protected static double calculateDoesScopaWeight(List<Card> onTableListIfPlaced) {
+    protected static double calculateDoesScopaProfitability(List<Card> onTableListIfPlaced) {
         return (onTableListIfPlaced.isEmpty() ? 1:0) * DOES_SCOPA_WEIGHT;
     }
     /**
@@ -74,7 +76,39 @@ public abstract class Difficulty {
     protected static double calculateGoldProfitability(Card card, List<Card> onTableList, List<Card> onTableListIfPlaced) {
         return (card.getSuit() == Suit.GOLDS ? 1:0)
                 * (hasTakenACard(onTableList, onTableListIfPlaced) ? 1:-1)
-                * SEVEN_PROFITABILITY_WEIGHT;
+                * GOLD_PROFITABILITY_WEIGHT;
+    }
+
+    /**
+     * Calculates the risk that by placing this card the next player might do scopa.
+     * If scopa has been made or remaining cards adds up to more than 10 there's no risk:
+     * else the risk depends on how many cards can still scopa.
+     * This weight is always negative or null.
+     * @param inHandAndPlayedCards in hand + already played cards
+     */
+    protected static double calculateScopaRisk(List<Card> onTableListIfPlaced, List<Card> inHandAndPlayedCards) {
+        if(onTableListIfPlaced.isEmpty()) return 0; // no risk
+        int sumOfCardsIfPlaced = CardListUtils.sumOfNumbers(onTableListIfPlaced); // sum of number on table if card is placed
+        if(sumOfCardsIfPlaced > 10) return 0; // no risk
+        int nOfCardsThatCanStillScopa = 4 - CardListUtils.numbersCount(inHandAndPlayedCards, sumOfCardsIfPlaced);
+        return -(nOfCardsThatCanStillScopa * SCOPA_RISK_WEIGHT);
+    }
+
+    /**
+     * Calculates the risk that by placing this card the next player might take a seven.
+     * If opponents have no sevens there is no risk: else the risk depends on how many sevens remains and if there is a
+     * seven combination on table.
+     * This weight is always negative or null.
+     * @param inHandAndPlayedCards in hand + already played cards
+     */
+    protected static double calculateSevenRisk(List<Card> onTableListIfPlaced, List<Card> inHandAndPlayedCards) {
+        int remainingSeven = 4 - CardListUtils.numbersCount(inHandAndPlayedCards, 7);
+        if(remainingSeven == 0) return 0;
+        List<List<Card>> combinations = CardListUtils.getAllCombinations(onTableListIfPlaced, 3);
+        boolean sevenCombinationPresent = combinations.stream()
+                                            .map(cardList -> CardListUtils.sumOfNumbers(onTableListIfPlaced))
+                                            .anyMatch(sum -> sum == 7);
+        return -(remainingSeven * (sevenCombinationPresent ? 1:0) * SEVEN_RISK_WEIGHT);
     }
 
     /**

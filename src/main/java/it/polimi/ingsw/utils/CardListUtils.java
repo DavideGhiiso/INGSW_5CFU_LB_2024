@@ -71,4 +71,41 @@ public class CardListUtils {
             getCombinations(combinationsContainer,newCombination,cards,++startingIndex, maxLength);
         }
     }
+
+    /**
+     * Returns the card that appears more often in the list. Prioritize low cards
+     * @param cardList list to inspect
+     * @return the card that appears more often in the list
+     */
+    public static Card cardWithHighestCount(List<Card> cardList) {
+        Card cardWithHighestCount = cardList.getLast();
+        int maxCount = 0;
+        for(Card card: cardList.reversed()) {
+            int nOfSameCardsInHand = CardListUtils.numbersCount(cardList, card.getNumber());
+            if(nOfSameCardsInHand > maxCount) {
+                maxCount = nOfSameCardsInHand;
+                cardWithHighestCount = card;
+            }
+        }
+        return cardWithHighestCount;
+    }
+
+    /**
+     * Returns the card that appears more often in the list and is contained in the sublist. Prioritize low cards
+     * @param cardList list to inspect
+     * @param sublist list that must contain the returned card
+     * @return the card that appears more often in the list
+     */
+    public static Card cardWithHighestCount(List<Card> cardList, List<Card> sublist) {
+        Card cardWithHighestCount = cardList.getLast();
+        int maxCount = 0;
+        for(Card card: cardList.reversed()) {
+            int nOfSameCardsInHand = CardListUtils.numbersCount(cardList, card.getNumber());
+            if(nOfSameCardsInHand > maxCount && sublist.contains(card)) {
+                maxCount = nOfSameCardsInHand;
+                cardWithHighestCount = card;
+            }
+        }
+        return cardWithHighestCount;
+    }
 }
