@@ -38,10 +38,10 @@ public class EasyDifficultyTest {
     public void correctNonEmptyTableRandomCardsBehaviourTest() {
         EasyDifficulty bot = new EasyDifficulty();
         Dealer d = new Dealer();
-        List<Card> inHandCards = d.getCardsHand().subList(0,7);
+        List<Card> inHandCards = d.getCardsHand();
         List<Card> tableCards = d.getCardsHand();
         Collections.shuffle(tableCards);
-        tableCards = tableCards.subList(0,1);
+        tableCards = tableCards.subList(0,4);
         List<Card> placedCards = new ArrayList<>();
         System.out.println(tableCards.toString());
         Card chosenCard = bot.chooseCard(inHandCards, tableCards, placedCards);

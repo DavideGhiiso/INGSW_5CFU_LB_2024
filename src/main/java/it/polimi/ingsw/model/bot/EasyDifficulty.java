@@ -31,15 +31,16 @@ public class EasyDifficulty extends Difficulty {
 
     private static double calculateWeight(Card card, List<Card> inHandList, List<Card> onTableList, List<Card> playedCards) {
         List<Card> onTableListIfPlaced = Difficulty.simulatePlacement(card, onTableList);
-        debugPrint(card, inHandList, onTableList, onTableListIfPlaced);
+        //debugPrint(card, inHandList, onTableList, onTableListIfPlaced);
 
-        return  calculateInHandValueProfitability(card, inHandList) +
-                calculateTakenCardsProfitability(card, onTableList, onTableListIfPlaced) +
-                calculateDoesScopaProfitability(onTableListIfPlaced) +
-                calculateSevenProfitability(card, onTableList, onTableListIfPlaced) +
-                calculateGoldProfitability(card, onTableList, onTableListIfPlaced) +
-                calculateScopaRisk(onTableListIfPlaced, inHandList) +
-                calculateSevenRisk(onTableListIfPlaced, inHandList);
+        return  calculateInHandValueProficiency(card, inHandList) +
+                calculateTakenCardsProficiency(card, onTableList, onTableListIfPlaced) +
+                calculateDoesScopaProficiency(onTableListIfPlaced) +
+                calculateSevenProficiency(card, onTableList, onTableListIfPlaced) +
+                calculateGoldProficiency(card, onTableList, onTableListIfPlaced) +
+                calculateScopaRisk(onTableList, onTableListIfPlaced, inHandList) +
+                calculateSevenRisk(onTableListIfPlaced, inHandList) +
+                calculateTakesSevenProficiency(card, onTableList, onTableListIfPlaced);
     }
 
     /**
@@ -47,12 +48,13 @@ public class EasyDifficulty extends Difficulty {
      */
     private static void debugPrint(Card card, List<Card> inHandList, List<Card> onTableList, List<Card> onTableListIfPlaced) {
         System.out.println("\n" + card.toString());
-        System.out.println("\tin hand \t" + calculateInHandValueProfitability(card, inHandList));
-        System.out.println("\ttaken cards\t" + calculateTakenCardsProfitability(card, onTableList, onTableListIfPlaced));
-        System.out.println("\tdoes scopa\t" + calculateDoesScopaProfitability(onTableListIfPlaced));
-        System.out.println("\tis seven\t" + calculateSevenProfitability(card, onTableList, onTableListIfPlaced));
-        System.out.println("\tis gold \t" + calculateGoldProfitability(card, onTableList, onTableListIfPlaced));
-        System.out.println("\tscopa risk\t" + calculateScopaRisk(onTableListIfPlaced, inHandList));
+        System.out.println("\tin hand \t" + calculateInHandValueProficiency(card, inHandList));
+        System.out.println("\ttaken cards\t" + calculateTakenCardsProficiency(card, onTableList, onTableListIfPlaced));
+        System.out.println("\ttakes seven\t" + calculateTakesSevenProficiency(card, onTableList, onTableListIfPlaced));
+        System.out.println("\tdoes scopa\t" + calculateDoesScopaProficiency(onTableListIfPlaced));
+        System.out.println("\tis seven\t" + calculateSevenProficiency(card, onTableList, onTableListIfPlaced));
+        System.out.println("\tis gold \t" + calculateGoldProficiency(card, onTableList, onTableListIfPlaced));
+        System.out.println("\tscopa risk\t" + calculateScopaRisk(onTableList, onTableListIfPlaced, inHandList));
         System.out.println("\tseven risk\t" + calculateSevenRisk(onTableListIfPlaced, inHandList));
         System.out.println("Simulated placement: " + onTableListIfPlaced.toString());
     }

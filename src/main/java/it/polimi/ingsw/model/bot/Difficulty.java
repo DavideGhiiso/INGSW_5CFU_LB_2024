@@ -6,6 +6,7 @@ import it.polimi.ingsw.utils.CardListUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public abstract class Difficulty {
     protected static int IN_HAND_COUNT_WEIGHT = 1;
@@ -14,8 +15,9 @@ public abstract class Difficulty {
     protected static int SCOPA_RISK_WEIGHT = 1;
     protected static int SEVEN_RISK_WEIGHT = 1;
     protected static int DOES_SCOPA_WEIGHT = 1;
-    protected static int GOLD_PROFITABILITY_WEIGHT = 1;
-    protected static int SEVEN_PROFITABILITY_WEIGHT = 1;
+    protected static int GOLD_PROFICIENCY_WEIGHT = 1;
+    protected static int SEVEN_PROFICIENCY_WEIGHT = 1;
+    protected static int TAKES_SEVEN_WEIGHT = 1;
     public abstract Card chooseCard(List<Card> inHandList, List<Card> onTableList, List<Card> playedCards);
 
     /**
@@ -43,15 +45,16 @@ public abstract class Difficulty {
     /**
      * Prioritizes low number cards with more intensity in the first turns
      */
-    protected static double calculateInHandValueProfitability(Card card, List<Card> inHandList) {
-        return (11 - card.getNumber()) * Math.exp((double) (inHandList.size() - 10) / 4) * IN_HAND_VALUE_WEIGHT; // the intensity is max in the first turn and goes down rapidly
+    protected static double calculateInHandValueProficiency(Card card, List<Card> inHandList) {
+        // the intensity is max in the first turn and goes down rapidly with exp decay
+        return (11 - card.getNumber()) * Math.exp((double) (inHandList.size() - 10) / 4) * IN_HAND_VALUE_WEIGHT;
     }
 
     /**
      * Prioritizes cards that takes card.
-     * This weight is always positive or null
+     * This weight is always positive or 0
      */
-    protected static double calculateTakenCardsProfitability(Card card, List<Card> onTableList, List<Card> onTableListIfPlaced) {
+    protected static double calculateTakenCardsProficiency(Card card, List<Card> onTableList, List<Card> onTableListIfPlaced) {
         double result = (onTableList.size() - onTableListIfPlaced.size()) * TAKEN_CARDS_WEIGHT;;
         return result >= 0 ? result : 0;
     }
@@ -59,38 +62,48 @@ public abstract class Difficulty {
     /**
      * Prioritizes cards that does Scopa
      */
-    protected static double calculateDoesScopaProfitability(List<Card> onTableListIfPlaced) {
+    protected static double calculateDoesScopaProficiency(List<Card> onTableListIfPlaced) {
         return (onTableListIfPlaced.isEmpty() ? 1:0) * DOES_SCOPA_WEIGHT;
     }
     /**
      * If it's a 7, prioritizes its placement only if it takes at least a card, else reduces its weight
      */
-    protected static double calculateSevenProfitability(Card card, List<Card> onTableList, List<Card> onTableListIfPlaced) {
+    protected static double calculateSevenProficiency(Card card, List<Card> onTableList, List<Card> onTableListIfPlaced) {
         return (card.getNumber() == 7 ? 1:0)
                 * (hasTakenACard(onTableList, onTableListIfPlaced) ? 1:-1)
-                * SEVEN_PROFITABILITY_WEIGHT;
+                * SEVEN_PROFICIENCY_WEIGHT;
+    }
+    /**
+     * Prioritizes its placement if it takes a 7.
+     * This weight is always positive or 0
+     */
+    protected static double calculateTakesSevenProficiency(Card card, List<Card> onTableList, List<Card> onTableListIfPlaced) {
+        int sevenBefore = CardListUtils.numbersCount(onTableList, 7);
+        int sevenAfter = CardListUtils.numbersCount(onTableListIfPlaced, 7);
+        return (sevenBefore > sevenAfter ? 1:0) * TAKES_SEVEN_WEIGHT;
+
     }
     /**
      * If it's a GOLDS, prioritizes its placement only if it takes at least a card, else reduces its weight
      */
-    protected static double calculateGoldProfitability(Card card, List<Card> onTableList, List<Card> onTableListIfPlaced) {
+    protected static double calculateGoldProficiency(Card card, List<Card> onTableList, List<Card> onTableListIfPlaced) {
         return (card.getSuit() == Suit.GOLDS ? 1:0)
                 * (hasTakenACard(onTableList, onTableListIfPlaced) ? 1:-1)
-                * GOLD_PROFITABILITY_WEIGHT;
+                * GOLD_PROFICIENCY_WEIGHT;
     }
 
     /**
      * Calculates the risk that by placing this card the next player might do scopa.
      * If scopa has been made or remaining cards adds up to more than 10 there's no risk:
      * else the risk depends on how many cards can still scopa.
-     * This weight is always negative or null.
+     * This weight is always negative or 0.
      * @param inHandAndPlayedCards in hand + already played cards
      */
-    protected static double calculateScopaRisk(List<Card> onTableListIfPlaced, List<Card> inHandAndPlayedCards) {
+    protected static double calculateScopaRisk(List<Card> onTableList, List<Card> onTableListIfPlaced, List<Card> inHandAndPlayedCards) {
         if(onTableListIfPlaced.isEmpty()) return 0; // no risk
         int sumOfCardsIfPlaced = CardListUtils.sumOfNumbers(onTableListIfPlaced); // sum of number on table if card is placed
         if(sumOfCardsIfPlaced > 10) return 0; // no risk
-        int nOfCardsThatCanStillScopa = 4 - CardListUtils.numbersCount(inHandAndPlayedCards, sumOfCardsIfPlaced);
+        int nOfCardsThatCanStillScopa = 4 - CardListUtils.numbersCount(Stream.concat(inHandAndPlayedCards.stream(), onTableList.stream()).toList(), sumOfCardsIfPlaced);
         return -(nOfCardsThatCanStillScopa * SCOPA_RISK_WEIGHT);
     }
 
@@ -98,7 +111,7 @@ public abstract class Difficulty {
      * Calculates the risk that by placing this card the next player might take a seven.
      * If opponents have no sevens there is no risk: else the risk depends on how many sevens remains and if there is a
      * seven combination on table.
-     * This weight is always negative or null.
+     * This weight is always negative or 0.
      * @param inHandAndPlayedCards in hand + already played cards
      */
     protected static double calculateSevenRisk(List<Card> onTableListIfPlaced, List<Card> inHandAndPlayedCards) {
@@ -106,7 +119,7 @@ public abstract class Difficulty {
         if(remainingSeven == 0) return 0;
         List<List<Card>> combinations = CardListUtils.getAllCombinations(onTableListIfPlaced, 3);
         boolean sevenCombinationPresent = combinations.stream()
-                                            .map(cardList -> CardListUtils.sumOfNumbers(onTableListIfPlaced))
+                                            .map(CardListUtils::sumOfNumbers)
                                             .anyMatch(sum -> sum == 7);
         return -(remainingSeven * (sevenCombinationPresent ? 1:0) * SEVEN_RISK_WEIGHT);
     }
