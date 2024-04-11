@@ -15,12 +15,6 @@ public class OfflineGameController extends GameController {
         initializePlayers(new Dealer());
     }
 
-    @Override
-    public void startGame() {
-        playerIterator = new PlayerIterator(game.getPlayers());
-        currentPlayer = playerIterator.next();
-    }
-
     private void initializePlayers(Dealer dealer) {
         try { // adds one player and three BOTS
             game.addPlayer(new Player(DEFAULT_OFFLINE_GAME, dealer.getCardsHand(), false));
