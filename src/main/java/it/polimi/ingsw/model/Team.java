@@ -54,5 +54,8 @@ public class Team {
     public void removePlayer(Player player) {
         players.remove(player);
     }
+    public boolean contains(Player player) {
+        return players.contains(player);
+    }
 
 }

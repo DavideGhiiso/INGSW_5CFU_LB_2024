@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import java.util.List;
 
 public class Player {
-    private final String name;
+    private String name;
     private final List<Card> hand;
     private boolean isBot;
 
@@ -31,5 +31,8 @@ public class Player {
 
     public void setBot(boolean bot) {
         isBot = bot;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 }
