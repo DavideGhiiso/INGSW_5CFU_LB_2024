@@ -10,17 +10,24 @@ import java.util.List;
  * Class that represents the model of a game
  */
 public class Game {
+    private Game instance = null;
     public static final int MAX_PLAYERS = 4;
     public static final int N_OF_TURNS = 10;
     private final List<Player> players;
     private final Team[] teams;
     private final Table table;
 
-    public Game() {
+    private Game() {
         this.players = new ArrayList<>();
         this.teams = new Team[2];
         this.table = new Table();
     }
+    public Game getInstance() {
+        if(instance == null)
+            instance = new Game();
+        return instance;
+    }
+
 
     /**
      * Adds a player to the games player and adds it to a team in a way that the teams player number is balanced. If a

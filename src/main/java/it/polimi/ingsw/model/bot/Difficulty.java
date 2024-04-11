@@ -9,15 +9,14 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public abstract class Difficulty {
-    protected static int IN_HAND_COUNT_WEIGHT = 1;
-    protected static int IN_HAND_VALUE_WEIGHT = 1;
-    protected static int TAKEN_CARDS_WEIGHT = 1;
-    protected static int SCOPA_RISK_WEIGHT = 1;
-    protected static int SEVEN_RISK_WEIGHT = 1;
-    protected static int DOES_SCOPA_WEIGHT = 1;
-    protected static int GOLD_PROFICIENCY_WEIGHT = 1;
-    protected static int SEVEN_PROFICIENCY_WEIGHT = 1;
-    protected static int TAKES_SEVEN_WEIGHT = 1;
+    protected static int IN_HAND_VALUE_WEIGHT = 30;
+    protected static int TAKEN_CARDS_WEIGHT = 40;
+    protected static int SCOPA_RISK_WEIGHT = 60;
+    protected static int SEVEN_RISK_WEIGHT = 50;
+    protected static int DOES_SCOPA_WEIGHT = 100;
+    protected static int GOLD_PROFICIENCY_WEIGHT = 60;
+    protected static int SEVEN_PROFICIENCY_WEIGHT = 60;
+    protected static int TAKES_SEVEN_WEIGHT = 60;
     public abstract Card chooseCard(List<Card> inHandList, List<Card> onTableList, List<Card> playedCards);
 
     /**

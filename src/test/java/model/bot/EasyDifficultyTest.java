@@ -45,5 +45,6 @@ public class EasyDifficultyTest {
         List<Card> placedCards = new ArrayList<>();
         System.out.println(tableCards.toString());
         Card chosenCard = bot.chooseCard(inHandCards, tableCards, placedCards);
+        System.out.println("Chosen: "+chosenCard);
     }
 }

@@ -17,9 +17,8 @@ public class OfflineGameController extends GameController {
 
     @Override
     public void startGame() {
-        Iterator<Player> playerIterator;
-        playerIterator = game.getPlayers().iterator();
-
+        playerIterator = new PlayerIterator(game.getPlayers());
+        currentPlayer = playerIterator.next();
     }
 
     private void initializePlayers(Dealer dealer) {

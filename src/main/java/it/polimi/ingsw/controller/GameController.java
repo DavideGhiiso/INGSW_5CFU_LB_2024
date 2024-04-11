@@ -8,6 +8,8 @@ import java.util.Iterator;
 
 public abstract class GameController {
     protected final Game game;
+    protected Player currentPlayer;
+    protected PlayerIterator playerIterator;
 
     protected GameController(Game game) {
         this.game = game;

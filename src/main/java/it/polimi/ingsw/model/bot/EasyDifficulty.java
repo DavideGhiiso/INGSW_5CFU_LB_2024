@@ -7,7 +7,6 @@ import java.util.List;
 
 public class EasyDifficulty extends Difficulty {
     public EasyDifficulty() {
-        IN_HAND_COUNT_WEIGHT = 1;
     }
     @Override
     public Card chooseCard(List<Card> inHandList, List<Card> onTableList, List<Card> playedCards) {
@@ -21,6 +20,7 @@ public class EasyDifficulty extends Difficulty {
 
         for(Card card: inHandList) {
             double currentWeight = calculateWeight(card, inHandList, onTableList, playedCards);
+            System.out.println(card+": "+currentWeight);
             if (currentWeight > maxWeight) {
                 maxWeight = currentWeight;
                 returnCard = card;
