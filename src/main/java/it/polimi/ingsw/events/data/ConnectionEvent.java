@@ -17,8 +17,8 @@ public class ConnectionEvent extends Event {
     public Connection getConnection() {
         return connection;
     }
-
-    public Event getUndecoratedEvent(){
+    @Override
+    public Event getEvent(){
         return event;
     }
 

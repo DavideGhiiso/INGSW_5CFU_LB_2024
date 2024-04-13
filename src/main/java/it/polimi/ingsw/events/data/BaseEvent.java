@@ -14,6 +14,11 @@ public abstract class BaseEvent extends Event {
         return null;
     }
 
+    @Override
+    public Event getEvent() {
+        return this;
+    }
+
     public boolean requiresConnection() {
         return requiresConnection;
     }

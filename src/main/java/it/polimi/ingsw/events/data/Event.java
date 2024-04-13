@@ -11,12 +11,16 @@ import java.io.Serializable;
 public abstract class Event implements Serializable {
     protected String ID;
     protected Connection connection;
+    protected boolean local = false;
 
     public String getID() {
         return ID;
     }
     public abstract Connection getConnection();
-
+    public abstract Event getEvent();
+    public boolean isLocal() {
+        return local;
+    }
     @Override
     public String toString() {
         return ID;
