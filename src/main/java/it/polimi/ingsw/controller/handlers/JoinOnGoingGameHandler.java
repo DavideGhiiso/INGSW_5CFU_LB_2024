@@ -21,7 +21,7 @@ public class JoinOnGoingGameHandler implements EventHandler {
     @Override
     public void handle(Event event) {
         Response response = Response.OK;
-        if(!(((ConnectionEvent) event).getUndecoratedEvent() instanceof JoinGameEvent joinGameEvent))
+        if(!(((ConnectionEvent) event).getEvent() instanceof JoinGameEvent joinGameEvent))
             throw new ClassCastException();
 
         Connection connection = event.getConnection();

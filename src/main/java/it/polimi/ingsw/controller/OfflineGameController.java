@@ -28,7 +28,7 @@ public class OfflineGameController extends GameController {
     }
 
     @Override
-    public void endGame() {
+    public void endMatch() {
 
     }
 }

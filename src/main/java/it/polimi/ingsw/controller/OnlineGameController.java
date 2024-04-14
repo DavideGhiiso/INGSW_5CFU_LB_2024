@@ -1,11 +1,13 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.Dealer;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.exceptions.MaxPlayersReachedException;
 import it.polimi.ingsw.model.exceptions.NonexistentPlayerException;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class OnlineGameController extends GameController {
@@ -26,7 +28,7 @@ public class OnlineGameController extends GameController {
     }
 
     @Override
-    public void endGame() {
+    public void endMatch() {
 
     }
 
