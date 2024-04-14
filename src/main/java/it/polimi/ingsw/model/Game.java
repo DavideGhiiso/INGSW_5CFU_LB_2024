@@ -68,5 +68,10 @@ public class Game {
     public Team getPlayerTeam(Player player) {
         return team1.contains(player) ? team1 : team2;
     }
-
+    public Team getFirstTeam() {
+        return team1;
+    }
+    public Team getSecondTeam() {
+        return team2;
+    }
 }

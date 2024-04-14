@@ -42,8 +42,8 @@ public class Team {
         return players;
     }
 
-    public void setScopa(int scopa) {
-        this.scopa = scopa;
+    public void addScopa() {
+        this.scopa++;
     }
 
     public void addPlayer(Player player) throws MaxPlayersReachedException {
@@ -58,4 +58,7 @@ public class Team {
         return players.contains(player);
     }
 
+    public List<Card> getTakenCards() {
+        return takenCards;
+    }
 }
