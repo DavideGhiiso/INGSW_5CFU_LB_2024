@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.skin.TitledPaneSkin.TitleRegion?>
+<?import javafx.scene.control.Label?>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0"
+           prefWidth="1280.0" xmlns="http://javafx.com/javafx/19"
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.controller.view.MenuController"
+           stylesheets="@../css/menu.css" alignment="CENTER">
+
+    <children>
+        <Label styleClass="title">
+            Titolo
+        </Label>
+    </children>
+    <children>
+        <Group>
+            <children>
+                <VBox>
+                    <children>
+                        <Button layoutX="370.0" layoutY="313.0" mnemonicParsing="false" prefHeight="88.0"
+                                prefWidth="467.0" onAction="#onOnlineButtonClick" text="Play Online"/>
+                        <Button layoutX="370.0" layoutY="444.0" mnemonicParsing="false" prefHeight="88.0"
+                                prefWidth="467.0" onAction="#onOfflineButtonClick" text="Play Offline"/>
+                        <Button layoutX="370.0" layoutY="575.0" mnemonicParsing="false" prefHeight="88.0"
+                                prefWidth="467.0" onAction="#onExitButtonClick" text="Exit"/>
+                    </children>
+                </VBox>
+            </children>
+        </Group>
+    </children>
+</VBox>

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.networking;
 
-import it.polimi.ingsw.controller.handlers.JoinGameHandler;
-import it.polimi.ingsw.controller.handlers.PongHandler;
+import it.polimi.ingsw.controller.handlers.*;
 import it.polimi.ingsw.events.EventReceiver;
 import it.polimi.ingsw.events.EventTransmitter;
 
@@ -99,6 +98,9 @@ public class Server extends Host {
     private void attachEventHandlers() {
         eventReceiver.attachEventHandler("PONG_EVENT", new PongHandler());
         eventReceiver.attachEventHandler("JOIN_GAME_EVENT", new JoinGameHandler());
+        eventReceiver.attachEventHandler("JOIN_ONGOING_GAME_EVENT", new JoinOnGoingGameHandler());
+        eventReceiver.attachEventHandler("CLIENT_DISCONNECTED_EVENT", new ClientDisconnectedHandler());
+        eventReceiver.attachEventHandler("PLACE_CARD_EVENT", new PlaceCardHandler());
     }
 
     public ServerSocket getWelcomeSocket() {

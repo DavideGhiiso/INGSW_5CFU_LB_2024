@@ -1,0 +1,16 @@
+* {
+    -fx-font-family: "Cambria";
+}
+
+.button {
+    -fx-background-color: rgb(31, 141, 160);
+    -fx-font-size: 20pt;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-insets: 10px;
+    -fx-cursor: hand;
+}
+
+.title {
+    -fx-font-size: 40pt;
+    -fx-padding: 120px;
+}

@@ -4,7 +4,7 @@ import it.polimi.ingsw.events.data.BaseEvent;
 
 public class ClientDisconnectedEvent extends BaseEvent {
     public ClientDisconnectedEvent() {
-        ID = "CLIENT_DISCONNECTED";
+        ID = "CLIENT_DISCONNECTED_EVENT";
         requiresConnection = true;
     }
 }

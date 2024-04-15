@@ -27,13 +27,13 @@ public class Client extends Host {
     }
 
     /**
-     * Starts the client by trying to connect to a server at passed address:port. If it connects successfully, it
+     * Method that tries to connect to a server at passed address:port. If it connects successfully, it
      * then proceeds to start a EventListener thread and an EventReceiver thread
      * @param address server address
      * @param port server port
      */
-    public void start(String address, int port) {
-        Client.LOGGER.info("Starting client...");
+    public void connect(String address, int port) {
+        Client.LOGGER.info("Trying to connect to"+address+"...");
         try {
             serverConnection = new Connection(address, port);
             Client.LOGGER.info("Connected to server!");
