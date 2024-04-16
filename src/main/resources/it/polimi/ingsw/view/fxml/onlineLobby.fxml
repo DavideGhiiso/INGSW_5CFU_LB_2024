@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.controller.view.OnlineLobbyController"
-            prefHeight="400.0" prefWidth="100.0" alignment="CENTER">
-            <TextField onAction="#onTextFieldEnter" promptText="Username"/>
-</VBox>
+<?import javafx.geometry.Insets?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="it.polimi.ingsw.controller.view.OnlineLobbyController"
+           prefWidth="100.0" stylesheets="@../css/onlineLobby.css">
+    <StackPane alignment="TOP_LEFT">
+        <StackPane.margin>
+            <Insets left="20.0" top="20" />
+        </StackPane.margin>
+        <Button onAction="#onBackButtonClick" styleClass="back-button">
+            &lt;-
+        </Button>
+    </StackPane>
+
+    <VBox alignment="CENTER" styleClass="vbox">
+        <Label VBox.vgrow="ALWAYS">
+            Inserisci lo username che userai durante la partita:
+        </Label>
+        <TextField fx:id="usernameField"
+                   onAction="#onTextFieldEnter"
+                   promptText="Username"
+                   styleClass="text-field"
+                   onKeyTyped="#toggleEnterButtonClass"/>
+        <Button fx:id="enterButton" onAction="#onTextFieldEnter" styleClass="button-non-clickable">
+            Entra
+        </Button>
+        <Label fx:id="usernameErrorText"
+               visible="false"
+               styleClass="errorText">
+            Errore: lo username deve avere almeno 3 caratteri e massimo 10!
+        </Label>
+    </VBox>
+</StackPane>

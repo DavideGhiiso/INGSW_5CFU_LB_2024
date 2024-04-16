@@ -1,0 +1,31 @@
+* {
+    -fx-font-size: 15pt;
+}
+
+.vbox {
+    -fx-pref-width: 100px;
+    -fx-max-width: 500px;
+    -fx-spacing: 15px;
+}
+
+.button-non-clickable {
+    -fx-background-color: #525252;
+}
+
+.button-clickable {
+    -fx-background-color: #cecece;
+    -fx-cursor: hand;
+}
+
+.text-field {
+    -fx-max-width: 400px;
+}
+
+.back-button {
+    -fx-background-color: #cecece;
+    -fx-cursor: hand;
+}
+
+.errorText {
+    -fx-text-fill: #c53636;
+}

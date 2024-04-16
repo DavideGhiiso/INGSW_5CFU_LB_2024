@@ -2,11 +2,14 @@
     -fx-font-family: "Cambria";
 }
 
+.button-wrapper {
+    -fx-spacing: 10;
+}
+
 .button {
     -fx-background-color: rgb(31, 141, 160);
     -fx-font-size: 20pt;
     -fx-text-fill: #FFFFFF;
-    -fx-background-insets: 10px;
     -fx-cursor: hand;
 }
 
