@@ -1,4 +1,5 @@
 * {
+    -fx-font-family: "Cambria";
     -fx-font-size: 15pt;
 }
 
@@ -15,6 +16,10 @@
 .button-clickable {
     -fx-background-color: #cecece;
     -fx-cursor: hand;
+}
+
+.stackPane-top {
+    -fx-background-color: rgb(31, 141, 160);
 }
 
 .text-field {

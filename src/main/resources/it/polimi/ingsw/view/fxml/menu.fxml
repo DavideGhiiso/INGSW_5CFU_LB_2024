@@ -18,12 +18,14 @@
         <Group>
             <children>
                 <VBox styleClass="button-wrapper">
-                    <Button layoutX="370.0" layoutY="313.0" mnemonicParsing="false" prefHeight="78.0"
-                            prefWidth="467.0" onAction="#onOnlineButtonClick" text="Play Online"/>
-                    <Button layoutX="370.0" layoutY="444.0" mnemonicParsing="false" prefHeight="78.0"
-                            prefWidth="467.0" onAction="#onOfflineButtonClick" text="Play Offline"/>
-                    <Button layoutX="370.0" layoutY="575.0" mnemonicParsing="false" prefHeight="78.0"
-                            prefWidth="467.0" onAction="#onExitButtonClick" text="Exit"/>
+                    <Button mnemonicParsing="false" prefHeight="78.0"
+                            prefWidth="467.0" onAction="#onOnlineButtonClick" text="Gioca Online"/>
+                    <Button mnemonicParsing="false" prefHeight="78.0"
+                            prefWidth="467.0" onAction="#onOfflineButtonClick" text="Gioca Offline"/>
+                    <Button mnemonicParsing="false" prefHeight="78.0"
+                            prefWidth="467.0" onAction="#onOptionsButtonClick" text="Opzioni"/>
+                    <Button mnemonicParsing="false" prefHeight="78.0"
+                            prefWidth="467.0" onAction="#onExitButtonClick" text="Esci"/>
                 </VBox>
             </children>
         </Group>

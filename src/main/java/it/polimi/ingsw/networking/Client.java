@@ -1,5 +1,6 @@
 package it.polimi.ingsw.networking;
 
+import it.polimi.ingsw.controller.view.OnlineLobbyController;
 import it.polimi.ingsw.events.EventReceiver;
 import it.polimi.ingsw.events.data.BaseEvent;
 import it.polimi.ingsw.controller.handlers.PingHandler;
@@ -32,19 +33,14 @@ public class Client extends Host {
      * @param address server address
      * @param port server port
      */
-    public void connect(String address, int port) {
-        Client.LOGGER.info("Trying to connect to"+address+"...");
-        try {
-            serverConnection = new Connection(address, port);
-            Client.LOGGER.info("Connected to server!");
-        } catch (IOException e) {
-            Client.LOGGER.severe("Connection with server" + address + " on port " + port + " could not be established");
-            throw new RuntimeException(e);
-        }
-
+    public void connect(String address, int port) throws IOException {
+        Client.LOGGER.info("Trying to connect to" + address + "...");
+        serverConnection = new Connection(address, port);
+        Client.LOGGER.info("Connected to server!");
         serverComunicationThread = new Thread(new EventListener(serverConnection, eventReceiver.getEventsQueue()), "EventListener");
         serverComunicationThread.start();
         new Thread(eventReceiver, "EventReceiver").start();
+        Client.LOGGER.info("Event listener and receiver started!");
     }
 
     /**
@@ -63,6 +59,7 @@ public class Client extends Host {
 
     private void attachEventHandlers() {
         eventReceiver.attachEventHandler("PING_EVENT", new PingHandler());
+        eventReceiver.attachEventHandler("JOIN_GAME_RESPONSE_EVENT", OnlineLobbyController.getInstance());
     }
     public void send(BaseEvent event) {
         try {

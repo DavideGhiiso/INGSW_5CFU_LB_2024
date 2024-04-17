@@ -20,4 +20,8 @@ public class MenuController implements ViewController {
     public void onOfflineButtonClick(ActionEvent actionEvent) {
         System.out.println("Offline");
     }
+
+    public void onOptionsButtonClick(ActionEvent actionEvent) {
+        Platform.runLater(() -> SceneLoader.changeScene("fxml/options.fxml"));
+    }
 }

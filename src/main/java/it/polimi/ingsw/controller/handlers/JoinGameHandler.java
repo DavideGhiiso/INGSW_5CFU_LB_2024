@@ -6,9 +6,10 @@ import it.polimi.ingsw.events.data.ConnectionEvent;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.JoinGameResponseEvent;
 import it.polimi.ingsw.events.data.client.JoinGameEvent;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.exceptions.MaxPlayersReachedException;
 import it.polimi.ingsw.networking.Connection;
-import it.polimi.ingsw.networking.Response;
+import it.polimi.ingsw.events.Response;
 
 import java.io.IOException;
 
@@ -26,6 +27,9 @@ public class JoinGameHandler implements EventHandler {
     @Override
     public void handle(Event event) {
         Response response = Response.OK;
+
+        if(OnlineGameController.getInstance() == null)
+            OnlineGameController.getInstance(new Game());
         if(!(((ConnectionEvent) event).getEvent() instanceof JoinGameEvent joinGameEvent))
             throw new ClassCastException();
 

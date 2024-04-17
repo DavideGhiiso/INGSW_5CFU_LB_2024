@@ -6,5 +6,6 @@ module it.polimi.ingsw {
     requires java.logging;
     exports it.polimi.ingsw.view;
     exports it.polimi.ingsw.controller.view;
+    exports it.polimi.ingsw.events.data;
     opens it.polimi.ingsw.controller.view to javafx.fxml;
 }

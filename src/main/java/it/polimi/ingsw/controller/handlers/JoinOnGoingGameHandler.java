@@ -8,7 +8,7 @@ import it.polimi.ingsw.events.data.JoinGameResponseEvent;
 import it.polimi.ingsw.events.data.client.JoinGameEvent;
 import it.polimi.ingsw.model.exceptions.MaxPlayersReachedException;
 import it.polimi.ingsw.networking.Connection;
-import it.polimi.ingsw.networking.Response;
+import it.polimi.ingsw.events.Response;
 
 import java.io.IOException;
 

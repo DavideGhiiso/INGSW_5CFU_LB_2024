@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="it.polimi.ingsw.controller.view.OptionsController"
+            stylesheets="@../css/options.css">
+    <StackPane alignment="TOP_CENTER">
+        <StackPane styleClass="stackPane-top" maxHeight="120">
+            <StackPane alignment="TOP_LEFT">
+                <StackPane.margin>
+                    <Insets top="40" left="30">
+
+                    </Insets>
+                </StackPane.margin>
+                <Button onAction="#onBackButtonClick" styleClass="back-button">
+                    indietro
+                </Button>
+            </StackPane>
+        </StackPane>
+    </StackPane>
+    <StackPane>
+        <StackPane.margin>
+            <Insets top="170">
+
+            </Insets>
+        </StackPane.margin>
+        <HBox alignment="TOP_CENTER">
+            <VBox>
+                <Label>
+                    Indirizzo del server
+                </Label>
+                <TextField fx:id="serverAddress" promptText="Address" onKeyTyped="#onServerAddressChange">
+
+                </TextField>
+            </VBox>
+            <VBox>
+                <Label>
+                    Porta del server
+                </Label>
+                <TextField fx:id="serverPort" promptText="Port" onKeyTyped="#onServerPortChange">
+
+                </TextField>
+            </VBox>
+        </HBox>
+    </StackPane>
+
+</StackPane>

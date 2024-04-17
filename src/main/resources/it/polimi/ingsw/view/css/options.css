@@ -1,0 +1,17 @@
+* {
+    -fx-font-family: "Cambria";
+    -fx-font-size: 15pt;
+}
+
+.stackPane-top {
+    -fx-background-color: rgb(31, 141, 160);
+}
+
+HBox {
+    -fx-spacing: 10;
+}
+
+.back-button {
+    -fx-background-color: #cecece;
+    -fx-cursor: hand;
+}

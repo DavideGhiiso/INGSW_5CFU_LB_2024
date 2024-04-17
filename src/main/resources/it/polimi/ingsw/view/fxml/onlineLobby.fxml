@@ -4,22 +4,31 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
+
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="it.polimi.ingsw.controller.view.OnlineLobbyController"
-           prefWidth="100.0" stylesheets="@../css/onlineLobby.css">
-    <StackPane alignment="TOP_LEFT">
-        <StackPane.margin>
-            <Insets left="20.0" top="20" />
-        </StackPane.margin>
-        <Button onAction="#onBackButtonClick" styleClass="back-button">
-            &lt;-
-        </Button>
+           stylesheets="@../css/onlineLobby.css">
+    <StackPane alignment="TOP_CENTER">
+        <StackPane styleClass="stackPane-top" maxHeight="120">
+            <StackPane alignment="TOP_LEFT">
+                <StackPane.margin>
+                    <Insets top="40" left="30">
+
+                    </Insets>
+                </StackPane.margin>
+                <Button fx:id="backButton" onAction="#onBackButtonClick" styleClass="button-clickable">
+                    indietro
+                </Button>
+            </StackPane>
+        </StackPane>
+
     </StackPane>
 
-    <VBox alignment="CENTER" styleClass="vbox">
+    <VBox alignment="CENTER"
+          styleClass="vbox">
         <Label VBox.vgrow="ALWAYS">
-            Inserisci lo username che userai durante la partita:
+            Inserisci lo username:
         </Label>
         <TextField fx:id="usernameField"
                    onAction="#onTextFieldEnter"
@@ -29,10 +38,5 @@
         <Button fx:id="enterButton" onAction="#onTextFieldEnter" styleClass="button-non-clickable">
             Entra
         </Button>
-        <Label fx:id="usernameErrorText"
-               visible="false"
-               styleClass="errorText">
-            Errore: lo username deve avere almeno 3 caratteri e massimo 10!
-        </Label>
     </VBox>
 </StackPane>
