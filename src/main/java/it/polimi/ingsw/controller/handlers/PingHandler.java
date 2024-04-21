@@ -18,6 +18,11 @@ public class PingHandler implements EventHandler {
         try {
             event.getConnection().send(new PongEvent());
         } catch (IOException e) {
+            try {
+                event.getConnection().close();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             throw new RuntimeException(e);
         }
     }

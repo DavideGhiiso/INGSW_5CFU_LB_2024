@@ -46,8 +46,11 @@ public class EventReceiver implements Runnable {
      */
     @Override
     public void run() {
-        while (!stop) {
+        stop = false;
+        while (true) {
             while(eventsQueue.isEmpty()) {
+                if(stop)
+                    return;
                 try {
                     synchronized (EventReceiver.class) {
                         EventReceiver.class.wait();
@@ -71,7 +74,10 @@ public class EventReceiver implements Runnable {
      * Method used to stop the EventReceiver
      */
     public synchronized void stop() {
-        notifyAll();
         this.stop = true;
+        eventsQueue.clear();
+        synchronized (EventReceiver.class) {
+            EventReceiver.class.notifyAll();
+        }
     }
 }

@@ -46,8 +46,7 @@ public class Team {
         this.scopa++;
     }
 
-    public void addPlayer(Player player) throws MaxPlayersReachedException {
-        if(players.size() == MAX_TEAM_SIZE) throw new MaxPlayersReachedException();
+    public void addPlayer(Player player) {
         players.add(player);
     }
 

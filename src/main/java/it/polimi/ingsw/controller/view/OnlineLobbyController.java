@@ -4,10 +4,10 @@ import it.polimi.ingsw.events.EventHandler;
 import it.polimi.ingsw.events.Response;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.JoinGameResponseEvent;
+import it.polimi.ingsw.events.data.client.ClientDisconnectedEvent;
 import it.polimi.ingsw.events.data.client.JoinGameEvent;
 import it.polimi.ingsw.events.data.client.JoinOnGoingGameEvent;
 import it.polimi.ingsw.networking.Client;
-import it.polimi.ingsw.networking.Server;
 import it.polimi.ingsw.view.SceneLoader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,6 +30,9 @@ public class OnlineLobbyController implements ViewController, EventHandler, Init
     private static OnlineLobbyController instance;
     private static final int MIN_USERNAME_LENGTH = 3;
     private static final int MAX_USERNAME_LENGTH = 10;
+    public VBox popup;
+    public Button closePopupButton;
+    public Label popupContent;
     @FXML
     Button backButton;
     @FXML
@@ -41,34 +45,36 @@ public class OnlineLobbyController implements ViewController, EventHandler, Init
     public static OnlineLobbyController getInstance() {
         return instance;
     }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        instance = this;
+    }
+
     /**
      * Handles both the click of enter key inside the usernameField TextField and the click of the enterButton Button.
      * If the length of the username is between MAX and MIN length, accepts it and empties the field
      */
     public void onTextFieldEnter(ActionEvent actionEvent) {
         if(enterButton.getStyleClass().contains("button-clickable")) {
-            enterButton.getStyleClass().add("button-non-clickable");
-            enterButton.getStyleClass().remove("button-clickable");
-            backButton.getStyleClass().add("button-non-clickable");
-            backButton.getStyleClass().remove("button-clickable");
-            connect(usernameField.getText());
+            popup.setVisible(true);
+            try {
+                connect(usernameField.getText());
+            } catch (IOException e) {
+                Client.LOGGER.severe("Connection with server could not be established.");
+                closePopupButton.getStyleClass().add("button-clickable");
+                closePopupButton.getStyleClass().remove("button-non-clickable");
+                popupContent.setText("Connection with server could not be established.");
+            }
         }
     }
 
-    private void connect(String username) {
+    private void connect(String username) throws IOException {
         int port = OptionsController.getPort();
         String address = OptionsController.getAddress();
         Client client = Client.getInstance();
-        try {
-            client.connect(address, port);
-            client.send(new JoinGameEvent(username));
-        } catch (IOException e) {
-            Client.LOGGER.severe("Connection with server could not be established.");
-            enterButton.getStyleClass().remove("button-non-clickable");
-            enterButton.getStyleClass().add("button-clickable");
-            backButton.getStyleClass().remove("button-non-clickable");
-            backButton.getStyleClass().add("button-clickable");
-        }
+        client.connect(address, port);
+        client.send(new JoinGameEvent(username));
     }
 
     /**
@@ -85,6 +91,7 @@ public class OnlineLobbyController implements ViewController, EventHandler, Init
             if (enterButton.getStyleClass().contains("button-clickable")) {
                 enterButton.getStyleClass().add("button-non-clickable");
                 enterButton.getStyleClass().remove("button-clickable");
+                popupContent.setText("Connection with server could not be established.");
             }
         }
     }
@@ -95,28 +102,42 @@ public class OnlineLobbyController implements ViewController, EventHandler, Init
         Platform.runLater(() -> SceneLoader.changeScene("fxml/menu.fxml"));
     }
 
+    /**
+     * Handles the reception of a JoinGameResponseEvent by either changing the scene to ingame scene, asking to join as
+     * a bot replacement or by
+     * @param event event to handle
+     */
     @Override
     public void handle(Event event) {
-        JoinGameResponseEvent joinGameResponseEvent = (JoinGameResponseEvent) event.getEvent();
-        Response response = joinGameResponseEvent.getResponse();
-        switch (response) {
-            case OK -> {
-                Platform.runLater(() -> SceneLoader.changeScene("fxml/ingame.fxml"));
+        Platform.runLater(() -> {
+            JoinGameResponseEvent joinGameResponseEvent = (JoinGameResponseEvent) event.getEvent();
+            Response response = joinGameResponseEvent.getResponse();
+            System.out.println("Response: "+ response);
+            switch (response) {
+                case OK -> {
+                    popupContent.setText("Joining game...");
+                    Platform.runLater(() -> SceneLoader.changeScene("fxml/ingame.fxml"));
+                }
+                case CAN_REPLACE_BOT -> {
+                    Client.getInstance().send(new JoinOnGoingGameEvent(usernameField.getText()));
+                }
+                case GAME_FULL -> {
+                    popupContent.setText("This server is already full!");
+                    Client.getInstance().stop();
+                    closePopupButton.getStyleClass().add("button-clickable");
+                    closePopupButton.getStyleClass().remove("button-non-clickable");
+                }
+                case USERNAME_TAKEN -> {
+                    popupContent.setText("The username " + usernameField.getText() + " is already in use!");
+                }
             }
-            case CAN_REPLACE_BOT -> {
-                Client.getInstance().send(new JoinOnGoingGameEvent(usernameField.getText()));
-            }
-            case REFUSED -> {
-                enterButton.getStyleClass().remove("button-non-clickable");
-                enterButton.getStyleClass().add("button-clickable");
-                backButton.getStyleClass().remove("button-non-clickable");
-                backButton.getStyleClass().add("button-clickable");
-            }
-        }
+        });
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        instance = this;
+    public void onClosePopupClick(ActionEvent actionEvent) {
+        if (closePopupButton.getStyleClass().contains("button-non-clickable"))
+            return;
+        popup.setVisible(false);
+        popupContent.setText("Connecting to server...");
     }
 }

@@ -27,6 +27,7 @@ public abstract class GameController {
     }
 
     public void startGame() {
+        game.setStarted(true);
         playerIterator = new PlayerIterator(game.getPlayers());
         currentPlayer = playerIterator.next();
     }

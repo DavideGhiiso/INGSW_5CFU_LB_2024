@@ -30,6 +30,10 @@ public class Dealer {
         return result;
     }
 
+    public void takeBackHand(List<Card> hand) {
+        cards.addAll(hand);
+    }
+
     private void generateDeck() {
         for(Suit suit: Suit.values()) {
             for(int number = MIN_NUMBER; number <= MAX_NUMBER; number++) {

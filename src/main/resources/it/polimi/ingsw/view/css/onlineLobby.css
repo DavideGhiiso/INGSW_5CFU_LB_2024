@@ -31,6 +31,24 @@
     -fx-cursor: hand;
 }
 
-.errorText {
-    -fx-text-fill: #c53636;
+.popup {
+    -fx-background-color: rgb(117, 179, 187);
+    -fx-pref-height: 250px;
+    -fx-pref-width: 400px;
+    -fx-spacing: 20;
+    -fx-border-radius: 7px;
+    -fx-background-radius: 7px;
+    -fx-border-color: rgb(18, 66, 121);
+}
+
+.popup-bg {
+    -fx-background-color: rgba(109, 199, 192, 0.4);
+    -fx-fill-width: false;
+}
+
+.back-popup-button {
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-translate-x: -20;
+    -fx-translate-y: -20;
 }

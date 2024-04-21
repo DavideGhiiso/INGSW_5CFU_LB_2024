@@ -20,14 +20,14 @@ public class OptionsController implements ViewController, Initializable {
     @FXML
     TextField serverAddress;
 
-    public void onBackButtonClick(ActionEvent actionEvent) {
-        Platform.runLater(() -> SceneLoader.changeScene("fxml/menu.fxml"));
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         serverAddress.setText(address);
         serverPort.setText(port + "");
+    }
+
+    public void onBackButtonClick(ActionEvent actionEvent) {
+        Platform.runLater(() -> SceneLoader.changeScene("fxml/menu.fxml"));
     }
 
     public static int getPort() {
@@ -40,11 +40,15 @@ public class OptionsController implements ViewController, Initializable {
 
     public void onServerAddressChange(KeyEvent keyEvent) {
         address = serverAddress.getText();
-        System.out.println(address+" "+port);
     }
 
     public void onServerPortChange(KeyEvent keyEvent) {
-        port = Integer.parseInt(serverPort.getText());
-        System.out.println(address+" "+port);
+        String portString = serverPort.getText();
+        try {
+            port = Integer.parseInt(portString);
+        } catch (NumberFormatException e) {
+            port = Server.DEFAULT_PORT;
+        }
     }
+
 }

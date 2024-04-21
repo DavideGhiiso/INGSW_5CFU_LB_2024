@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.OnlineGameController;
 import it.polimi.ingsw.events.EventHandler;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.networking.Connection;
+import it.polimi.ingsw.networking.Server;
 
 import java.io.IOException;
 
@@ -16,8 +17,9 @@ public class ClientDisconnectedHandler implements EventHandler {
     public void handle(Event event) {
         try {
             Connection connection = event.getConnection();
+            Server.getInstance().removeClient(connection);
+            OnlineGameController.getInstance().handleClientExit(connection.getConnectionID());
             connection.close();
-            OnlineGameController.getInstance().replaceClientWithBot(connection.getConnectionID());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -34,10 +34,10 @@ public class Client extends Host {
      * @param port server port
      */
     public void connect(String address, int port) throws IOException {
-        Client.LOGGER.info("Trying to connect to" + address + "...");
+        Client.LOGGER.info("Trying to connect to " + address + "...");
         serverConnection = new Connection(address, port);
         Client.LOGGER.info("Connected to server!");
-        serverComunicationThread = new Thread(new EventListener(serverConnection, eventReceiver.getEventsQueue()), "EventListener");
+        serverComunicationThread = new Thread(new ClientEventListener(serverConnection, eventReceiver.getEventsQueue()), "EventListener");
         serverComunicationThread.start();
         new Thread(eventReceiver, "EventReceiver").start();
         Client.LOGGER.info("Event listener and receiver started!");

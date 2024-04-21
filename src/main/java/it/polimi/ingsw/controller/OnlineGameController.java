@@ -1,13 +1,12 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.Dealer;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.exceptions.MaxPlayersReachedException;
 import it.polimi.ingsw.model.exceptions.NonexistentPlayerException;
+import it.polimi.ingsw.model.exceptions.UsernameTakenException;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 public class OnlineGameController extends GameController {
@@ -33,11 +32,19 @@ public class OnlineGameController extends GameController {
 
     }
 
-    public void addPlayer(String username) throws MaxPlayersReachedException {
+    /**
+     * Tries to add a new Player to the game instance
+     * @param username username of the Player to add
+     * @throws MaxPlayersReachedException when the game is full
+     * @throws UsernameTakenException when the username is already in use
+     */
+    public void addPlayer(String username) throws MaxPlayersReachedException, UsernameTakenException {
         try {
+            game.getPlayer(username);
+            throw new UsernameTakenException();
+        } catch (NonexistentPlayerException e) { // username is available
+            if (game.isFull()) throw new MaxPlayersReachedException();
             game.addPlayer(new Player(username, dealer.getCardsHand(), false));
-        } catch (MaxPlayersReachedException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -56,14 +63,33 @@ public class OnlineGameController extends GameController {
         firstBot.setBot(false);
     }
 
-    public void replaceClientWithBot(String username) {
+    public void handleClientExit(String username) {
         Player player;
         try {
             player = game.getPlayer(username);
         } catch (NonexistentPlayerException e) {
             return;
         }
+        if(game.isStarted())
+            replaceClientWithBot(player);
+        else
+            removePlayer(player);
+        System.out.println("Handle: "+game.getPlayers());
+
+    }
+
+    private void replaceClientWithBot(Player player) {
         player.setBot(true);
         player.setName(player.getName() + "_BOT");
+    }
+
+    private void removePlayer(Player player) {
+        dealer.takeBackHand(player.getHand());
+        game.removePlayer(player);
+    }
+
+    @Override
+    public String toString() {
+        return game.getPlayers().toString();
     }
 }

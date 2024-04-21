@@ -106,15 +106,14 @@ public class Server extends Host {
     public ServerSocket getWelcomeSocket() {
         return welcomeSocket;
     }
-
     public synchronized void addClient(Connection connection, Thread thread) {
         connectedClients.put(connection, thread);
     }
-
-    public List<Connection> getAllConnections() {
-        return connectedClients.keySet().stream().toList();
+    public synchronized void removeClient(Connection connection) {
+        if(connectedClients.containsKey(connection))
+            connectedClients.get(connection).interrupt();
+        connectedClients.remove(connection);
     }
-
     public EventReceiver getEventReceiver() {
         return eventReceiver;
     }

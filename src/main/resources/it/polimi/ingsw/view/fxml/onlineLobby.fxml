@@ -39,4 +39,23 @@
             Entra
         </Button>
     </VBox>
+    <VBox alignment="CENTER"
+          visible="false"
+          fx:id="popup"
+          styleClass="popup-bg">
+        <VBox styleClass="popup">
+            <Button styleClass="button-non-clickable, back-popup-button"
+                    fx:id="closePopupButton"
+                    onAction="#onClosePopupClick">
+                ✖
+            </Button>
+            <VBox alignment="CENTER">
+                <Label fx:id="popupContent"
+                       wrapText="true"
+                       textAlignment="CENTER">
+                    Connecting to server...
+                </Label>
+            </VBox>
+        </VBox>
+    </VBox>
 </StackPane>

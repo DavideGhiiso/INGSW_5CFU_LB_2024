@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.exceptions.MaxPlayersReachedException;
 import it.polimi.ingsw.model.exceptions.NonexistentPlayerException;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -15,6 +14,7 @@ public class Game {
     public static final int MAX_PLAYERS = 4;
     public static final int N_OF_TURNS = 10;
     private final List<Player> players;
+    private boolean started;
     private final Team team1;
     private final Team team2;
     private final Table table;
@@ -26,6 +26,10 @@ public class Game {
         this.table = new Table();
     }
 
+    public boolean isFull() {
+        return players.size() == MAX_PLAYERS;
+    }
+
     /**
      * Adds a player to the games player and adds it to a team in a way that the teams player number is balanced. If a
      * team is empty, the new player joins that team.
@@ -33,7 +37,6 @@ public class Game {
      * @throws MaxPlayersReachedException thrown if teams are already full
      */
     public void addPlayer(Player player) throws MaxPlayersReachedException {
-        if (players.size() == MAX_PLAYERS) throw new MaxPlayersReachedException();
         players.add(player);
         if (team1.getPlayers().isEmpty() || !team2.getPlayers().isEmpty())
             team1.addPlayer(player);
@@ -73,5 +76,13 @@ public class Game {
     }
     public Team getSecondTeam() {
         return team2;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
     }
 }

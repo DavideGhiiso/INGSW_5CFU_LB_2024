@@ -60,7 +60,7 @@ public class NetworkListener implements Runnable {
 
     private static Thread getClientDedicatedThread(Connection clientConnection, Queue<Event> eventsQueue) {
         Thread clientDedicatedThread;
-        clientDedicatedThread = new Thread(new EventListener(clientConnection, eventsQueue), "EventListener");
+        clientDedicatedThread = new Thread(new ServerEventListener(clientConnection, eventsQueue), "EventListener");
         clientDedicatedThread.start();
         return clientDedicatedThread;
     }

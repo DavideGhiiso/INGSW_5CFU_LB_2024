@@ -16,7 +16,6 @@ public class Connection {
     private final ObjectOutputStream outputStream;
     private static final int TIMEOUT = 2000;
     private final int PING_FAILURE_THRESHOLD = 10;
-    private boolean ready = false;
     private int currentPingFailure = PING_FAILURE_THRESHOLD;
 
 
@@ -31,7 +30,6 @@ public class Connection {
         outputStream = new ObjectOutputStream(foreignHostSocket.getOutputStream());
         inputStream = new ObjectInputStream(foreignHostSocket.getInputStream());
         connectionID = "server";
-        ready = true;
     }
 
     /**
@@ -41,7 +39,6 @@ public class Connection {
         this.foreignHostSocket = socket;
         outputStream = new ObjectOutputStream(foreignHostSocket.getOutputStream());
         inputStream = new ObjectInputStream(foreignHostSocket.getInputStream());
-        ready = true;
     }
 
     /**
@@ -49,9 +46,10 @@ public class Connection {
      * @param event an Event object to send
      */
     public void send(BaseEvent event) throws IOException {
-        if(!ready) return;
-        outputStream.writeObject(event);
-        outputStream.flush();
+        synchronized (outputStream) {
+            outputStream.writeObject(event);
+            outputStream.flush();
+        }
     }
 
     /**
@@ -63,7 +61,9 @@ public class Connection {
     }
 
     public void close() throws IOException {
-        outputStream.close();
+        synchronized (outputStream) {
+            outputStream.close();
+        }
         inputStream.close();
         foreignHostSocket.close();
     }
@@ -85,5 +85,10 @@ public class Connection {
 
     public void setConnectionID(String connectionID) {
         this.connectionID = connectionID;
+    }
+
+    @Override
+    public String toString() {
+        return connectionID;
     }
 }

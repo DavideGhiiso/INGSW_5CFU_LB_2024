@@ -6,6 +6,7 @@ import it.polimi.ingsw.events.data.ConnectionEvent;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.JoinGameResponseEvent;
 import it.polimi.ingsw.events.data.client.JoinGameEvent;
+import it.polimi.ingsw.events.data.client.JoinOnGoingGameEvent;
 import it.polimi.ingsw.model.exceptions.MaxPlayersReachedException;
 import it.polimi.ingsw.networking.Connection;
 import it.polimi.ingsw.events.Response;
@@ -21,15 +22,15 @@ public class JoinOnGoingGameHandler implements EventHandler {
     @Override
     public void handle(Event event) {
         Response response = Response.OK;
-        if(!(((ConnectionEvent) event).getEvent() instanceof JoinGameEvent joinGameEvent))
+        if(!(((ConnectionEvent) event).getEvent() instanceof JoinOnGoingGameEvent joinOnGoingGameEvent))
             throw new ClassCastException();
 
         Connection connection = event.getConnection();
-        String username = joinGameEvent.getUsername();
+        String username = joinOnGoingGameEvent.getUsername();
         try {
             OnlineGameController.getInstance().replaceBotWithClient(username); // replace a bot
         } catch (MaxPlayersReachedException ex) {
-            response = Response.REFUSED; // another client joined in the meantime
+            response = Response.GAME_FULL; // another client joined in the meantime
         }
 
         try {

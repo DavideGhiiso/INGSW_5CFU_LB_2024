@@ -23,6 +23,7 @@ public class SceneLoader {
      */
     public static void drawMenu(Stage stage, String sceneFXML) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(View.class.getResource(sceneFXML));
+
         Scene scene = new Scene(fxmlLoader.load());
         controller = fxmlLoader.getController();
         currentStage = stage;
@@ -36,7 +37,7 @@ public class SceneLoader {
 
     /**
      * Changes the scene to the passed FXML scene
-     * @param sceneFXML the Scene toload
+     * @param sceneFXML the Scene to load
      */
     public static void changeScene(String sceneFXML) {
         FXMLLoader fxmlLoader = new FXMLLoader(View.class.getResource(sceneFXML));
