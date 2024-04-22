@@ -4,7 +4,6 @@ import it.polimi.ingsw.events.EventHandler;
 import it.polimi.ingsw.events.Response;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.JoinGameResponseEvent;
-import it.polimi.ingsw.events.data.client.ClientDisconnectedEvent;
 import it.polimi.ingsw.events.data.client.JoinGameEvent;
 import it.polimi.ingsw.events.data.client.JoinOnGoingGameEvent;
 import it.polimi.ingsw.networking.Client;
@@ -21,22 +20,24 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
  * Class that controls the interactive elements in the onlineLobby scene and the reception of a JoinGameResponseEvent
  */
-public class OnlineLobbyController implements ViewController, EventHandler, Initializable {
+public class OnlineLobbyController implements ViewController, Initializable {
     private static OnlineLobbyController instance;
     private static final int MIN_USERNAME_LENGTH = 3;
     private static final int MAX_USERNAME_LENGTH = 10;
-    public VBox popup;
-    public Button closePopupButton;
-    public Label popupContent;
+    @FXML
+    VBox popup;
+    @FXML
+    Button closePopupButton;
+    @FXML
+    Label popupContent;
     @FXML
     Button backButton;
-    @FXML
-    Label usernameErrorText;
     @FXML
     TextField usernameField;
     @FXML
@@ -109,14 +110,15 @@ public class OnlineLobbyController implements ViewController, EventHandler, Init
      */
     @Override
     public void handle(Event event) {
+        if(!Objects.equals(event.getID(), "JOIN_GAME_RESPONSE_EVENT"))
+            return;
         Platform.runLater(() -> {
             JoinGameResponseEvent joinGameResponseEvent = (JoinGameResponseEvent) event.getEvent();
             Response response = joinGameResponseEvent.getResponse();
-            System.out.println("Response: "+ response);
             switch (response) {
                 case OK -> {
                     popupContent.setText("Joining game...");
-                    Platform.runLater(() -> SceneLoader.changeScene("fxml/ingame.fxml"));
+                    Platform.runLater(() -> SceneLoader.changeScene("fxml/waitingRoom.fxml"));
                 }
                 case CAN_REPLACE_BOT -> {
                     Client.getInstance().send(new JoinOnGoingGameEvent(usernameField.getText()));
@@ -128,7 +130,8 @@ public class OnlineLobbyController implements ViewController, EventHandler, Init
                     closePopupButton.getStyleClass().remove("button-non-clickable");
                 }
                 case USERNAME_TAKEN -> {
-                    popupContent.setText("The username " + usernameField.getText() + " is already in use!");
+                    popupContent.setText("The username " + usernameField.getText() + " is already in use! You'll join the game with a different username");
+                    Platform.runLater(() -> SceneLoader.changeScene("fxml/waitingRoom.fxml"));
                 }
             }
         });

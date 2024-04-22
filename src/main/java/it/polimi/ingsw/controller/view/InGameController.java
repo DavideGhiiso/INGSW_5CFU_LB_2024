@@ -1,5 +1,10 @@
 package it.polimi.ingsw.controller.view;
 
-public class InGameController implements ViewController {
+import it.polimi.ingsw.events.data.Event;
 
+public class InGameController implements ViewController {
+    @Override
+    public void handle(Event event) {
+
+    }
 }

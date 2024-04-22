@@ -63,6 +63,10 @@ public class OnlineGameController extends GameController {
         firstBot.setBot(false);
     }
 
+    public int getPlayersCount() {
+        return game.getPlayers().size();
+    }
+
     public void handleClientExit(String username) {
         Player player;
         try {

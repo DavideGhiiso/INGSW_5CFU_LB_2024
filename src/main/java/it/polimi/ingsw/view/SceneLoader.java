@@ -34,6 +34,13 @@ public class SceneLoader {
     public static ViewController getCurrentController() {
         return controller;
     }
+    public static boolean isCurrentController(ViewController testController) {
+        return controller.equals(testController);
+    }
+
+    public static Stage getCurrentStage() {
+        return currentStage;
+    }
 
     /**
      * Changes the scene to the passed FXML scene
@@ -43,8 +50,8 @@ public class SceneLoader {
         FXMLLoader fxmlLoader = new FXMLLoader(View.class.getResource(sceneFXML));
         try {
             Parent root = fxmlLoader.load();
-            currentScene.setRoot(root);
             controller = fxmlLoader.getController();
+            currentScene.setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException();

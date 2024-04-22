@@ -4,15 +4,17 @@ import it.polimi.ingsw.events.data.BaseEvent;
 import it.polimi.ingsw.networking.Connection;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class that allows to send an Event through a Connection in various ways
  */
 public class EventTransmitter {
-    private final List<Connection> connections;
+    private final Map<Connection, Thread> connections;
 
-    public EventTransmitter(List<Connection> connections) {
+    public EventTransmitter(Map<Connection, Thread> connections) {
         this.connections = connections;
     }
 
@@ -22,7 +24,7 @@ public class EventTransmitter {
      * @param event BaseEvent object to send
      */
     public void sendTo(String username, BaseEvent event) {
-        for(Connection connection: connections) {
+        for(Connection connection: connections.keySet()) {
             if(connection.getConnectionID().equals(username)) {
                 try {
                     connection.send(event);
@@ -39,8 +41,9 @@ public class EventTransmitter {
      * @param event Event object to broadcast
      */
     public void broadcast(BaseEvent event) {
-        connections.forEach(connection -> {
+        connections.keySet().forEach(connection -> {
             try {
+                System.out.println("Broadcast: "+ event.getID());
                 connection.send(event);
             } catch (IOException e) {
                 throw new RuntimeException(e);

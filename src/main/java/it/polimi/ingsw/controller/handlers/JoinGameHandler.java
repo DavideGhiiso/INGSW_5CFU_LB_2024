@@ -29,12 +29,11 @@ public class JoinGameHandler implements EventHandler {
     @Override
     public void handle(Event event) {
         Response response = Response.OK;
+        JoinGameEvent joinGameEvent = (JoinGameEvent) event.getEvent();
+        Connection connection = event.getConnection();
 
         if(OnlineGameController.getInstance() == null)
             OnlineGameController.getInstance(new Game());
-        JoinGameEvent joinGameEvent = (JoinGameEvent) event.getEvent();
-
-        Connection connection = event.getConnection();
         connection.setConnectionID(joinGameEvent.getUsername());
         try {
             OnlineGameController.getInstance().addPlayer(joinGameEvent.getUsername());
@@ -45,19 +44,7 @@ public class JoinGameHandler implements EventHandler {
                 response = Response.GAME_FULL; // game is full, client cannot join
         } catch (UsernameTakenException e) {
             response = Response.USERNAME_TAKEN;
-            int index = 1;
-            String newUsername = joinGameEvent.getUsername() + "_" + index;
-            while(true) {
-                try {
-                    OnlineGameController.getInstance().addPlayer(newUsername);
-                    break;
-                } catch (UsernameTakenException ex) {
-                    newUsername = joinGameEvent.getUsername() + "_" + ++index;
-                } catch (MaxPlayersReachedException ex) {
-                    break;
-                }
-            }
-
+            connection.setConnectionID(handleUsernameChange(joinGameEvent));
         }
 
         System.out.println("Risposta: "+ response+"\nGiocatori: "+ OnlineGameController.getInstance().toString());
@@ -67,5 +54,21 @@ public class JoinGameHandler implements EventHandler {
         } catch (IOException e) {
             new ClientDisconnectedHandler().handle(new ConnectionEvent(new ClientDisconnectedEvent(), event.getConnection()));
         }
+    }
+
+    private String handleUsernameChange(JoinGameEvent joinGameEvent) {
+        int index = 1;
+        String newUsername = joinGameEvent.getUsername() + "_" + index;
+        while(true) {
+            try {
+                OnlineGameController.getInstance().addPlayer(newUsername);
+                break;
+            } catch (UsernameTakenException ex) {
+                newUsername = joinGameEvent.getUsername() + "_" + ++index;
+            } catch (MaxPlayersReachedException ex) {
+                break;
+            }
+        }
+        return newUsername;
     }
 }

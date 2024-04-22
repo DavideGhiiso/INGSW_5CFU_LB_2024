@@ -36,7 +36,7 @@ public class Server extends Host {
     private Server(int port) {
         connectedClients = new HashMap<>();
         eventReceiver = new EventReceiver();
-        eventTransmitter = new EventTransmitter(connectedClients.keySet().stream().toList());
+        eventTransmitter = new EventTransmitter(connectedClients);
         attachEventHandlers();
         this.port = port;
         networkListener = new NetworkListener(this);
@@ -100,6 +100,7 @@ public class Server extends Host {
         eventReceiver.attachEventHandler("JOIN_GAME_EVENT", new JoinGameHandler());
         eventReceiver.attachEventHandler("JOIN_ONGOING_GAME_EVENT", new JoinOnGoingGameHandler());
         eventReceiver.attachEventHandler("CLIENT_DISCONNECTED_EVENT", new ClientDisconnectedHandler());
+        eventReceiver.attachEventHandler("REQUEST_GAME_INFO_EVENT", new RequestGameInfoHandler());
         eventReceiver.attachEventHandler("PLACE_CARD_EVENT", new PlaceCardHandler());
     }
 
@@ -118,5 +119,7 @@ public class Server extends Host {
         return eventReceiver;
     }
     public EventTransmitter getEventTransmitter() {return eventTransmitter;}
+
+
 
 }

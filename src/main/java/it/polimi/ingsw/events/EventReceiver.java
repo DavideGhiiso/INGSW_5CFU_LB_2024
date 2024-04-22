@@ -37,7 +37,11 @@ public class EventReceiver implements Runnable {
      */
     private synchronized void sortEvent(Event event) {
         if(eventHandlerMap.containsKey(event.getID()))
-            eventHandlerMap.get(event.getID()).handle(event);
+            try {
+                eventHandlerMap.get(event.getID()).handle(event);
+            } catch (NullPointerException e) {
+                System.out.println("An handler is null!");
+            }
     }
 
     /**

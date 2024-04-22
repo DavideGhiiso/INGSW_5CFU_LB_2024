@@ -1,6 +1,10 @@
 package it.polimi.ingsw.networking;
 
+import it.polimi.ingsw.controller.handlers.JoinGameResponseHandler;
+import it.polimi.ingsw.controller.handlers.JoinOnGoingGameHandler;
+import it.polimi.ingsw.controller.handlers.UpdatePlayerCountHandler;
 import it.polimi.ingsw.controller.view.OnlineLobbyController;
+import it.polimi.ingsw.controller.view.WaitingRoomController;
 import it.polimi.ingsw.events.EventReceiver;
 import it.polimi.ingsw.events.data.BaseEvent;
 import it.polimi.ingsw.controller.handlers.PingHandler;
@@ -59,7 +63,8 @@ public class Client extends Host {
 
     private void attachEventHandlers() {
         eventReceiver.attachEventHandler("PING_EVENT", new PingHandler());
-        eventReceiver.attachEventHandler("JOIN_GAME_RESPONSE_EVENT", OnlineLobbyController.getInstance());
+        eventReceiver.attachEventHandler("JOIN_GAME_RESPONSE_EVENT", new JoinGameResponseHandler());
+        eventReceiver.attachEventHandler("UPDATE_PLAYER_COUNT_EVENT", new UpdatePlayerCountHandler());
     }
     public void send(BaseEvent event) {
         try {

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="it.polimi.ingsw.controller.view.WaitingRoomController"
+           stylesheets="@../css/waitingRoom.css"
+            prefHeight="400.0" prefWidth="600.0">
+           <VBox alignment="CENTER" styleClass="main-container">
+               <Label>
+                   In attesa dei giocatori...
+               </Label>
+               <Label fx:id="playerCounter" styleClass="player-counter">
+                   Giocatori: 0/4
+               </Label>
+               <HBox alignment="CENTER" styleClass="button-container">
+                   <Button fx:id="startAnywayButton"
+                           styleClass="button-non-clickable"
+                           onAction="#onStartAnywayButtonClick">
+                       Inizia
+                   </Button>
+                   <Button styleClass="button-clickable" onAction="#onExitButtonClick">
+                       Esci
+                   </Button>
+               </HBox>
+           </VBox>
+        <VBox alignment="CENTER"
+              visible="false"
+              fx:id="popup"
+              styleClass="popup-bg">
+            <VBox styleClass="popup">
+                <Button styleClass="button-non-clickable, back-popup-button"
+                        fx:id="closePopupButton"
+                        onAction="#onClosePopupClick">
+                    ✖
+                </Button>
+                <VBox alignment="CENTER">
+                    <Label
+                           wrapText="true"
+                           textAlignment="CENTER">
+                        Sei sicuro di voler iniziare? I giocatori mancanti saranno sostituiti dalla CPU
+                    </Label>
+                    <HBox>
+                        <Button onAction="#onStartAnywayButtonClick">
+                            Inizia
+                        </Button>
+                        <Button onAction="#onClosePopupClick">
+                            Annulla
+                        </Button>
+                    </HBox>
+
+                </VBox>
+            </VBox>
+        </VBox>
+</StackPane>

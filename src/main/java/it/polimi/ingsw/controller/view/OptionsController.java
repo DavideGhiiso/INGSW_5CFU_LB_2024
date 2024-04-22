@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.view;
 
+import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.networking.Server;
 import it.polimi.ingsw.view.SceneLoader;
 import javafx.application.Platform;
@@ -51,4 +52,8 @@ public class OptionsController implements ViewController, Initializable {
         }
     }
 
+    @Override
+    public void handle(Event event) {
+
+    }
 }

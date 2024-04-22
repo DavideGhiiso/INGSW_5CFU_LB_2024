@@ -1,0 +1,64 @@
+* {
+    -fx-font-family: "Cambria";
+}
+
+.label {
+    -fx-font-size: 15pt;
+}
+
+.button {
+    -fx-font-size: 15pt;
+}
+
+.button-non-clickable {
+    -fx-background-color: #525252;
+}
+
+.button-clickable {
+    -fx-background-color: #cecece;
+    -fx-cursor: hand;
+}
+
+.back-button {
+    -fx-background-color: #cecece;
+    -fx-cursor: hand;
+}
+
+.popup {
+    -fx-background-color: rgb(117, 179, 187);
+    -fx-pref-height: 250px;
+    -fx-pref-width: 400px;
+    -fx-spacing: 20;
+    -fx-border-radius: 7px;
+    -fx-background-radius: 7px;
+    -fx-border-color: rgb(18, 66, 121);
+}
+
+.popup-bg {
+    -fx-background-color: rgba(109, 199, 192, 0.4);
+    -fx-fill-width: false;
+}
+
+.back-popup-button {
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-translate-x: -20;
+    -fx-translate-y: -20;
+}
+
+.main-container {
+    -fx-spacing: 80px;
+    -fx-fill-width: false;
+    -fx-background-color: rgb(167, 191, 192);
+}
+
+.button-container {
+    -fx-background-color: rgb(31, 141, 160);
+    -fx-spacing: 60px;
+    -fx-padding: 30 60 30 60;
+    -fx-background-radius: 7;
+}
+
+.player-counter {
+    -fx-font-size: 25pt;
+}
