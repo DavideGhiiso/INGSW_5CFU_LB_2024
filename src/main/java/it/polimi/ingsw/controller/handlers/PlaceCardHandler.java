@@ -13,6 +13,7 @@ import it.polimi.ingsw.networking.Connection;
 import it.polimi.ingsw.networking.Host;
 import it.polimi.ingsw.networking.Server;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -43,10 +44,12 @@ public class PlaceCardHandler implements EventHandler {
         Connection clientConnection = event.getConnection();
 
         List<Card> cardOnTable = onlineGameController.placeCard(event.getCard());
-        eventTransmitter.broadcast(new TableChangedEvent(cardOnTable)); // sends new table to everyone
-        eventTransmitter.sendTo(
-                event.getConnection().getConnectionID(),
-                new HandChangedEvent(onlineGameController.getCurrentPlayerHand())); // sends new hand to current player
+        try {
+            eventTransmitter.broadcast(new TableChangedEvent(cardOnTable)); // sends new table to everyone
+            event.getConnection().send(new HandChangedEvent(onlineGameController.getCurrentPlayerHand())); // sends new hand to current player
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         try {
             onlineGameController.nextTurn();
         } catch (EndGameException e) {

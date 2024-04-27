@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller.handlers;
 
-import it.polimi.ingsw.controller.view.WaitingRoomController;
 import it.polimi.ingsw.events.EventHandler;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.view.SceneLoader;

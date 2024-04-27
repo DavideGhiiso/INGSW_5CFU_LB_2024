@@ -13,6 +13,7 @@ public class View extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Scopone");
+        SceneLoader.initialize();
         SceneLoader.drawMenu(primaryStage, "fxml/menu.fxml");
         primaryStage.show();
     }

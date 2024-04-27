@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.view;
+package it.polimi.ingsw.controller.viewcontroller;
 
 import it.polimi.ingsw.events.data.Event;
 

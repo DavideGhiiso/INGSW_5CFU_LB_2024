@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.Dealer;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Player;
@@ -7,6 +8,9 @@ import it.polimi.ingsw.model.exceptions.MaxPlayersReachedException;
 import it.polimi.ingsw.model.exceptions.NonexistentPlayerException;
 import it.polimi.ingsw.model.exceptions.UsernameTakenException;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class OnlineGameController extends GameController {
@@ -48,6 +52,19 @@ public class OnlineGameController extends GameController {
         }
     }
 
+    public void addBot() throws MaxPlayersReachedException {
+        int index = 0;
+        while(true) {
+            try {
+                game.getPlayer("BOT" + ++index);
+            } catch (NonexistentPlayerException e) {
+                break;
+            }
+        }
+        if(game.isFull()) throw new MaxPlayersReachedException();
+        game.addPlayer(new Player("BOT" + index, dealer.getCardsHand(), true));
+    }
+
     public boolean botIsPlaying() {
         return game.getPlayers().stream().anyMatch(Player::isBot);
     }
@@ -65,6 +82,10 @@ public class OnlineGameController extends GameController {
 
     public int getPlayersCount() {
         return game.getPlayers().size();
+    }
+
+    public boolean canStartGame() {
+        return getPlayersCount() == Game.MAX_PLAYERS;
     }
 
     public void handleClientExit(String username) {
@@ -90,6 +111,10 @@ public class OnlineGameController extends GameController {
     private void removePlayer(Player player) {
         dealer.takeBackHand(player.getHand());
         game.removePlayer(player);
+    }
+
+    public List<Card> getPlayerCards(String username) throws NonexistentPlayerException {
+        return game.getPlayer(username).getHand();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.controller.view.ViewController;
+import it.polimi.ingsw.controller.viewcontroller.ViewController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,7 +14,12 @@ import java.io.IOException;
 public class SceneLoader {
     private static Stage currentStage = new Stage();
     private static ViewController controller;
+    private static PlayerView playerView;
     public static Scene currentScene;
+
+    public static void initialize() {
+        playerView = new PlayerView();
+    }
 
     /**
      * Draws the first Stage that represents the game menu
@@ -40,6 +45,10 @@ public class SceneLoader {
 
     public static Stage getCurrentStage() {
         return currentStage;
+    }
+
+    public static PlayerView getPlayerView() {
+        return playerView;
     }
 
     /**

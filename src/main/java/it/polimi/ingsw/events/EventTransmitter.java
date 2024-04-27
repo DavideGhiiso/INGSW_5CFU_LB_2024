@@ -40,14 +40,10 @@ public class EventTransmitter {
      * Sends the event to all players
      * @param event Event object to broadcast
      */
-    public void broadcast(BaseEvent event) {
-        connections.keySet().forEach(connection -> {
-            try {
-                System.out.println("Broadcast: "+ event.getID());
-                connection.send(event);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+    public void broadcast(BaseEvent event) throws IOException {
+        for (Connection connection : connections.keySet()) {
+            System.out.println("Broadcast: " + event.getID());
+            connection.send(event);
+        }
     }
 }

@@ -7,6 +7,7 @@ import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.JoinGameResponseEvent;
 import it.polimi.ingsw.events.data.client.ClientDisconnectedEvent;
 import it.polimi.ingsw.events.data.client.JoinGameEvent;
+import it.polimi.ingsw.events.data.client.StartGameEvent;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.exceptions.MaxPlayersReachedException;
 import it.polimi.ingsw.model.exceptions.UsernameTakenException;
@@ -47,10 +48,10 @@ public class JoinGameHandler implements EventHandler {
             connection.setConnectionID(handleUsernameChange(joinGameEvent));
         }
 
-        System.out.println("Risposta: "+ response+"\nGiocatori: "+ OnlineGameController.getInstance().toString());
-
         try {
             event.getConnection().send(new JoinGameResponseEvent(response));
+            if(OnlineGameController.getInstance().canStartGame())
+                new StartGameServerHandler().handle(new StartGameEvent());
         } catch (IOException e) {
             new ClientDisconnectedHandler().handle(new ConnectionEvent(new ClientDisconnectedEvent(), event.getConnection()));
         }

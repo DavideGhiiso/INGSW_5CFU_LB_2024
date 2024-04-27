@@ -7,10 +7,11 @@ import java.util.List;
 public class HandChangedEvent extends BaseEvent {
     List<Card> cards;
     public HandChangedEvent(List<Card> hand) {
+        ID = "HAND_CHANGED_EVENT";
         cards = hand;
     }
 
-    public List<Card> getNewHand() {
+    public List<Card> getHand() {
         return cards;
     }
 }

@@ -101,6 +101,7 @@ public class Server extends Host {
         eventReceiver.attachEventHandler("JOIN_ONGOING_GAME_EVENT", new JoinOnGoingGameHandler());
         eventReceiver.attachEventHandler("CLIENT_DISCONNECTED_EVENT", new ClientDisconnectedHandler());
         eventReceiver.attachEventHandler("REQUEST_GAME_INFO_EVENT", new RequestGameInfoHandler());
+        eventReceiver.attachEventHandler("START_GAME_EVENT", new StartGameServerHandler());
         eventReceiver.attachEventHandler("PLACE_CARD_EVENT", new PlaceCardHandler());
     }
 

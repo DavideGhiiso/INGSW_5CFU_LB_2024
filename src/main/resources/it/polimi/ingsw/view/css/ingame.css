@@ -1,0 +1,70 @@
+* {
+    -fx-font-family: "Cambria";
+    -fx-font-size: 15pt;
+}
+
+.button-non-clickable {
+    -fx-background-color: #525252;
+}
+
+.button-clickable {
+    -fx-background-color: #cecece;
+    -fx-cursor: hand;
+}
+
+.vbox-wrapper {
+    -fx-pref-height: 200px;
+    -fx-pref-width: 100px;
+}
+
+.top-pane-wrapper {
+    -fx-pref-height: 100px;
+    -fx-pref-width: 200px;
+    -fx-background-color: rgb(31, 141, 160);
+    -fx-fill-width: true;
+}
+
+.top-pane {
+    -fx-pref-height: 100px;
+    -fx-spacing: 20;
+}
+
+.top-label {
+    -fx-text-fill: rgb(238, 238, 238);
+}
+
+.bottom-pane {
+    -fx-pref-height: 100px;
+    -fx-background-color: linear-gradient(to top, rgb(173, 173, 173), transparent);
+}
+
+.back-button {
+    -fx-background-color: #cecece;
+    -fx-cursor: hand;
+}
+
+.button-menu {
+    -fx-font-weight: bold;
+}
+
+.popup {
+    -fx-background-color: rgb(117, 179, 187);
+    -fx-pref-height: 250px;
+    -fx-pref-width: 400px;
+    -fx-spacing: 20;
+    -fx-border-radius: 7px;
+    -fx-background-radius: 7px;
+    -fx-border-color: rgb(18, 66, 121);
+}
+
+.popup-bg {
+    -fx-background-color: rgba(109, 199, 192, 0.4);
+    -fx-fill-width: false;
+}
+
+.back-popup-button {
+    -fx-border-radius: 50;
+    -fx-background-radius: 50;
+    -fx-translate-x: -20;
+    -fx-translate-y: -20;
+}

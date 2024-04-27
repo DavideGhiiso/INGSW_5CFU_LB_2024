@@ -1,6 +1,5 @@
-package it.polimi.ingsw.controller.view;
+package it.polimi.ingsw.controller.viewcontroller;
 
-import it.polimi.ingsw.events.EventHandler;
 import it.polimi.ingsw.events.Response;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.JoinGameResponseEvent;
@@ -26,7 +25,7 @@ import java.util.ResourceBundle;
 /**
  * Class that controls the interactive elements in the onlineLobby scene and the reception of a JoinGameResponseEvent
  */
-public class OnlineLobbyController implements ViewController, Initializable {
+public class OnlineLobbyController implements ViewController {
     private static OnlineLobbyController instance;
     private static final int MIN_USERNAME_LENGTH = 3;
     private static final int MAX_USERNAME_LENGTH = 10;
@@ -42,15 +41,6 @@ public class OnlineLobbyController implements ViewController, Initializable {
     TextField usernameField;
     @FXML
     Button enterButton;
-
-    public static OnlineLobbyController getInstance() {
-        return instance;
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        instance = this;
-    }
 
     /**
      * Handles both the click of enter key inside the usernameField TextField and the click of the enterButton Button.
@@ -125,13 +115,14 @@ public class OnlineLobbyController implements ViewController, Initializable {
                 }
                 case GAME_FULL -> {
                     popupContent.setText("This server is already full!");
-                    Client.getInstance().stop();
                     closePopupButton.getStyleClass().add("button-clickable");
                     closePopupButton.getStyleClass().remove("button-non-clickable");
+                    Client.getInstance().stop();
                 }
                 case USERNAME_TAKEN -> {
                     popupContent.setText("The username " + usernameField.getText() + " is already in use! You'll join the game with a different username");
                     Platform.runLater(() -> SceneLoader.changeScene("fxml/waitingRoom.fxml"));
+                    WaitingRoomController.setUsernameChanged(true);
                 }
             }
         });
