@@ -8,12 +8,15 @@ import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.networking.Client;
 import it.polimi.ingsw.view.PlayerView;
 import it.polimi.ingsw.view.SceneLoader;
+import it.polimi.ingsw.view.View;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -66,10 +69,15 @@ public class InGameController implements ViewController, Initializable {
         Client.getInstance().send(new RequestGameInfoEvent(GameInfo.CURRENT_HAND));
     }
 
-    private List<Label> getCardsImageViews(List<Card> cards) {
-        List<Label> result = new ArrayList<>();
+    private List<ImageView> getCardsImageViews(List<Card> cards) {
+        List<ImageView> result = new ArrayList<>();
         for(Card card: cards) {
-            result.add(new Label(card.toString()));
+            URL path = View.class.getResource("images/" + card.getNumber()+card.getSuit().toString() + ".png");
+            ImageView imageView = new ImageView(new Image(String.valueOf(path)));
+            imageView.getStyleClass().add("in-hand-card");
+            imageView.setFitHeight(200);
+            imageView.setPreserveRatio(true);
+            result.add(imageView);
         }
         return result;
     }

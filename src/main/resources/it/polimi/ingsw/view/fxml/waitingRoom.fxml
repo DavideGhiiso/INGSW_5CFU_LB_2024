@@ -35,7 +35,7 @@
        </Label>
        <HBox alignment="CENTER" styleClass="button-container">
            <Button fx:id="startAnywayButton"
-                   styleClass="button-clickable"
+                   styleClass="button-non-clickable"
                    onAction="#onStartGameButtonClick">
                Inizia
            </Button>

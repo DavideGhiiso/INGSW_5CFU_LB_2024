@@ -36,6 +36,8 @@
 .bottom-pane {
     -fx-pref-height: 100px;
     -fx-background-color: linear-gradient(to top, rgb(173, 173, 173), transparent);
+    -fx-spacing: -40;
+    -fx-alignment: CENTER;
 }
 
 .back-button {
@@ -67,4 +69,8 @@
     -fx-background-radius: 50;
     -fx-translate-x: -20;
     -fx-translate-y: -20;
+}
+
+.in-hand-card {
+    -fx-background-radius: 20;
 }

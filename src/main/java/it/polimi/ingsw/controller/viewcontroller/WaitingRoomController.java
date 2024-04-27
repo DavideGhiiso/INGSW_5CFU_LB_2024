@@ -116,7 +116,6 @@ public class WaitingRoomController implements ViewController, Initializable {
                     startAnywayButton.getStyleClass().add("button-non-clickable");
                 startAnywayButton.getStyleClass().remove("button-clickable");
             }
-            System.out.println("Bottone: " + startAnywayButton.getStyleClass());
         });
     }
 }
