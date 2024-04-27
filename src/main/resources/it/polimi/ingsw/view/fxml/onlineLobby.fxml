@@ -7,8 +7,8 @@
 
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
-           fx:controller="it.polimi.ingsw.controller.view.OnlineLobbyController"
-           stylesheets="@../css/onlineLobby.css">
+           fx:controller="it.polimi.ingsw.controller.viewcontroller.OnlineLobbyController"
+           stylesheets="@../css/onlineLobby.css" styleClass="scene">
     <StackPane alignment="TOP_CENTER">
         <StackPane styleClass="stackPane-top" maxHeight="120">
             <StackPane alignment="TOP_LEFT">

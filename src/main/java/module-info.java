@@ -5,7 +5,7 @@ module it.polimi.ingsw {
     requires org.controlsfx.controls;
     requires java.logging;
     exports it.polimi.ingsw.view;
-    exports it.polimi.ingsw.controller.view;
+    exports it.polimi.ingsw.controller.viewcontroller;
     exports it.polimi.ingsw.events.data;
-    opens it.polimi.ingsw.controller.view to javafx.fxml;
+    opens it.polimi.ingsw.controller.viewcontroller to javafx.fxml;
 }

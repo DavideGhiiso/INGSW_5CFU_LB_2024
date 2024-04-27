@@ -1,0 +1,35 @@
+* {
+    -fx-font-family: "Cambria";
+    -fx-font-size: 15pt;
+}
+
+.bg {
+    -fx-background-color: rgb(167, 191, 192);
+}
+
+.main-container {
+    -fx-spacing: 20px;
+    -fx-border-width: 3px;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-background-color: rgb(94, 149, 150);
+    -fx-border-color: rgb(0, 71, 73);
+    -fx-max-height: 500;
+    -fx-max-width: 500;
+}
+
+.title {
+    -fx-font-size: 50px;
+    -fx-background-color: rgb(33, 86, 86);
+    -fx-background-radius: 7;
+    -fx-padding: 10 30 10 30;
+}
+
+.winners-label {
+    -fx-font-size: 40px;
+}
+
+.table {
+    -fx-font-size: 25pt;
+}
+

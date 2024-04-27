@@ -7,6 +7,8 @@ import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.model.GameResult;
 import it.polimi.ingsw.networking.Server;
 
+import java.io.IOException;
+
 /**
  * @see it.polimi.ingsw.events.data.EndGameEvent
  * @see  EndGameResultsEvent
@@ -15,6 +17,10 @@ public class EndGameHandler implements EventHandler {
     @Override
     public void handle(Event event) {
         GameResult[] gameResults = OnlineGameController.getInstance().endGame();
-        Server.getInstance().getEventTransmitter().broadcast(new EndGameResultsEvent(gameResults[0], gameResults[1]));
+        try {
+            Server.getInstance().getEventTransmitter().broadcast(new EndGameResultsEvent(gameResults[0], gameResults[1]));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

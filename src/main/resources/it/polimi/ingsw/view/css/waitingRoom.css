@@ -2,6 +2,10 @@
     -fx-font-family: "Cambria";
 }
 
+.scene {
+    -fx-background-color: rgb(167, 191, 192);
+}
+
 .label {
     -fx-font-size: 15pt;
 }
@@ -46,16 +50,21 @@
     -fx-translate-y: -20;
 }
 
+.stackPane-top {
+    -fx-background-color: rgb(31, 141, 160);
+}
+
 .main-container {
     -fx-spacing: 80px;
     -fx-fill-width: false;
-    -fx-background-color: rgb(167, 191, 192);
+
+    -fx-background-radius: 7;
 }
 
 .button-container {
-    -fx-background-color: rgb(31, 141, 160);
+    /*-fx-background-color: rgb(31, 141, 160);*/
     -fx-spacing: 60px;
-    -fx-padding: 30 60 30 60;
+    -fx-padding: 30 70 30 70;
     -fx-background-radius: 7;
 }
 

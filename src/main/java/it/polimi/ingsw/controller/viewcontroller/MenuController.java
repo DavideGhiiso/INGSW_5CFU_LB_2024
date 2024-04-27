@@ -1,11 +1,9 @@
-package it.polimi.ingsw.controller.view;
+package it.polimi.ingsw.controller.viewcontroller;
 
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.view.SceneLoader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
 
 public class MenuController implements ViewController {
 

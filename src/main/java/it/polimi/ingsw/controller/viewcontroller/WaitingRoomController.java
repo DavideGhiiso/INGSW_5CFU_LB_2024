@@ -1,13 +1,11 @@
-package it.polimi.ingsw.controller.view;
+package it.polimi.ingsw.controller.viewcontroller;
 
-import it.polimi.ingsw.events.EventHandler;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.GameInfo;
 import it.polimi.ingsw.events.data.UpdatePlayerCountEvent;
-import it.polimi.ingsw.events.data.client.ForceGameStartEvent;
 import it.polimi.ingsw.events.data.client.RequestGameInfoEvent;
+import it.polimi.ingsw.events.data.client.StartGameEvent;
 import it.polimi.ingsw.networking.Client;
-import it.polimi.ingsw.networking.PingSender;
 import it.polimi.ingsw.view.SceneLoader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -24,8 +22,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class WaitingRoomController implements ViewController, Initializable {
-    private static final int REQUEST_PERIOD = 5000;
-
+    private static final int REQUEST_PERIOD = 1000;
+    private static boolean usernameChanged = false;
+    private int oldPlayersNumber;
+    @FXML
+    Label topLabel;
     @FXML
     Button startAnywayButton;
     @FXML
@@ -36,13 +37,25 @@ public class WaitingRoomController implements ViewController, Initializable {
     Label playerCounter;
 
 
+    /**
+     * Initialize scene by starting a Timer that periodically checks if the current players in the Server have changed
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        String defaultString = "In attesa di altri giocatori...";
+        if(usernameChanged)
+            topLabel.setText("Ti unirai alla partita con uno username diverso da quello selezionato.\n"+defaultString);
+        startRequestConnectedPlayersTimer();
+    }
+
+    private void startRequestConnectedPlayersTimer() {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 try {
+                    if(SceneLoader.getCurrentController().getClass() != WaitingRoomController.class)
+                        cancel();
                     requestConnectedPlayers();
                 } catch (RuntimeException e) {
                     cancel();
@@ -50,8 +63,9 @@ public class WaitingRoomController implements ViewController, Initializable {
             }
         }, 0, REQUEST_PERIOD);
     }
+
     private void requestConnectedPlayers() {
-        Client.getInstance().send(new RequestGameInfoEvent(GameInfo.CONNECTED_PLAYERS));
+        Client.getInstance().send(new RequestGameInfoEvent(GameInfo.CONNECTED_PLAYERS, oldPlayersNumber));
     }
     public void onClosePopupClick(ActionEvent actionEvent) {
         if(((Button) actionEvent.getSource()).getStyleClass().contains("button-non-clickable"))
@@ -66,16 +80,20 @@ public class WaitingRoomController implements ViewController, Initializable {
     }
 
     public void onExitButtonClick(ActionEvent actionEvent) {
-        Client.getInstance().stop();
         Platform.runLater(() -> SceneLoader.changeScene("fxml/menu.fxml"));
+        Client.getInstance().stop();
     }
 
     public void onStartAnywayButtonClick(ActionEvent actionEvent) {
-        Client.getInstance().send(new ForceGameStartEvent());
+        Client.getInstance().send(new StartGameEvent());
     }
 
     public void updateCounter(int newValue) {
         playerCounter.setText("Giocatori: "+ newValue+"/4");
+    }
+
+    public static void setUsernameChanged(boolean usernameChanged) {
+        WaitingRoomController.usernameChanged = usernameChanged;
     }
 
     /**
@@ -86,11 +104,19 @@ public class WaitingRoomController implements ViewController, Initializable {
             return;
         UpdatePlayerCountEvent updatePlayerCountEvent = (UpdatePlayerCountEvent) event.getEvent();
         Platform.runLater(() -> {
-            updateCounter(updatePlayerCountEvent.getPlayerCount());
+            int newValue = updatePlayerCountEvent.getPlayerCount();
+            this.oldPlayersNumber = newValue;
+            updateCounter(newValue);
             if(updatePlayerCountEvent.getPlayerCount() >= 2) {
                 startAnywayButton.getStyleClass().add("button-clickable");
                 startAnywayButton.getStyleClass().remove("button-non-clickable");
             }
+            else {
+                if(!startAnywayButton.getStyleClass().contains("button-non-clickable"))
+                    startAnywayButton.getStyleClass().add("button-non-clickable");
+                startAnywayButton.getStyleClass().remove("button-clickable");
+            }
+            System.out.println("Bottone: " + startAnywayButton.getStyleClass());
         });
     }
 }
