@@ -8,4 +8,5 @@ module it.polimi.ingsw {
     exports it.polimi.ingsw.controller.viewcontroller;
     exports it.polimi.ingsw.events.data;
     opens it.polimi.ingsw.controller.viewcontroller to javafx.fxml;
+    exports it.polimi.ingsw.events.data.server;
 }

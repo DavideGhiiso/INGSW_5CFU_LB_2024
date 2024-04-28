@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.viewcontroller;
 
 import it.polimi.ingsw.events.Response;
 import it.polimi.ingsw.events.data.Event;
-import it.polimi.ingsw.events.data.JoinGameResponseEvent;
+import it.polimi.ingsw.events.data.server.JoinGameResponseEvent;
 import it.polimi.ingsw.events.data.client.JoinGameEvent;
 import it.polimi.ingsw.events.data.client.JoinOnGoingGameEvent;
 import it.polimi.ingsw.networking.Client;
@@ -10,7 +10,6 @@ import it.polimi.ingsw.view.SceneLoader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,9 +17,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Objects;
-import java.util.ResourceBundle;
 
 /**
  * Class that controls the interactive elements in the onlineLobby scene and the reception of a JoinGameResponseEvent

@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <StackPane prefHeight="720.0"
            prefWidth="1280.0"
            xmlns="http://javafx.com/javafx/21"
@@ -18,15 +17,23 @@
       <VBox alignment="CENTER_LEFT"
             styleClass="top-pane-wrapper">
          <StackPane>
+            <HBox alignment="CENTER" styleClass="top-label-wrapper">
+               <Label styleClass="top-label" fx:id="team1Label">
+                  Team1
+               </Label>
+               <Label styleClass="top-label" fx:id="scoreLabel">
+                  Punteggio
+               </Label>
+               <Label styleClass="top-label" fx:id="team2Label">
+                  Team2
+               </Label>
+            </HBox>
             <HBox alignment="CENTER_LEFT" styleClass="top-pane">
                <padding>
                   <Insets left="30.0"/>
                </padding>
                <Button text="&#9776;" styleClass="button-clickable, button-menu" onAction="#onMenuButtonClicked"/>
             </HBox>
-            <Label fx:id="topLabel" styleClass="top-label">
-               Punteggio
-            </Label>
          </StackPane>
       </VBox>
       <HBox alignment="CENTER"

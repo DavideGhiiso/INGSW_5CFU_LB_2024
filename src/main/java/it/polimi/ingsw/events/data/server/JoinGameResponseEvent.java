@@ -1,6 +1,7 @@
-package it.polimi.ingsw.events.data;
+package it.polimi.ingsw.events.data.server;
 
 import it.polimi.ingsw.events.Response;
+import it.polimi.ingsw.events.data.BaseEvent;
 
 /**
  * Event sent by the server to notify the client about the status of his joining request

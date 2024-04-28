@@ -4,9 +4,10 @@ import it.polimi.ingsw.controller.OnlineGameController;
 import it.polimi.ingsw.events.EventHandler;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.GameInfo;
-import it.polimi.ingsw.events.data.HandChangedEvent;
-import it.polimi.ingsw.events.data.UpdatePlayerCountEvent;
+import it.polimi.ingsw.events.data.server.HandChangedEvent;
+import it.polimi.ingsw.events.data.server.UpdatePlayerCountEvent;
 import it.polimi.ingsw.events.data.client.RequestGameInfoEvent;
+import it.polimi.ingsw.events.data.server.ScoreEvent;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.exceptions.NonexistentPlayerException;
 import it.polimi.ingsw.networking.Connection;
@@ -45,6 +46,17 @@ public class RequestGameInfoHandler implements EventHandler {
                 }
                 try {
                     connection.send(new HandChangedEvent(currentHand));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            case SCORE -> { // current play score
+                String[] fistTeamNames = onlineGameController.getFirstTeamNames();
+                String[] secondTeamNames = onlineGameController.getSecondTeamNames();
+                int firstTeamPoints = onlineGameController.getTeam1Points();
+                int secondTeamPoints = onlineGameController.getTeam2Points();
+                try {
+                    connection.send(new ScoreEvent(fistTeamNames, secondTeamNames, firstTeamPoints, secondTeamPoints));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

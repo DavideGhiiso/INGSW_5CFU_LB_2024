@@ -14,8 +14,8 @@ import java.io.IOException;
 public class SceneLoader {
     private static Stage currentStage = new Stage();
     private static ViewController controller;
-    private static PlayerView playerView;
     public static Scene currentScene;
+    private static PlayerView playerView;
 
     public static void initialize() {
         playerView = new PlayerView();

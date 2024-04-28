@@ -2,11 +2,10 @@ package it.polimi.ingsw.controller.viewcontroller;
 
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.GameInfo;
-import it.polimi.ingsw.events.data.HandChangedEvent;
-import it.polimi.ingsw.events.data.client.RequestGameInfoEvent;
+import it.polimi.ingsw.events.data.server.HandChangedEvent;
+import it.polimi.ingsw.events.data.server.ScoreEvent;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.networking.Client;
-import it.polimi.ingsw.view.PlayerView;
 import it.polimi.ingsw.view.SceneLoader;
 import it.polimi.ingsw.view.View;
 import javafx.application.Platform;
@@ -27,29 +26,39 @@ import java.util.ResourceBundle;
 
 public class InGameController implements ViewController, Initializable {
     @FXML
+    Label team1Label;
+    @FXML
+    Label scoreLabel;
+    @FXML
+    Label team2Label;
+    @FXML
     HBox bottomPane;
     @FXML
     VBox popup;
-    @FXML
-    Label topLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         SceneLoader.getPlayerView().setObserver(this);
-        requestCardsHand();
+        Client client = Client.getInstance();
+        client.requestInfo(GameInfo.CURRENT_HAND);
+        client.requestInfo(GameInfo.SCORE);
     }
 
     /**
-     * @see it.polimi.ingsw.events.data.HandChangedEvent
+     * @see HandChangedEvent
      * @param event
      */
     @Override
     public void handle(Event event) {
-        if(event.getID().equals("HAND_CHANGED_EVENT")) {
-            HandChangedEvent handChangedEvent = (HandChangedEvent) event.getEvent();
-            System.out.println(handChangedEvent.getHand());
-            Platform.runLater(() ->
+        switch (event.getID()) {
+            case "HAND_CHANGED_EVENT" ->
+                Platform.runLater(() ->
                     bottomPane.getChildren().addAll(getCardsImageViews(SceneLoader.getPlayerView().getHand())));
+
+            case "SCORE_EVENT" ->
+                Platform.runLater(() ->
+                    updateScore((ScoreEvent) event));
+
         }
     }
 
@@ -65,10 +74,6 @@ public class InGameController implements ViewController, Initializable {
         popup.setVisible(false);
     }
 
-    private void requestCardsHand() {
-        Client.getInstance().send(new RequestGameInfoEvent(GameInfo.CURRENT_HAND));
-    }
-
     private List<ImageView> getCardsImageViews(List<Card> cards) {
         List<ImageView> result = new ArrayList<>();
         for(Card card: cards) {
@@ -81,6 +86,12 @@ public class InGameController implements ViewController, Initializable {
         }
         return result;
     }
-
+    private void updateScore(ScoreEvent event) {
+        String[] teamNames = event.getFistTeamNames();
+        team1Label.setText(teamNames[0] + "\n" + teamNames[1]);
+        teamNames = event.getSecondTeamNames();
+        team2Label.setText(teamNames[0] + "\n" + teamNames[1]);
+        scoreLabel.setText(event.getFirstTeamPoints() + " - " + event.getSecondTeamPoints());
+    }
 
 }

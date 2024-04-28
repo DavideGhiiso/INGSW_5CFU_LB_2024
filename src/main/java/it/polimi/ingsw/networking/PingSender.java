@@ -2,7 +2,7 @@ package it.polimi.ingsw.networking;
 
 import it.polimi.ingsw.controller.handlers.ClientDisconnectedHandler;
 import it.polimi.ingsw.events.data.ConnectionEvent;
-import it.polimi.ingsw.events.data.PingEvent;
+import it.polimi.ingsw.events.data.server.PingEvent;
 import it.polimi.ingsw.events.data.client.ClientDisconnectedEvent;
 
 import java.io.IOException;

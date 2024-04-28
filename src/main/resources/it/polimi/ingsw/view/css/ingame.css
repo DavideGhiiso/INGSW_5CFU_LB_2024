@@ -31,6 +31,7 @@
 
 .top-label {
     -fx-text-fill: rgb(238, 238, 238);
+    -fx-text-alignment: CENTER;
 }
 
 .bottom-pane {
@@ -73,4 +74,8 @@
 
 .in-hand-card {
     -fx-background-radius: 20;
+}
+
+.top-label-wrapper {
+    -fx-spacing: 20;
 }

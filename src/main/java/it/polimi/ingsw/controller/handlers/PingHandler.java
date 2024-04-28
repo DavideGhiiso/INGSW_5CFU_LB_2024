@@ -1,16 +1,15 @@
 package it.polimi.ingsw.controller.handlers;
 
 import it.polimi.ingsw.events.EventHandler;
-import it.polimi.ingsw.events.data.ConnectionEvent;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.client.PongEvent;
-import it.polimi.ingsw.networking.Connection;
+import it.polimi.ingsw.events.data.server.PingEvent;
 
 import java.io.IOException;
 
 /**
  * Client side handler used to handle the reception of a PingEvent by sending a PongEvent back
- * @see it.polimi.ingsw.events.data.PingEvent
+ * @see PingEvent
  */
 public class PingHandler implements EventHandler {
     @Override

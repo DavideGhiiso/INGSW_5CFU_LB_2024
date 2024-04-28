@@ -4,7 +4,7 @@ import it.polimi.ingsw.controller.OnlineGameController;
 import it.polimi.ingsw.events.EventHandler;
 import it.polimi.ingsw.events.data.ConnectionEvent;
 import it.polimi.ingsw.events.data.Event;
-import it.polimi.ingsw.events.data.JoinGameResponseEvent;
+import it.polimi.ingsw.events.data.server.JoinGameResponseEvent;
 import it.polimi.ingsw.events.data.client.ClientDisconnectedEvent;
 import it.polimi.ingsw.events.data.client.JoinGameEvent;
 import it.polimi.ingsw.events.data.client.StartGameEvent;
@@ -24,7 +24,7 @@ import java.io.IOException;
  *     <li>return to the client the response to his join request</li>
  * </ul>
  * @see it.polimi.ingsw.events.data.client.JoinGameEvent
- * @see it.polimi.ingsw.events.data.JoinGameResponseEvent
+ * @see JoinGameResponseEvent
  */
 public class JoinGameHandler implements EventHandler {
     @Override

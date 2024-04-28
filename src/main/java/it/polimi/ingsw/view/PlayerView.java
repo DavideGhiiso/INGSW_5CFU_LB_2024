@@ -1,8 +1,7 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.controller.viewcontroller.InGameController;
-import it.polimi.ingsw.controller.viewcontroller.ViewController;
-import it.polimi.ingsw.events.data.HandChangedEvent;
+import it.polimi.ingsw.events.data.server.HandChangedEvent;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.Table;
 
@@ -10,14 +9,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerView {
+    private boolean yourTurn;
     private List<Card> hand;
     private List<Table> tableCards;
     private InGameController observer;
 
     public PlayerView() {
+        this.yourTurn = false;
         this.hand = new ArrayList<>();
         this.tableCards = new ArrayList<>();
         this.observer = null;
+    }
+
+    public boolean isYourTurn() {
+        return yourTurn;
+    }
+
+    public void setYourTurn(boolean yourTurn) {
+        this.yourTurn = yourTurn;
     }
 
     public List<Card> getHand() {
