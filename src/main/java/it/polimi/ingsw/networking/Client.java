@@ -3,6 +3,8 @@ package it.polimi.ingsw.networking;
 import it.polimi.ingsw.controller.handlers.*;
 import it.polimi.ingsw.events.EventReceiver;
 import it.polimi.ingsw.events.data.BaseEvent;
+import it.polimi.ingsw.events.data.GameInfo;
+import it.polimi.ingsw.events.data.client.RequestGameInfoEvent;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -63,6 +65,7 @@ public class Client extends Host {
         eventReceiver.attachEventHandler("UPDATE_PLAYER_COUNT_EVENT", new UpdatePlayerCountHandler());
         eventReceiver.attachEventHandler("START_GAME_EVENT", new StartGameClientHandler());
         eventReceiver.attachEventHandler("HAND_CHANGED_EVENT", new HandChangedHandler());
+        eventReceiver.attachEventHandler("SCORE_EVENT", new ScoreEventHandler());
     }
     public void send(BaseEvent event) {
         try {
@@ -70,5 +73,9 @@ public class Client extends Host {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void requestInfo(GameInfo gameInfo) {
+        send(new RequestGameInfoEvent(gameInfo));
     }
 }

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.events.data;
+package it.polimi.ingsw.events.data.server;
 
 public enum EndGameResult {
     TEAM1,

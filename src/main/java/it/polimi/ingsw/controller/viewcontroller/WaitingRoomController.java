@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.viewcontroller;
 
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.GameInfo;
-import it.polimi.ingsw.events.data.UpdatePlayerCountEvent;
+import it.polimi.ingsw.events.data.server.UpdatePlayerCountEvent;
 import it.polimi.ingsw.events.data.client.RequestGameInfoEvent;
 import it.polimi.ingsw.events.data.client.StartGameEvent;
 import it.polimi.ingsw.networking.Client;
@@ -97,7 +97,7 @@ public class WaitingRoomController implements ViewController, Initializable {
     }
 
     /**
-     * @see it.polimi.ingsw.events.data.UpdatePlayerCountEvent
+     * @see UpdatePlayerCountEvent
      */
     public void handle(Event event) {
         if(!Objects.equals(event.getID(), "UPDATE_PLAYER_COUNT_EVENT"))

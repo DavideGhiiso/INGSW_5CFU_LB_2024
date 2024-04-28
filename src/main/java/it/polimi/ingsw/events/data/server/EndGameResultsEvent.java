@@ -1,5 +1,6 @@
-package it.polimi.ingsw.events.data;
+package it.polimi.ingsw.events.data.server;
 
+import it.polimi.ingsw.events.data.BaseEvent;
 import it.polimi.ingsw.model.GameResult;
 
 import java.util.Optional;

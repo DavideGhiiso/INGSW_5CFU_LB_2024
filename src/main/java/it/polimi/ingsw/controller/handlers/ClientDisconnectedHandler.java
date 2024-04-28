@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller.handlers;
 import it.polimi.ingsw.controller.OnlineGameController;
 import it.polimi.ingsw.events.EventHandler;
 import it.polimi.ingsw.events.data.Event;
-import it.polimi.ingsw.events.data.UpdatePlayerCountEvent;
 import it.polimi.ingsw.networking.Connection;
 import it.polimi.ingsw.networking.Server;
 

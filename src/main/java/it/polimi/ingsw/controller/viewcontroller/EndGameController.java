@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller.viewcontroller;
 
-import it.polimi.ingsw.events.data.EndGameResultsEvent;
+import it.polimi.ingsw.events.data.server.EndGameResultsEvent;
 import it.polimi.ingsw.events.data.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -16,7 +16,7 @@ public class EndGameController implements ViewController {
     Label winnersLabel;
 
     /**
-     * @see it.polimi.ingsw.events.data.EndGameResultsEvent
+     * @see EndGameResultsEvent
      */
     @Override
     public void handle(Event event) {

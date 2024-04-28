@@ -38,7 +38,7 @@ public class Game {
      */
     public void addPlayer(Player player) throws MaxPlayersReachedException {
         players.add(player);
-        if (team1.getPlayers().isEmpty() || !team2.getPlayers().isEmpty())
+        if (team1.getPlayers().size() == team2.getPlayers().size())
             team1.addPlayer(player);
         else
             team2.addPlayer(player);
