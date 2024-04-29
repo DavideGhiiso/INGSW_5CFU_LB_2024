@@ -16,7 +16,6 @@ public class ScoreEvent extends BaseEvent {
         this.secondTeamNames = secondTeamNames;
         this.firstTeamPoints = firstTeamPoints;
         this.secondTeamPoints = secondTeamPoints;
-        System.out.println("SCORE EVENT:\t " + Arrays.toString(fistTeamNames) + Arrays.toString(secondTeamNames));
     }
 
     public String[] getFistTeamNames() {

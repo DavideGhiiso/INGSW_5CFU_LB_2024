@@ -65,10 +65,6 @@ public class OnlineGameController extends GameController {
         game.addPlayer(new Player("BOT" + index, dealer.getCardsHand(), true));
     }
 
-    public boolean botIsPlaying() {
-        return game.getPlayers().stream().anyMatch(Player::isBot);
-    }
-
     public void replaceBotWithClient(String username) throws MaxPlayersReachedException {
         Player firstBot;
         try {

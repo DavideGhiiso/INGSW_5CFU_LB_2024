@@ -6,7 +6,11 @@ import it.polimi.ingsw.networking.Server;
 
 public class ServerApp {
     public static void main(String[] args) {
-        Server server = Server.getInstance();
+        Server server;
+        if(args.length > 1)
+            server = Server.getInstance(Integer.parseInt(args[0]));
+        else
+            server = Server.getInstance();
         server.start();
     }
 }

@@ -49,6 +49,7 @@ public class Connection {
         synchronized (outputStream) {
             outputStream.writeObject(event);
             outputStream.flush();
+            outputStream.reset();
         }
     }
 

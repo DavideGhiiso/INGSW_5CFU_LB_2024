@@ -3,6 +3,10 @@
     -fx-font-size: 15pt;
 }
 
+.main-scene {
+    -fx-background-color: #8a6a56;
+}
+
 .button-non-clickable {
     -fx-background-color: #525252;
 }
@@ -10,6 +14,11 @@
 .button-clickable {
     -fx-background-color: #cecece;
     -fx-cursor: hand;
+}
+
+.play-button {
+    -fx-background-color: rgb(31, 141, 160);
+    -fx-text-fill: white;
 }
 
 .vbox-wrapper {
@@ -34,9 +43,13 @@
     -fx-text-alignment: CENTER;
 }
 
-.bottom-pane {
+.bottom-pane-container {
     -fx-pref-height: 100px;
     -fx-background-color: linear-gradient(to top, rgb(173, 173, 173), transparent);
+}
+
+.bottom-pane {
+
     -fx-spacing: -40;
     -fx-alignment: CENTER;
 }
@@ -74,8 +87,17 @@
 
 .in-hand-card {
     -fx-background-radius: 20;
+    -fx-cursor: hand;
+}
+
+.selected-card {
+    -fx-effect: dropshadow(one-pass-box, rgb(31, 141, 160), 10, 100, 0, 0);
 }
 
 .top-label-wrapper {
     -fx-spacing: 20;
+}
+
+.central-pane {
+    -fx-spacing: 15;
 }

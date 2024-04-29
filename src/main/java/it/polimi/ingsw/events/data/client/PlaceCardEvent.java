@@ -7,10 +7,13 @@ import it.polimi.ingsw.model.Card;
  */
 public class PlaceCardEvent extends BaseEvent {
     private final Card card;
-    public PlaceCardEvent(Card card, boolean isLocal) {
+    public PlaceCardEvent(Card card) {
         this.ID = "PLACE_CARD_EVENT";
         this.card = card;
         requiresConnection = true;
+    }
+    public PlaceCardEvent(Card card, boolean isLocal) {
+        this(card);
         local = isLocal;
     }
 

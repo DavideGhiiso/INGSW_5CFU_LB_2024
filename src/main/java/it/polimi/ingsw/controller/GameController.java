@@ -1,6 +1,9 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.bot.Bot;
+import it.polimi.ingsw.model.bot.Difficulty;
+import it.polimi.ingsw.model.bot.HardDifficulty;
 
 import java.util.List;
 
@@ -11,10 +14,17 @@ public abstract class GameController {
     protected int team1Points = 0;
     protected int team2Points = 0;
 
+    protected Bot bot;
+
     protected GameController(Game game) {
         this.game = game;
     }
 
+    /**
+     * Method that places the card on the board, gives taken cards to the team and removes the card from currentPlayer
+     * @param card played card
+     * @return state of table after placement
+     */
     public List<Card> placeCard(Card card) {
         Table table = game.getTable();
         List<Card> placedCards = table.placeCard(card);
@@ -30,17 +40,25 @@ public abstract class GameController {
         game.setStarted(true);
         playerIterator = new PlayerIterator(game.getPlayers());
         currentPlayer = playerIterator.next();
+        bot = new Bot(new HardDifficulty());
+    }
+
+    public void setBotDifficulty(Difficulty difficulty) {
+
     }
     public abstract void endMatch();
 
-    public List<Card> getCurrentPlayerHand() {
-        return currentPlayer.getHand();
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
-
+    public boolean botIsPlaying() {
+        return game.getPlayers().stream().anyMatch(Player::isBot);
+    }
     public void nextTurn() throws EndGameException {
-        currentPlayer = playerIterator.next();
-        if (playerIterator.getTurnNumber() == 10)
+        if (playerIterator.getTurnNumber() == 10) {
             throw new EndGameException();
+        }
+        currentPlayer = playerIterator.next();
     }
 
     public GameResult[] endGame() {
@@ -48,6 +66,22 @@ public abstract class GameController {
         team1Points += gameResults[0].getTotalPoints();
         team2Points += gameResults[1].getTotalPoints();
         return gameResults;
+    }
+
+    public String[] getFirstTeamNames() {
+        return game.getFirstTeam().getPlayers().stream().map(Player::getName).toArray(String[]::new);
+    }
+
+    public String[] getSecondTeamNames() {
+        return game.getSecondTeam().getPlayers().stream().map(Player::getName).toArray(String[]::new);
+    }
+
+    public int getTeam1Points() {
+        return team1Points;
+    }
+
+    public int getTeam2Points() {
+        return team2Points;
     }
 
     /**

@@ -10,6 +10,7 @@ public class EndGameResultsEvent extends BaseEvent {
     private final GameResult secondTeamResult;
 
     public EndGameResultsEvent(GameResult firstTeamResult, GameResult secondTeamResult) {
+        ID = "END_GAME_RESULTS_EVENT";
         this.firstTeamResult = firstTeamResult;
         this.secondTeamResult = secondTeamResult;
 

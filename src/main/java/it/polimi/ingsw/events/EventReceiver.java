@@ -40,7 +40,7 @@ public class EventReceiver implements Runnable {
             try {
                 eventHandlerMap.get(event.getID()).handle(event);
             } catch (NullPointerException e) {
-                System.out.println("An handler is null!");
+                System.out.println("Handler for " + event.getID() + " is null!");
             }
     }
 

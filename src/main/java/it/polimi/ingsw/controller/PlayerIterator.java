@@ -7,7 +7,7 @@ import java.util.List;
 
 public class PlayerIterator implements Iterator<Player> {
     private final List<Player> playerList;
-    private int turnNumber = 1;
+    private int turnNumber = 0;
     private int index = 0;
 
     public PlayerIterator(List<Player> players) {
@@ -20,6 +20,7 @@ public class PlayerIterator implements Iterator<Player> {
 
     @Override
     public Player next() {
+        System.out.println("Index: "+index+"\tturnNumber: "+turnNumber);
         Player nextPlayer = playerList.get(index);
         if(index == playerList.size() - 1)
             turnNumber++;

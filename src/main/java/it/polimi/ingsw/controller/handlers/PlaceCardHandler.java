@@ -7,6 +7,7 @@ import it.polimi.ingsw.events.data.*;
 import it.polimi.ingsw.events.data.client.PlaceCardEvent;
 import it.polimi.ingsw.events.data.server.HandChangedEvent;
 import it.polimi.ingsw.events.data.server.TableChangedEvent;
+import it.polimi.ingsw.events.data.server.YourTurnEvent;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.EndGameException;
 import it.polimi.ingsw.networking.Connection;
@@ -25,7 +26,7 @@ public class PlaceCardHandler implements EventHandler {
         if(event.isLocal())
             handleOfflineEvent((PlaceCardEvent) event.getEvent());
         else
-            handleOnlineEvent((PlaceCardEvent) event.getEvent());
+            handleOnlineEvent((PlaceCardEvent) event.getEvent(), event.getConnection());
 
     }
 
@@ -37,22 +38,25 @@ public class PlaceCardHandler implements EventHandler {
      * Places card on table and notifies all clients, sends the new hand to current player and advances turn.
      * If the game is over, starts the end game routine
      */
-    private void handleOnlineEvent(PlaceCardEvent event) {
+    private void handleOnlineEvent(PlaceCardEvent event, Connection connection) {
         OnlineGameController onlineGameController = OnlineGameController.getInstance();
         EventTransmitter eventTransmitter = Server.getInstance().getEventTransmitter();
-        Connection clientConnection = event.getConnection();
-
         List<Card> cardOnTable = onlineGameController.placeCard(event.getCard());
+        List<Card> currentPlayerHand = onlineGameController.getCurrentPlayer().getHand();
         try {
-            eventTransmitter.broadcast(new TableChangedEvent(cardOnTable)); // sends new table to everyone
-            event.getConnection().send(new HandChangedEvent(onlineGameController.getCurrentPlayer().getHand())); // sends new hand to current player
+            // sends new table to everyone
+            eventTransmitter.broadcast(new TableChangedEvent(cardOnTable));
+            // sends new hand to current player
+            connection.send(new HandChangedEvent(currentPlayerHand));
+            onlineGameController.nextTurn();
+            if(onlineGameController.getCurrentPlayer().isBot()) {
+
+            } else // tell next player it's their turn
+                eventTransmitter.sendTo(onlineGameController.getCurrentPlayer().getName(), new YourTurnEvent());
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-        try {
-            onlineGameController.nextTurn();
         } catch (EndGameException e) {
-            new EndGameHandler().handle(new EndGameEvent(false));
+            new EndGameHandler().handle(new EndGameEvent());
         }
     }
 }

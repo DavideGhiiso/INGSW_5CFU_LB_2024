@@ -1,8 +1,9 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class GameResult {
+public class GameResult implements Serializable {
     private final int scopa;
     private final List<Points> pointsMade;
     private final String firstPlayer;

@@ -9,8 +9,9 @@ import java.util.List;
  * Event that contains the new state of the table that must be displayed
  */
 public class TableChangedEvent extends BaseEvent {
-    List<Card> cards;
+    private final List<Card> cards;
     public TableChangedEvent(List<Card> currentPlacedCards) {
+        ID = "TABLE_CHANGED_EVENT";
         cards = currentPlacedCards;
     }
 
