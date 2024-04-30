@@ -20,7 +20,6 @@ public class PlayerIterator implements Iterator<Player> {
 
     @Override
     public Player next() {
-        System.out.println("Index: "+index+"\tturnNumber: "+turnNumber);
         Player nextPlayer = playerList.get(index);
         if(index == playerList.size() - 1)
             turnNumber++;

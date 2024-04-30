@@ -7,6 +7,7 @@ import it.polimi.ingsw.events.data.ConnectionEvent;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.server.JoinGameResponseEvent;
 import it.polimi.ingsw.events.data.client.JoinOnGoingGameEvent;
+import it.polimi.ingsw.events.data.server.NewTurnEvent;
 import it.polimi.ingsw.events.data.server.ScoreEvent;
 import it.polimi.ingsw.events.data.server.TableChangedEvent;
 import it.polimi.ingsw.model.exceptions.MaxPlayersReachedException;
@@ -39,8 +40,8 @@ public class JoinOnGoingGameHandler implements EventHandler {
 
         try {
             connection.send(new JoinGameResponseEvent(response));
-            connection.send(new TableChangedEvent(onlineGameController.getTableCards(), null));
             EventHandler.broadcastScore(onlineGameController, Server.getInstance().getEventTransmitter());
+            connection.send(new NewTurnEvent(onlineGameController.getCurrentPlayer().getName()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.GridPane?>
 <StackPane prefHeight="720.0"
            prefWidth="1280.0"
            xmlns="http://javafx.com/javafx/21"
@@ -20,23 +19,59 @@
       <VBox alignment="CENTER_LEFT"
             styleClass="top-pane-wrapper">
          <StackPane>
-            <HBox alignment="CENTER" styleClass="top-label-wrapper">
-               <Label styleClass="top-label" fx:id="team1Label">
-                  Team1
+            <GridPane alignment="CENTER"
+                      styleClass="top-label-wrapper"
+                      hgap="20"
+                      vgap="15">
+               <Label styleClass="top-label"
+                      fx:id="northLabel"
+                      GridPane.columnIndex="1"
+                      GridPane.rowIndex="0"
+                      GridPane.columnSpan="3"
+                      GridPane.halignment="CENTER"
+                      GridPane.valignment="CENTER">
+                  N
                </Label>
-               <Label styleClass="top-label" fx:id="scoreLabel">
-                  Punteggio
+               <Label styleClass="top-label" fx:id="westLabel" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                  W
                </Label>
-               <Label styleClass="top-label" fx:id="team2Label">
-                  Team2
+               <Label styleClass="top-label, team1Label"
+                      fx:id="team1Label"
+                      GridPane.columnIndex="1"
+                      GridPane.rowIndex="1"
+                      GridPane.halignment="CENTER"
+                      GridPane.valignment="CENTER">
+                  0
                </Label>
-            </HBox>
+               <Label styleClass="top-label" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  -
+               </Label>
+               <Label styleClass="top-label, team2Label"
+                      fx:id="team2Label"
+                      GridPane.columnIndex="3"
+                      GridPane.rowIndex="1"
+                      GridPane.halignment="CENTER"
+                      GridPane.valignment="CENTER">
+                  0
+               </Label>
+               <Label styleClass="top-label" fx:id="eastLabel" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                  E
+               </Label>
+               <Label styleClass="top-label"
+                      fx:id="southLabel"
+                      GridPane.columnIndex="1"
+                      GridPane.rowIndex="2"
+                      GridPane.columnSpan="3"
+                      GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  S
+               </Label>
+            </GridPane>
             <HBox alignment="CENTER_LEFT" styleClass="top-pane">
                <padding>
                   <Insets left="30.0"/>
                </padding>
                <Button text="&#9776;" styleClass="button-clickable, button-menu" onAction="#onMenuButtonClicked"/>
-               <Label fx:id="usernameLabel" >Username</Label>
+               <Label fx:id="usernameLabel" styleClass="username">Username</Label>
             </HBox>
          </StackPane>
       </VBox>
@@ -74,12 +109,12 @@
                  onAction="#onClosePopupClick">
             ✖
          </Button>
-         <VBox alignment="CENTER">
+         <VBox alignment="CENTER" spacing="20">
             <Label wrapText="true"
                    textAlignment="CENTER">
                Menu
             </Label>
-            <Button onAction="#onExitGameButtonClick">
+            <Button onAction="#onExitGameButtonClick" styleClass="button-clickable">
                Esci dal gioco
             </Button>
          </VBox>

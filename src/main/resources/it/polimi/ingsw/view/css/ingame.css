@@ -1,10 +1,18 @@
-* {
+StackPane * {
     -fx-font-family: "Cambria";
+
+}
+
+.label {
+    -fx-font-size: 15pt;
+}
+
+.button {
     -fx-font-size: 15pt;
 }
 
 .main-scene {
-    -fx-background-color: #917f74;
+    -fx-background-color: #89c4c3;
 }
 
 .button-non-clickable {
@@ -35,12 +43,24 @@
 
 .top-pane {
     -fx-pref-height: 100px;
-    -fx-spacing: 30;
+    -fx-spacing: 40;
 }
 
 .top-label {
     -fx-text-fill: rgb(238, 238, 238);
     -fx-text-alignment: CENTER;
+}
+
+.team1Label {
+    -fx-text-fill: rgb(245, 102, 102);
+}
+
+.team2Label {
+    -fx-text-fill: rgb(114, 224, 93);
+}
+
+.current-player-label .text {
+    -fx-underline: true;
 }
 
 .bottom-pane-container {
@@ -99,4 +119,10 @@
 
 .central-pane {
     -fx-spacing: 15;
+}
+
+.username {
+    -fx-text-fill: #edf8f6;
+    -fx-font-weight: bold;
+    -fx-font-size: 30px;
 }

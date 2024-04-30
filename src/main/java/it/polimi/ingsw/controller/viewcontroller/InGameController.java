@@ -2,9 +2,9 @@ package it.polimi.ingsw.controller.viewcontroller;
 
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.GameInfo;
-import it.polimi.ingsw.events.data.client.ClientDisconnectedEvent;
 import it.polimi.ingsw.events.data.client.PlaceCardEvent;
 import it.polimi.ingsw.events.data.server.HandChangedEvent;
+import it.polimi.ingsw.events.data.server.NewTurnEvent;
 import it.polimi.ingsw.events.data.server.ScoreEvent;
 import it.polimi.ingsw.events.data.server.TableChangedEvent;
 import it.polimi.ingsw.model.Card;
@@ -28,10 +28,7 @@ import javafx.scene.layout.VBox;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class InGameController implements ViewController, Initializable {
     private ImageView selectedCard = null;
@@ -42,9 +39,15 @@ public class InGameController implements ViewController, Initializable {
     @FXML
     Button playCardButton;
     @FXML
-    Label team1Label;
+    Label northLabel;
     @FXML
-    Label scoreLabel;
+    Label westLabel;
+    @FXML
+    Label southLabel;
+    @FXML
+    Label eastLabel;
+    @FXML
+    Label team1Label;
     @FXML
     Label team2Label;
     @FXML
@@ -57,7 +60,7 @@ public class InGameController implements ViewController, Initializable {
         Client client = Client.getInstance();
         client.requestInfo(GameInfo.CURRENT_TABLE);
         client.requestInfo(GameInfo.CURRENT_HAND);
-        client.requestInfo(GameInfo.SCORE);
+        //client.requestInfo(GameInfo.SCORE);
         usernameLabel.setText(SceneLoader.getPlayerView().getUsername());
     }
 
@@ -65,6 +68,7 @@ public class InGameController implements ViewController, Initializable {
      * @see HandChangedEvent
      * @see ScoreEvent
      * @see TableChangedEvent
+     * @see NewTurnEvent
      */
     @Override
     public void handle(Event event) {
@@ -73,10 +77,11 @@ public class InGameController implements ViewController, Initializable {
                 case "HAND_CHANGED_EVENT" -> updateHand((HandChangedEvent) event);
                 case "SCORE_EVENT" -> updateScore((ScoreEvent) event);
                 case "TABLE_CHANGED_EVENT" -> updateTable((TableChangedEvent) event);
+                case "NEW_TURN_EVENT" -> updateCurrentPlayer((NewTurnEvent) event);
             }
-            System.out.println("ID:" + event.getID()+ " len: " + centralPane.getChildren().size());
         });
     }
+
 
     public void onMenuButtonClicked(ActionEvent actionEvent) {
         if(((Button)actionEvent.getSource()).getStyleClass().contains("button-non-clickable"))
@@ -147,16 +152,17 @@ public class InGameController implements ViewController, Initializable {
         imageView.setFitHeight(200);
         imageView.setPreserveRatio(true);
     }
+
     private void onMouseEntered(MouseEvent mouseEvent) {
         ImageView clickedImage = (ImageView) mouseEvent.getSource();
         clickedImage.setViewOrder(-1.0);
     }
-
     private void onMouseExited(MouseEvent mouseEvent) {
         ImageView clickedImage = (ImageView) mouseEvent.getSource();
         if(!clickedImage.equals(selectedCard))
             clickedImage.setViewOrder(0.0);
     }
+
     private void updateHand(HandChangedEvent event) {
         Method inHandStyle;
         try {
@@ -167,14 +173,38 @@ public class InGameController implements ViewController, Initializable {
         bottomPane.getChildren().clear();
         bottomPane.getChildren().addAll(getCardsImageViews(event.getHand(), inHandStyle));
     }
-
     private void updateScore(ScoreEvent event) {
-        String[] teamNames = event.getFistTeamNames();
-        team1Label.setText(teamNames[0] + "\n" + teamNames[1]);
-        teamNames = event.getSecondTeamNames();
-        team2Label.setText(teamNames[0] + "\n" + teamNames[1]);
-        scoreLabel.setText(event.getFirstTeamPoints() + " - " + event.getSecondTeamPoints());
+        String[] classes = {"team1Label", "team2Label"};
+        List<String> teamNames = new ArrayList<>();
+        teamNames.add(event.getFistTeamNames()[0]);
+        teamNames.add(event.getSecondTeamNames()[0]);
+        teamNames.add(event.getFistTeamNames()[1]);
+        teamNames.add(event.getSecondTeamNames()[1]);
+        int selfIndex = teamNames.indexOf(SceneLoader.getPlayerView().getUsername());
+        teamNames = sortPlayers(teamNames,selfIndex);
+        southLabel.setText(teamNames.getFirst());
+        eastLabel.setText(teamNames.get(1));
+        northLabel.setText(teamNames.get(2));
+        westLabel.setText(teamNames.get(3));
+        team1Label.setText(event.getFirstTeamPoints() +"");
+        team1Label.setText(event.getSecondTeamPoints() +"");
+        if((selfIndex%2)!=0)
+            classes = new String[]{"team2Label", "team1Label"};
+        southLabel.getStyleClass().add(classes[0]);
+        northLabel.getStyleClass().add(classes[0]);
+        eastLabel.getStyleClass().add(classes[1]);
+        westLabel.getStyleClass().add(classes[1]);
     }
+
+    private List<String> sortPlayers(List<String> players, int selfIndex) {
+        List<String> result = new ArrayList<>();
+
+        for(int idx=0; idx < players.size(); idx++) {
+            result.add(idx, players.get((idx + selfIndex) % players.size())); // TODO: handle IndexOutOfBounds
+        }
+        return result;
+    }
+
     private void updateTable(TableChangedEvent event) {
         Method onTableStyle;
         try {
@@ -184,6 +214,18 @@ public class InGameController implements ViewController, Initializable {
         }
         centralPane.getChildren().clear();
         centralPane.getChildren().addAll(getCardsImageViews(event.getCards(), onTableStyle));
+    }
+    private void updateCurrentPlayer(NewTurnEvent event) {
+        List<Label> labels = new ArrayList<>();
+        labels.add(southLabel);
+        labels.add(eastLabel);
+        labels.add(northLabel);
+        labels.add(westLabel);
+        for(Label l: labels) {
+            l.getStyleClass().remove("current-player-label");
+            if(l.getText().equals(event.getUsername()))
+                l.getStyleClass().add("current-player-label");
+        }
     }
 
     public void onPlayCardButtonClick(ActionEvent actionEvent) {

@@ -19,13 +19,16 @@ public class BotTurnHandler implements EventHandler {
     public void handle(Event event) {
         OnlineGameController onlineGameController = OnlineGameController.getInstance();
         EventTransmitter eventTransmitter = Server.getInstance().getEventTransmitter();
-
+        try {
+            eventTransmitter.broadcast(new NewTurnEvent(onlineGameController.getCurrentPlayer().getName()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         while(onlineGameController.getCurrentPlayer().isBot()) {
             List<Card> currentPlayerHand = onlineGameController.getCurrentPlayer().getHand();
             Card botCard = onlineGameController.playCardBot(currentPlayerHand);
-            System.out.println("Bot card: "+botCard);
+            //System.out.println("Bot card: "+botCard);
             List<Card> cardsOnTable = onlineGameController.placeCard(botCard);
-            System.out.println(currentPlayerHand);
             try {
                 // sends new table to everyone
                 eventTransmitter.broadcast(new TableChangedEvent(cardsOnTable, botCard));

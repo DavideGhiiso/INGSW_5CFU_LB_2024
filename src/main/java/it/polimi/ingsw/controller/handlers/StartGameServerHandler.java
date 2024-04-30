@@ -28,8 +28,10 @@ public class StartGameServerHandler implements EventHandler {
             }
         onlineGameController.startGame();
         EventTransmitter eventTransmitter = Server.getInstance().getEventTransmitter();
-        try { // send new game and notify current player
-            eventTransmitter.broadcast(new StartGameEvent());
+        try { // notify players
+            String[] fistTeamNames = onlineGameController.getFirstTeamNames();
+            String[] secondTeamNames = onlineGameController.getSecondTeamNames();
+            eventTransmitter.broadcast(new StartGameEvent(fistTeamNames, secondTeamNames));
             eventTransmitter.broadcast(new NewTurnEvent(onlineGameController.getCurrentPlayer().getName()));
         } catch (IOException e) {
             throw new RuntimeException(e);

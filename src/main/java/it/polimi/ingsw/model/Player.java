@@ -14,7 +14,7 @@ public class Player {
     }
 
     public void playCard(Card card) {
-        System.out.println("Removed:"+ this.hand.remove(card));
+        this.hand.remove(card);
     }
 
     public String getName() {
