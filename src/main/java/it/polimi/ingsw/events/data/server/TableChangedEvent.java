@@ -10,12 +10,18 @@ import java.util.List;
  */
 public class TableChangedEvent extends BaseEvent {
     private final List<Card> cards;
-    public TableChangedEvent(List<Card> currentPlacedCards) {
+    private final Card playedCard;
+    public TableChangedEvent(List<Card> currentPlacedCards, Card playedCard) {
         ID = "TABLE_CHANGED_EVENT";
         cards = currentPlacedCards;
+        this.playedCard = playedCard;
     }
 
     public List<Card> getCards() {
         return cards;
+    }
+
+    public Card getPlayedCard() {
+        return playedCard;
     }
 }

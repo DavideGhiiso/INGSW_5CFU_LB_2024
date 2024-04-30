@@ -4,7 +4,7 @@
 }
 
 .main-scene {
-    -fx-background-color: #8a6a56;
+    -fx-background-color: #917f74;
 }
 
 .button-non-clickable {
@@ -35,7 +35,7 @@
 
 .top-pane {
     -fx-pref-height: 100px;
-    -fx-spacing: 20;
+    -fx-spacing: 30;
 }
 
 .top-label {
@@ -45,7 +45,7 @@
 
 .bottom-pane-container {
     -fx-pref-height: 100px;
-    -fx-background-color: linear-gradient(to top, rgb(173, 173, 173), transparent);
+    -fx-background-color: linear-gradient(to top, rgb(54, 54, 54), transparent);
 }
 
 .bottom-pane {
@@ -86,7 +86,6 @@
 }
 
 .in-hand-card {
-    -fx-background-radius: 20;
     -fx-cursor: hand;
 }
 

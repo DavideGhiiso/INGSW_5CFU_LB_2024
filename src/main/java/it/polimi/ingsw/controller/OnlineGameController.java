@@ -83,7 +83,14 @@ public class OnlineGameController extends GameController {
     public boolean canStartGame() {
         return getPlayersCount() == Game.MAX_PLAYERS;
     }
+    public List<Card> getTableCards() {
+        return game.getTable().getPlacedCards();
+    }
 
+    /**
+     * Removes a player and eventually replaces him with a bot only if the game is started
+     * @param username Player username to replace
+     */
     public void handleClientExit(String username) {
         Player player;
         try {
@@ -96,7 +103,6 @@ public class OnlineGameController extends GameController {
         else
             removePlayer(player);
         System.out.println("Handle: "+game.getPlayers());
-
     }
 
     private void replaceClientWithBot(Player player) {
@@ -111,6 +117,10 @@ public class OnlineGameController extends GameController {
 
     public List<Card> getPlayerCards(String username) throws NonexistentPlayerException {
         return game.getPlayer(username).getHand();
+    }
+
+    public boolean isGameStarted() {
+        return game.isStarted();
     }
 
     @Override

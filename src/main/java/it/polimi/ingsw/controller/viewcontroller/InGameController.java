@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.viewcontroller;
 
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.GameInfo;
+import it.polimi.ingsw.events.data.client.ClientDisconnectedEvent;
 import it.polimi.ingsw.events.data.client.PlaceCardEvent;
 import it.polimi.ingsw.events.data.server.HandChangedEvent;
 import it.polimi.ingsw.events.data.server.ScoreEvent;
@@ -35,6 +36,8 @@ import java.util.ResourceBundle;
 public class InGameController implements ViewController, Initializable {
     private ImageView selectedCard = null;
     @FXML
+    Label usernameLabel;
+    @FXML
     HBox centralPane;
     @FXML
     Button playCardButton;
@@ -51,10 +54,11 @@ public class InGameController implements ViewController, Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        SceneLoader.getPlayerView().setObserver(this);
         Client client = Client.getInstance();
+        client.requestInfo(GameInfo.CURRENT_TABLE);
         client.requestInfo(GameInfo.CURRENT_HAND);
         client.requestInfo(GameInfo.SCORE);
+        usernameLabel.setText(SceneLoader.getPlayerView().getUsername());
     }
 
     /**
@@ -70,6 +74,7 @@ public class InGameController implements ViewController, Initializable {
                 case "SCORE_EVENT" -> updateScore((ScoreEvent) event);
                 case "TABLE_CHANGED_EVENT" -> updateTable((TableChangedEvent) event);
             }
+            System.out.println("ID:" + event.getID()+ " len: " + centralPane.getChildren().size());
         });
     }
 
@@ -185,6 +190,11 @@ public class InGameController implements ViewController, Initializable {
         playCardButton.setVisible(false);
         SceneLoader.getPlayerView().setYourTurn(false);
         Client.getInstance().send(new PlaceCardEvent(urlToCard(selectedCard.getImage().getUrl())));
+    }
+
+    public void onExitGameButtonClick(ActionEvent actionEvent) {
+        Platform.runLater(() -> SceneLoader.changeScene("fxml/menu.fxml"));
+        Client.getInstance().stop();
     }
 
     private Card urlToCard(String url) {

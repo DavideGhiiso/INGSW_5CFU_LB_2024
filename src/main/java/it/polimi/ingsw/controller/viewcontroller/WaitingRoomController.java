@@ -23,7 +23,6 @@ import java.util.TimerTask;
 
 public class WaitingRoomController implements ViewController, Initializable {
     private static final int REQUEST_PERIOD = 1000;
-    private static boolean usernameChanged = false;
     private int oldPlayersNumber;
     @FXML
     Label topLabel;
@@ -43,8 +42,7 @@ public class WaitingRoomController implements ViewController, Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         String defaultString = "In attesa di altri giocatori...";
-        if(usernameChanged)
-            topLabel.setText("Ti unirai alla partita con uno username diverso da quello selezionato.\n"+defaultString);
+        topLabel.setText(SceneLoader.getPlayerView().getUsername() + "\n" + defaultString);
         startRequestConnectedPlayersTimer();
     }
 
@@ -92,9 +90,6 @@ public class WaitingRoomController implements ViewController, Initializable {
         playerCounter.setText("Giocatori: "+ newValue+"/4");
     }
 
-    public static void setUsernameChanged(boolean usernameChanged) {
-        WaitingRoomController.usernameChanged = usernameChanged;
-    }
 
     /**
      * @see UpdatePlayerCountEvent

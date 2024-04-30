@@ -67,8 +67,9 @@ public class Client extends Host {
         eventReceiver.attachEventHandler("HAND_CHANGED_EVENT", new HandChangedHandler());
         eventReceiver.attachEventHandler("TABLE_CHANGED_EVENT", new TableChangedHandler());
         eventReceiver.attachEventHandler("SCORE_EVENT", new ScoreEventHandler());
-        eventReceiver.attachEventHandler("YOUR_TURN_EVENT", new YourTurnEventHandler());
+        eventReceiver.attachEventHandler("NEW_TURN_EVENT", new NewTurnEventHandler());
         eventReceiver.attachEventHandler("END_GAME_RESULTS_EVENT", new EndGameResultsHandler());
+        eventReceiver.attachEventHandler("USERNAME_CHANGED_EVENT", new UsernameChangedHandler());
 
     }
     public void send(BaseEvent event) {

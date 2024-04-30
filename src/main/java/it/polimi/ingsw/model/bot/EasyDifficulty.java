@@ -20,7 +20,7 @@ public class EasyDifficulty extends Difficulty {
 
         for(Card card: inHandList) {
             double currentWeight = calculateWeight(card, inHandList, onTableList, playedCards);
-            System.out.println(card+": "+currentWeight);
+//            System.out.println(card+": "+currentWeight);
             if (currentWeight > maxWeight) {
                 maxWeight = currentWeight;
                 returnCard = card;

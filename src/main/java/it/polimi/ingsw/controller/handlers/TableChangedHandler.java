@@ -9,8 +9,6 @@ import it.polimi.ingsw.view.SceneLoader;
 public class TableChangedHandler implements EventHandler {
     @Override
     public void handle(Event event) {
-        TableChangedEvent handChangedEvent = (TableChangedEvent) event.getEvent();
-//        SceneLoader.getPlayerView().setTableCards(handChangedEvent.getCards());
         SceneLoader.getCurrentController().handle(event);
     }
 }

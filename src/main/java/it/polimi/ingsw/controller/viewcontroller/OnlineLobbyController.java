@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.viewcontroller;
 
 import it.polimi.ingsw.events.Response;
 import it.polimi.ingsw.events.data.Event;
+import it.polimi.ingsw.events.data.GameInfo;
 import it.polimi.ingsw.events.data.server.JoinGameResponseEvent;
 import it.polimi.ingsw.events.data.client.JoinGameEvent;
 import it.polimi.ingsw.events.data.client.JoinOnGoingGameEvent;
@@ -46,6 +47,7 @@ public class OnlineLobbyController implements ViewController {
     public void onTextFieldEnter(ActionEvent actionEvent) {
         if(enterButton.getStyleClass().contains("button-clickable")) {
             popup.setVisible(true);
+            SceneLoader.getPlayerView().setUsername(usernameField.getText());
             try {
                 connect(usernameField.getText());
             } catch (IOException e) {
@@ -119,7 +121,11 @@ public class OnlineLobbyController implements ViewController {
                 case USERNAME_TAKEN -> {
                     popupContent.setText("The username " + usernameField.getText() + " is already in use! You'll join the game with a different username");
                     Platform.runLater(() -> SceneLoader.changeScene("fxml/waitingRoom.fxml"));
-                    WaitingRoomController.setUsernameChanged(true);
+                    Client.getInstance().requestInfo(GameInfo.USERNAME);
+                }
+
+                case OK_ONGOING -> {
+
                 }
             }
         });

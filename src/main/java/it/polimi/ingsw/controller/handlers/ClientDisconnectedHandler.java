@@ -2,7 +2,9 @@ package it.polimi.ingsw.controller.handlers;
 
 import it.polimi.ingsw.controller.OnlineGameController;
 import it.polimi.ingsw.events.EventHandler;
+import it.polimi.ingsw.events.EventTransmitter;
 import it.polimi.ingsw.events.data.Event;
+import it.polimi.ingsw.events.data.server.ScoreEvent;
 import it.polimi.ingsw.networking.Connection;
 import it.polimi.ingsw.networking.Server;
 
@@ -18,10 +20,16 @@ public class ClientDisconnectedHandler implements EventHandler {
         try {
             Connection connection = event.getConnection();
             Server.getInstance().removeClient(connection);
-            OnlineGameController.getInstance().handleClientExit(connection.getConnectionID());
+            OnlineGameController onlineGameController = OnlineGameController.getInstance();
+            onlineGameController.handleClientExit(connection.getConnectionID());
+            if(onlineGameController.isGameStarted()) {
+                EventHandler.broadcastScore(onlineGameController, Server.getInstance().getEventTransmitter());
+            }
             connection.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+
 }

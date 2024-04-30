@@ -5,9 +5,10 @@ import it.polimi.ingsw.events.EventHandler;
 import it.polimi.ingsw.events.EventTransmitter;
 import it.polimi.ingsw.events.data.*;
 import it.polimi.ingsw.events.data.client.PlaceCardEvent;
+import it.polimi.ingsw.events.data.server.BotTurnEvent;
 import it.polimi.ingsw.events.data.server.HandChangedEvent;
 import it.polimi.ingsw.events.data.server.TableChangedEvent;
-import it.polimi.ingsw.events.data.server.YourTurnEvent;
+import it.polimi.ingsw.events.data.server.NewTurnEvent;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.EndGameException;
 import it.polimi.ingsw.networking.Connection;
@@ -45,14 +46,14 @@ public class PlaceCardHandler implements EventHandler {
         List<Card> currentPlayerHand = onlineGameController.getCurrentPlayer().getHand();
         try {
             // sends new table to everyone
-            eventTransmitter.broadcast(new TableChangedEvent(cardOnTable));
+            eventTransmitter.broadcast(new TableChangedEvent(cardOnTable, event.getCard()));
             // sends new hand to current player
             connection.send(new HandChangedEvent(currentPlayerHand));
             onlineGameController.nextTurn();
             if(onlineGameController.getCurrentPlayer().isBot()) {
-
+                new BotTurnHandler().handle(new BotTurnEvent());
             } else // tell next player it's their turn
-                eventTransmitter.sendTo(onlineGameController.getCurrentPlayer().getName(), new YourTurnEvent());
+                eventTransmitter.broadcast(new NewTurnEvent(onlineGameController.getCurrentPlayer().getName()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (EndGameException e) {

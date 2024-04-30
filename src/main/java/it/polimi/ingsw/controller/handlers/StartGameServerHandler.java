@@ -5,7 +5,7 @@ import it.polimi.ingsw.events.EventHandler;
 import it.polimi.ingsw.events.EventTransmitter;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.client.StartGameEvent;
-import it.polimi.ingsw.events.data.server.YourTurnEvent;
+import it.polimi.ingsw.events.data.server.NewTurnEvent;
 import it.polimi.ingsw.model.exceptions.MaxPlayersReachedException;
 import it.polimi.ingsw.networking.Server;
 
@@ -30,7 +30,7 @@ public class StartGameServerHandler implements EventHandler {
         EventTransmitter eventTransmitter = Server.getInstance().getEventTransmitter();
         try { // send new game and notify current player
             eventTransmitter.broadcast(new StartGameEvent());
-            eventTransmitter.sendTo(onlineGameController.getCurrentPlayer().getName(), new YourTurnEvent());
+            eventTransmitter.broadcast(new NewTurnEvent(onlineGameController.getCurrentPlayer().getName()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

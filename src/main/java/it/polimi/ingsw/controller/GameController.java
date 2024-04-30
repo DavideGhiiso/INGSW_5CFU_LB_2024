@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.bot.Bot;
 import it.polimi.ingsw.model.bot.Difficulty;
+import it.polimi.ingsw.model.bot.EasyDifficulty;
 import it.polimi.ingsw.model.bot.HardDifficulty;
 
 import java.util.List;
@@ -40,12 +41,19 @@ public abstract class GameController {
         game.setStarted(true);
         playerIterator = new PlayerIterator(game.getPlayers());
         currentPlayer = playerIterator.next();
-        bot = new Bot(new HardDifficulty());
+        bot = new Bot(new EasyDifficulty(),
+                game.getFirstTeam().getTakenCards(),
+                game.getSecondTeam().getTakenCards(),
+                game.getTable().getPlacedCards());
     }
 
     public void setBotDifficulty(Difficulty difficulty) {
-
+        bot.setDifficulty(difficulty);
     }
+    public Card playCardBot(List<Card> inHandList) {
+        return bot.playCard(inHandList);
+    }
+
     public abstract void endMatch();
 
     public Player getCurrentPlayer() {
