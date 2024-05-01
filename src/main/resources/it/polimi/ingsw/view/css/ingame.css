@@ -69,7 +69,6 @@ StackPane * {
 }
 
 .bottom-pane {
-
     -fx-spacing: -40;
     -fx-alignment: CENTER;
 }

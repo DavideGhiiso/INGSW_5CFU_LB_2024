@@ -9,7 +9,7 @@
 <?import javafx.geometry.Insets?>
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
-           fx:controller="it.polimi.ingsw.controller.viewcontroller.OptionsController"
+           fx:controller="it.polimi.ingsw.view.viewcontroller.OptionsController"
             stylesheets="@../css/options.css">
     <StackPane alignment="TOP_CENTER">
         <StackPane styleClass="stackPane-top" maxHeight="120">

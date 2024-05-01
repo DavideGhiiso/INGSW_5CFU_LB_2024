@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.viewcontroller;
+package it.polimi.ingsw.view.viewcontroller;
 
 import it.polimi.ingsw.events.data.server.EndGameResultsEvent;
 import it.polimi.ingsw.events.data.Event;
