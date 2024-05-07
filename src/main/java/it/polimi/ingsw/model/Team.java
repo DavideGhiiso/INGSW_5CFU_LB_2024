@@ -57,7 +57,11 @@ public class Team {
         players.remove(player);
     }
     public boolean contains(Player player) {
-        return players.contains(player);
+        for(Player p: players) {
+            if(p.getName().equals(player.getName()))
+                return true;
+        }
+        return false;
     }
 
     public List<Card> getTakenCards() {

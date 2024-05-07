@@ -6,15 +6,22 @@ import it.polimi.ingsw.model.GameResult;
 import java.util.Optional;
 
 public class EndGameResultsEvent extends BaseEvent {
+    private final EndGameResult result;
     private final GameResult firstTeamResult;
     private final GameResult secondTeamResult;
 
-    public EndGameResultsEvent(GameResult firstTeamResult, GameResult secondTeamResult) {
+    public EndGameResultsEvent(GameResult firstTeamResult, GameResult secondTeamResult, EndGameResult result) {
+        this.result = result;
         ID = "END_GAME_RESULTS_EVENT";
         this.firstTeamResult = firstTeamResult;
         this.secondTeamResult = secondTeamResult;
 
     }
+
+    public EndGameResult getResult() {
+        return result;
+    }
+
     public GameResult getFirstTeamResult() {
         return firstTeamResult;
     }

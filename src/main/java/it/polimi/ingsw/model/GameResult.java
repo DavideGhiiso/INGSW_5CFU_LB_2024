@@ -35,4 +35,14 @@ public class GameResult implements Serializable {
     public String getSecondPlayer() {
         return secondPlayer;
     }
+
+    @Override
+    public String toString() {
+        return "GameResult{" +
+                "scopa=" + scopa +
+                ", pointsMade=" + pointsMade +
+                ", firstPlayer='" + firstPlayer + '\'' +
+                ", secondPlayer='" + secondPlayer + '\'' +
+                '}';
+    }
 }

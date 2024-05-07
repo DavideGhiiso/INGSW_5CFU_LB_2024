@@ -6,21 +6,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <StackPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.view.viewcontroller.EndGameController"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="it.polimi.ingsw.view.viewcontroller.EndGameController"
            maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0"
            prefWidth="1280.0"
-            stylesheets="@../css/endGame.css" styleClass="bg">
+           stylesheets="@../css/endGame.css" styleClass="bg">
     <VBox alignment="CENTER">
         <Label styleClass="title">
             Risultati
         </Label>
         <VBox styleClass="main-container" alignment="CENTER">
             <Label fx:id="winnersLabel" styleClass="winners-label">
-                Winners: a and b
+                a and b
             </Label>
-            <GridPane alignment="CENTER" hgap="10" styleClass="table">
+            <HBox alignment="CENTER">
+                <Label fx:id="team1Points"/>
+                <Label text=" - "/>
+                <Label fx:id="team2Points"/>
+            </HBox>
+            <GridPane alignment="CENTER" hgap="20" styleClass="table" fx:id="resultTable" >
                 <Label GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="team1Header">
                     a and b
                 </Label>
@@ -31,18 +37,29 @@
                     Scope:
                 </Label>
                 <Label GridPane.columnIndex="0" GridPane.rowIndex="2">
-                    Primiera:
-                </Label>
-                <Label GridPane.columnIndex="0" GridPane.rowIndex="3">
-                    Settebello:
-                </Label>
-                <Label GridPane.columnIndex="0" GridPane.rowIndex="4">
-                    Carte:
-                </Label>
-                <Label GridPane.columnIndex="0" GridPane.rowIndex="5">
                     Denari:
                 </Label>
+                <Label GridPane.columnIndex="0" GridPane.rowIndex="3">
+                    Carte:
+                </Label>
+                <Label GridPane.columnIndex="0" GridPane.rowIndex="4">
+                    Primiera:
+                </Label>
+                <Label GridPane.columnIndex="0" GridPane.rowIndex="5">
+                    Settebello:
+                </Label>
             </GridPane>
+            <HBox spacing="20" alignment="CENTER">
+                <padding>
+                    <Insets bottom="20"/>
+                </padding>
+                <Button styleClass="button-clickable">
+                    Continua
+                </Button>
+                <Button styleClass="button-clickable">
+                    Esci
+                </Button>
+            </HBox>
         </VBox>
     </VBox>
 </StackPane>

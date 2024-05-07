@@ -1,10 +1,25 @@
 * {
     -fx-font-family: "Cambria";
+}
+.button {
     -fx-font-size: 15pt;
+}
+.label {
+    -fx-font-size: 25px;
 }
 
 .bg {
     -fx-background-color: rgb(167, 191, 192);
+}
+
+.button-non-clickable {
+    -fx-background-color: #525252;
+}
+
+.button-clickable {
+    -fx-background-color: #cecece;
+    -fx-cursor: hand;
+    -fx-min-width: 100px;
 }
 
 .main-container {
@@ -20,6 +35,8 @@
 
 .title {
     -fx-font-size: 50px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
     -fx-background-color: rgb(33, 86, 86);
     -fx-background-radius: 7;
     -fx-padding: 10 30 10 30;
@@ -31,5 +48,9 @@
 
 .table {
     -fx-font-size: 25pt;
+}
+
+.table .label {
+    -fx-font-size: 25;
 }
 

@@ -55,6 +55,7 @@
 }
 
 .main-container {
+    -fx-max-width: 500px;
     -fx-spacing: 80px;
     -fx-fill-width: false;
 
