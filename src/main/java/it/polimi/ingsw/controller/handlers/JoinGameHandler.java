@@ -5,7 +5,7 @@ import it.polimi.ingsw.events.EventHandler;
 import it.polimi.ingsw.events.data.ConnectionEvent;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.server.JoinGameResponseEvent;
-import it.polimi.ingsw.events.data.client.ClientDisconnectedEvent;
+import it.polimi.ingsw.events.data.server.ClientDisconnectedEvent;
 import it.polimi.ingsw.events.data.client.JoinGameEvent;
 import it.polimi.ingsw.events.data.client.StartGameEvent;
 import it.polimi.ingsw.model.Game;

@@ -13,10 +13,14 @@ import it.polimi.ingsw.model.Suit;
 import it.polimi.ingsw.networking.Client;
 import it.polimi.ingsw.view.SceneLoader;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.viewcontroller.transitions.TablePlacementTransition;
+import it.polimi.ingsw.view.viewcontroller.transitions.TakeCardTransition;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -32,6 +36,7 @@ import java.util.*;
 
 public class InGameController implements ViewController, Initializable {
     private ImageView selectedCard = null;
+    private boolean animationPlaying = false;
     @FXML
     Label usernameLabel;
     @FXML
@@ -96,7 +101,7 @@ public class InGameController implements ViewController, Initializable {
     }
 
     private void onImageClick(MouseEvent mouseEvent) {
-        if(!SceneLoader.getPlayerView().isYourTurn())
+        if(!SceneLoader.getPlayerView().isYourTurn() || animationPlaying)
             return;
         ImageView clickedImage = (ImageView) mouseEvent.getSource();
         if(selectedCard == clickedImage) { // click on already selected card => toggle
@@ -123,16 +128,20 @@ public class InGameController implements ViewController, Initializable {
     private List<ImageView> getCardsImageViews(List<Card> cards, Method style) {
         List<ImageView> result = new ArrayList<>();
         for(Card card: cards) {
-            URL path = View.class.getResource("images/" + card.getNumber()+ "_" +card.getSuit().toString() + ".png");
-            ImageView imageView = new ImageView(new Image(String.valueOf(path)));
-            try {
-                style.invoke(this, imageView);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
-            }
-            result.add(imageView);
+            result.add(getCardImageView(card, style));
         }
         return result;
+    }
+
+    private ImageView getCardImageView(Card card, Method style) {
+        URL path = View.class.getResource("images/" + card.getNumber()+ "_" +card.getSuit().toString() + ".png");
+        ImageView imageView = new ImageView(new Image(String.valueOf(path)));
+        try {
+            style.invoke(this, imageView);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+        return imageView;
     }
 
     public void inHandStyle(ImageView imageView) {
@@ -186,8 +195,8 @@ public class InGameController implements ViewController, Initializable {
         eastLabel.setText(teamNames.get(1));
         northLabel.setText(teamNames.get(2));
         westLabel.setText(teamNames.get(3));
-        team1Label.setText(event.getFirstTeamPoints() +"");
-        team1Label.setText(event.getSecondTeamPoints() +"");
+        team1Label.setText(event.getFirstTeamPoints() + "");
+        team1Label.setText(event.getSecondTeamPoints() + "");
         if((selfIndex%2)!=0)
             classes = new String[]{"team2Label", "team1Label"};
         southLabel.getStyleClass().add(classes[0]);
@@ -212,9 +221,49 @@ public class InGameController implements ViewController, Initializable {
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
+        if(event.getPlayedCard() != null) {
+            animationPlaying = true;
+            ImageView placedCardImage = getCardImageView(event.getPlayedCard(), onTableStyle);
+            centralPane.getChildren().add(placedCardImage);
+            List<ImageView> takenCards = difference(centralPane.getChildren(), getCardsImageViews(event.getCards(), onTableStyle));
+            TablePlacementTransition transition = new TablePlacementTransition(placedCardImage, 50, -20, 500);
+            transition.setOnFinished(e -> {
+                if(!takenCards.isEmpty())
+                    for(ImageView card: takenCards) {
+                        TakeCardTransition takeCardTransition = new TakeCardTransition(card, 700);
+                        takeCardTransition.setOnFinished(ev -> {
+                            animationPlaying = false;
+                            refreshTable(event, onTableStyle);
+                        });
+                        takeCardTransition.play();
+                    }
+                else {
+                    animationPlaying = false;
+                    refreshTable(event, onTableStyle);
+                }
+            });
+            transition.play();
+        } else
+            refreshTable(event, onTableStyle);
+    }
+
+    private List<ImageView> difference(ObservableList<Node> a, List<ImageView> b) {
+        List<ImageView> result = (List<ImageView>)(List<?>) new ArrayList<>(a);
+        result.removeIf(aCard -> {
+            for (ImageView bCards : b) {
+                if (aCard.getImage().getUrl().equals(bCards.getImage().getUrl()))
+                    return true;
+            }
+            return false;
+        });
+        return result;
+    }
+
+    private void refreshTable(TableChangedEvent event, Method onTableStyle) {
         centralPane.getChildren().clear();
         centralPane.getChildren().addAll(getCardsImageViews(event.getCards(), onTableStyle));
     }
+
     private void updateCurrentPlayer(NewTurnEvent event) {
         List<Label> labels = new ArrayList<>();
         labels.add(southLabel);

@@ -106,6 +106,7 @@ StackPane * {
 
 .in-hand-card {
     -fx-cursor: hand;
+    -fx-effect: dropshadow(one-pass-box, rgb(0, 0, 0), 2, 100, 0, 0);
 }
 
 .selected-card {
