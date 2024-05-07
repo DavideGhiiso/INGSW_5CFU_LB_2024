@@ -85,4 +85,13 @@ public class Game {
     public void setStarted(boolean started) {
         this.started = started;
     }
+
+    /**
+     * Adds remaining cards on the table to the last team that has taken a card
+     */
+    public void addRemainingCards() {
+        Team team = team1.isLastOneToTake() ? team1 : team2;
+        team.addTakenCards(table.getPlacedCards());
+        table.getPlacedCards().clear();
+    }
 }

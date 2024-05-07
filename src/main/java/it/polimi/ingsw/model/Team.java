@@ -23,6 +23,9 @@ public class Team {
      * Number of "scopa" made by the team
      */
     private int scopa;
+    // true if the fist team was the last one to take a card
+    private boolean lastOneToTake;
+
 
     public Team() {
         this.players = new ArrayList<>();
@@ -59,5 +62,13 @@ public class Team {
 
     public List<Card> getTakenCards() {
         return takenCards;
+    }
+
+    public boolean isLastOneToTake() {
+        return lastOneToTake;
+    }
+
+    public void setLastOneToTake(boolean lastOneToTake) {
+        this.lastOneToTake = lastOneToTake;
     }
 }

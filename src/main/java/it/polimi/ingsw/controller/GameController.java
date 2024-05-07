@@ -16,6 +16,7 @@ public abstract class GameController {
     protected int team2Points = 0;
 
     protected Bot bot;
+    protected boolean isFirstTeamLastCatcher = true;
 
     protected GameController(Game game) {
         this.game = game;
@@ -28,13 +29,21 @@ public abstract class GameController {
      */
     public List<Card> placeCard(Card card) {
         Table table = game.getTable();
-        List<Card> placedCards = table.placeCard(card);
+        List<Card> takenCards = table.placeCard(card);
+        if(!takenCards.isEmpty())
+            setLastTeamToTake(game.getPlayerTeam(currentPlayer));
         currentPlayer.playCard(card);
-        game.getPlayerTeam(currentPlayer).addTakenCards(placedCards);
+        game.getPlayerTeam(currentPlayer).addTakenCards(takenCards);
         List<Card> tableCards = table.getPlacedCards();
         if(tableCards.isEmpty())
             game.getPlayerTeam(currentPlayer).addScopa();
         return tableCards;
+    }
+
+    private void setLastTeamToTake(Team team) {
+        game.getFirstTeam().setLastOneToTake(false);
+        game.getSecondTeam().setLastOneToTake(false);
+        team.setLastOneToTake(true);
     }
 
     public void startGame() {
@@ -62,6 +71,15 @@ public abstract class GameController {
     public boolean botIsPlaying() {
         return game.getPlayers().stream().anyMatch(Player::isBot);
     }
+
+    public boolean isFirstTeamLastCatcher() {
+        return isFirstTeamLastCatcher;
+    }
+
+    public void setFirstTeamLastCatcher(boolean firstTeamLastCatcher) {
+        isFirstTeamLastCatcher = firstTeamLastCatcher;
+    }
+
     public void nextTurn() throws EndGameException {
         if (playerIterator.getTurnNumber() == 10) {
             throw new EndGameException();
@@ -70,6 +88,7 @@ public abstract class GameController {
     }
 
     public GameResult[] endGame() {
+        game.addRemainingCards();
         GameResult[] gameResults = getGamesResults();
         team1Points += gameResults[0].getTotalPoints();
         team2Points += gameResults[1].getTotalPoints();

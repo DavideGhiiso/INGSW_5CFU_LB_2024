@@ -1,4 +1,4 @@
-package it.polimi.ingsw.events.data.client;
+package it.polimi.ingsw.events.data.server;
 
 import it.polimi.ingsw.events.data.BaseEvent;
 
