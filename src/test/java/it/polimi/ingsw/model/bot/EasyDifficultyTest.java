@@ -1,4 +1,4 @@
-package model.bot;
+package it.polimi.ingsw.model.bot;
 
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.Dealer;
