@@ -37,6 +37,8 @@ import java.util.*;
 public class InGameController implements ViewController, Initializable {
     private ImageView selectedCard = null;
     private boolean animationPlaying = false;
+    private boolean receivedEndGameEvent = false;
+    private Event endGameEventBuffer; // used to store an EndGameEvent in case an animation is playing when received
     @FXML
     Label usernameLabel;
     @FXML
@@ -65,7 +67,6 @@ public class InGameController implements ViewController, Initializable {
         Client client = Client.getInstance();
         client.requestInfo(GameInfo.CURRENT_TABLE);
         client.requestInfo(GameInfo.CURRENT_HAND);
-        //client.requestInfo(GameInfo.SCORE);
         usernameLabel.setText(SceneLoader.getPlayerView().getUsername());
     }
 
@@ -83,6 +84,10 @@ public class InGameController implements ViewController, Initializable {
                 case "SCORE_EVENT" -> updateScore((ScoreEvent) event);
                 case "TABLE_CHANGED_EVENT" -> updateTable((TableChangedEvent) event);
                 case "NEW_TURN_EVENT" -> updateCurrentPlayer((NewTurnEvent) event);
+                case "END_GAME_RESULTS_EVENT" -> {
+                    receivedEndGameEvent = true;
+                    endGameEventBuffer = event;
+                }
             }
         });
     }
@@ -221,30 +226,59 @@ public class InGameController implements ViewController, Initializable {
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        if(event.getPlayedCard() != null) {
+        if(event.getPlayedCard() != null) { // card is placed
             animationPlaying = true;
             ImageView placedCardImage = getCardImageView(event.getPlayedCard(), onTableStyle);
             centralPane.getChildren().add(placedCardImage);
             List<ImageView> takenCards = difference(centralPane.getChildren(), getCardsImageViews(event.getCards(), onTableStyle));
             TablePlacementTransition transition = new TablePlacementTransition(placedCardImage, 50, -20, 500);
-            transition.setOnFinished(e -> {
-                if(!takenCards.isEmpty())
-                    for(ImageView card: takenCards) {
-                        TakeCardTransition takeCardTransition = new TakeCardTransition(card, 700);
-                        takeCardTransition.setOnFinished(ev -> {
-                            animationPlaying = false;
-                            refreshTable(event, onTableStyle);
-                        });
-                        takeCardTransition.play();
-                    }
-                else {
+            transition.setOnFinished(e -> takeCardsTransition(event, takenCards, onTableStyle));
+            transition.play();
+        } else // table refresh
+            refreshTable(event, onTableStyle);
+    }
+
+    private void takeCardsTransition(TableChangedEvent event, List<ImageView> takenCards, Method onTableStyle) {
+        if(!takenCards.isEmpty())
+            for(ImageView card: takenCards) {
+                TakeCardTransition takeCardTransition = new TakeCardTransition(card, 700);
+                takeCardTransition.setOnFinished(ev -> {
                     animationPlaying = false;
                     refreshTable(event, onTableStyle);
-                }
-            });
-            transition.play();
-        } else
+                });
+                takeCardTransition.play();
+            }
+        else {
+            animationPlaying = false;
             refreshTable(event, onTableStyle);
+        }
+        if(receivedEndGameEvent) {
+            takeRemainingCardsTransition();
+        }
+    }
+
+    private void takeRemainingCardsTransition() {
+        List<ImageView> onTableCards = (List<ImageView>)(List<?>) new ArrayList<>(centralPane.getChildren());
+
+        animationPlaying = true;
+        for(ImageView card: onTableCards) {
+            TakeCardTransition takeCardTransition = new TakeCardTransition(card, 700);
+            takeCardTransition.setOnFinished(ev -> {
+                animationPlaying = false;
+                goToEndGameScene();
+            });
+            takeCardTransition.play();
+        }
+    }
+
+    private void goToEndGameScene() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        SceneLoader.changeScene("fxml/endgame.fxml");
+        SceneLoader.getCurrentController().handle(endGameEventBuffer);
     }
 
     private List<ImageView> difference(ObservableList<Node> a, List<ImageView> b) {

@@ -8,9 +8,6 @@ import javafx.application.Platform;
 public class EndGameResultsHandler implements EventHandler {
     @Override
     public void handle(Event event) {
-        Platform.runLater(() -> {
-            SceneLoader.changeScene("fxml/endgame.fxml");
-            SceneLoader.getCurrentController().handle(event);
-        });
+        SceneLoader.getCurrentController().handle(event);
     }
 }

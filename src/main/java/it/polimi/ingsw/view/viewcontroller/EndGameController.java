@@ -16,6 +16,7 @@ public class EndGameController implements ViewController {
     private GameResult firstTeamResult;
     private GameResult secondTeamResult;
     private static final String TICK_SYMBOL = "✓";
+    private static final String X_SYMBOL = "✕";
     private static final String DEUCE_SYMBOL = "-";
     @FXML
     GridPane resultTable;
@@ -52,7 +53,7 @@ public class EndGameController implements ViewController {
             winnersLabel.setText("Pareggio");
             return;
         }
-        winnersLabel.setText("Vincono " + winningTeam.getFirstPlayer() + " e " + winningTeam.getSecondPlayer());
+        winnersLabel.setText("Vincono " + winningTeam.getFirstPlayer() + " e " + winningTeam.getSecondPlayer() + "!");
     }
 
     private void setPoints() {
@@ -80,20 +81,21 @@ public class EndGameController implements ViewController {
             if(firstTeamResult.getPointsMade().contains(point)) {
                 label.setText(TICK_SYMBOL);
                 resultTable.add(label, 1,row);
+                label.setText(X_SYMBOL);
+                resultTable.add(label, 2,row);
             }
             else if(secondTeamResult.getPointsMade().contains(point)) {
                 label.setText(TICK_SYMBOL);
                 resultTable.add(label, 2,row);
+                label.setText(X_SYMBOL);
+                resultTable.add(label, 1,row);
             }
             else {
-                resultTable.add(new Label(DEUCE_SYMBOL), 1,row);
-                resultTable.add(new Label(DEUCE_SYMBOL), 2,row);
+                label.setText(DEUCE_SYMBOL);
+                resultTable.add(label, 1,row);
+                resultTable.add(label, 2,row);
             }
             row++;
         }
     }
-
-    /**
-     * Creates a Label that can go into a GridPane element
-     */
 }
