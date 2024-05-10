@@ -1,6 +1,8 @@
-package it.polimi.ingsw.controller.handlers;
+package it.polimi.ingsw.controller.handlers.server;
 
 import it.polimi.ingsw.controller.OnlineGameController;
+import it.polimi.ingsw.controller.handlers.server.BotTurnHandler;
+import it.polimi.ingsw.controller.handlers.server.EndGameHandler;
 import it.polimi.ingsw.events.EventHandler;
 import it.polimi.ingsw.events.EventTransmitter;
 import it.polimi.ingsw.events.data.*;

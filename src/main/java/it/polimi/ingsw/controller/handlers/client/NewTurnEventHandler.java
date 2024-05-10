@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller.handlers;
+package it.polimi.ingsw.controller.handlers.client;
 
 import it.polimi.ingsw.events.EventHandler;
 import it.polimi.ingsw.events.data.Event;

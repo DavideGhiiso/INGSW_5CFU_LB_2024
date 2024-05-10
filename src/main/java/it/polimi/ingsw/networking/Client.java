@@ -1,6 +1,6 @@
 package it.polimi.ingsw.networking;
 
-import it.polimi.ingsw.controller.handlers.*;
+import it.polimi.ingsw.controller.handlers.client.*;
 import it.polimi.ingsw.events.EventReceiver;
 import it.polimi.ingsw.events.data.BaseEvent;
 import it.polimi.ingsw.events.data.GameInfo;

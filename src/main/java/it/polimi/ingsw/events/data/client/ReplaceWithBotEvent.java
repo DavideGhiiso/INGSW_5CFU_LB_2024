@@ -1,6 +1,5 @@
 package it.polimi.ingsw.events.data.client;
 
-import it.polimi.ingsw.controller.handlers.ReplaceWithBotHandler;
 import it.polimi.ingsw.events.data.BaseEvent;
 
 public class ReplaceWithBotEvent extends BaseEvent {
