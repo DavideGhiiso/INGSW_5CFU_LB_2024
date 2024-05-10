@@ -18,7 +18,9 @@ public class StartGameClientHandler implements EventHandler {
             StartGameEvent startGameEvent = (StartGameEvent) event.getEvent();
             SceneLoader.getCurrentController().handle(new ScoreEvent(
                     startGameEvent.getFistTeamNames(),
-                    startGameEvent.getSecondTeamNames(),0,0));
+                    startGameEvent.getSecondTeamNames(),
+                    startGameEvent.getTeam1Points(),
+                    startGameEvent.getTeam2Points()));
         });
 
     }
