@@ -1,8 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.exceptions.MaxPlayersReachedException;
-import it.polimi.ingsw.utils.CardListUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,25 +17,40 @@ public class Team {
      */
     private final List<Card> takenCards;
     /**
-     * Number of "scopa" made by the team
+     * Number of "scopa" made by the team in the whole game
      */
-    private int scopa;
-    // true if the fist team was the last one to take a card
+    private int totalScopa;
+    /**
+     * Number of "scopa" made by the team in a round
+     */
+    private int roundScopa;
+    /**
+     * true if the fist team was the last one to take a card
+     */
     private boolean lastOneToTake;
 
 
     public Team() {
         this.players = new ArrayList<>();
         this.takenCards = new ArrayList<>();
-        this.scopa = 0;
+        this.totalScopa = 0;
+        this.roundScopa = 0;
     }
 
     public void addTakenCards(List<Card> newCards) {
         takenCards.addAll(newCards);
     }
 
-    public int getScopa() {
-        return scopa;
+    public int getTotalScopa() {
+        return totalScopa;
+    }
+    public int getRoundScopa() {
+        return roundScopa;
+    }
+
+    public void endRound() {
+        totalScopa += roundScopa;
+        roundScopa = 0;
     }
 
     public List<Player> getPlayers() {
@@ -46,7 +58,7 @@ public class Team {
     }
 
     public void addScopa() {
-        this.scopa++;
+        this.roundScopa++;
     }
 
     public void addPlayer(Player player) {

@@ -4,10 +4,12 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.bot.Bot;
 import it.polimi.ingsw.model.bot.Difficulty;
 import it.polimi.ingsw.model.bot.EasyDifficulty;
-import it.polimi.ingsw.model.bot.HardDifficulty;
 
 import java.util.List;
 
+/**
+ * Class used to control the game by manipulating the model. It contains the game instance, the player iterator and the bot
+ */
 public abstract class GameController {
     protected final Game game;
     protected Player currentPlayer;
@@ -16,7 +18,6 @@ public abstract class GameController {
     protected int team2Points = 0;
 
     protected Bot bot;
-    protected boolean isFirstTeamLastCatcher = true;
     protected Dealer dealer;
 
     protected GameController(Game game) {
@@ -83,14 +84,6 @@ public abstract class GameController {
         return game.getPlayers().stream().anyMatch(Player::isBot);
     }
 
-    public boolean isFirstTeamLastCatcher() {
-        return isFirstTeamLastCatcher;
-    }
-
-    public void setFirstTeamLastCatcher(boolean firstTeamLastCatcher) {
-        isFirstTeamLastCatcher = firstTeamLastCatcher;
-    }
-
     public void nextTurn() throws EndGameException {
         if (playerIterator.getTurnNumber() == 10) {
             throw new EndGameException();
@@ -103,6 +96,8 @@ public abstract class GameController {
         GameResult[] gameResults = getGamesResults();
         team1Points += gameResults[0].getTotalPoints();
         team2Points += gameResults[1].getTotalPoints();
+        game.getFirstTeam().endRound();
+        game.getSecondTeam().endRound();
         return gameResults;
     }
 
@@ -134,13 +129,13 @@ public abstract class GameController {
         PointsCalculator pointsCalculator = new PointsCalculator(team1.getTakenCards());
         GameResult team1GameResult = new GameResult(
                 pointsCalculator.getPoints(),
-                team1.getScopa(),
+                team1.getRoundScopa(),
                 team1.getPlayers().getFirst().getName(),
                 team1.getPlayers().getLast().getName());
         pointsCalculator = new PointsCalculator(team2.getTakenCards());
         GameResult team2GameResult = new GameResult(
                 pointsCalculator.getPoints(),
-                team2.getScopa(),
+                team2.getRoundScopa(),
                 team2.getPlayers().getFirst().getName(),
                 team2.getPlayers().getLast().getName());
         results[0] = team1GameResult;

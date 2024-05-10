@@ -5,11 +5,8 @@ import it.polimi.ingsw.events.EventHandler;
 import it.polimi.ingsw.events.EventTransmitter;
 import it.polimi.ingsw.events.data.ConnectionEvent;
 import it.polimi.ingsw.events.data.Event;
-import it.polimi.ingsw.events.data.server.JoinGameResponseEvent;
+import it.polimi.ingsw.events.data.server.*;
 import it.polimi.ingsw.events.data.client.JoinOnGoingGameEvent;
-import it.polimi.ingsw.events.data.server.NewTurnEvent;
-import it.polimi.ingsw.events.data.server.ScoreEvent;
-import it.polimi.ingsw.events.data.server.TableChangedEvent;
 import it.polimi.ingsw.model.exceptions.MaxPlayersReachedException;
 import it.polimi.ingsw.networking.Connection;
 import it.polimi.ingsw.events.Response;
@@ -26,8 +23,7 @@ public class JoinOnGoingGameHandler implements EventHandler {
     @Override
     public void handle(Event event) {
         Response response = Response.OK_ONGOING;
-        if(!(((ConnectionEvent) event).getEvent() instanceof JoinOnGoingGameEvent joinOnGoingGameEvent))
-            throw new ClassCastException();
+        JoinOnGoingGameEvent joinOnGoingGameEvent = (JoinOnGoingGameEvent) event.getEvent();
 
         Connection connection = event.getConnection();
         OnlineGameController onlineGameController = OnlineGameController.getInstance();
@@ -42,6 +38,9 @@ public class JoinOnGoingGameHandler implements EventHandler {
             connection.send(new JoinGameResponseEvent(response));
             EventHandler.broadcastScore(onlineGameController, Server.getInstance().getEventTransmitter());
             connection.send(new NewTurnEvent(onlineGameController.getCurrentPlayer().getName()));
+            if(event.getConnection().getConnectionID().equals(OnlineGameController.getInstance().getCurrentPlayer().getName())) {
+                new BotTurnHandler().handle(new BotTurnEvent());
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
