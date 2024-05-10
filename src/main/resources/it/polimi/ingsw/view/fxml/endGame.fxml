@@ -26,7 +26,7 @@
                 <Label text=" - "/>
                 <Label fx:id="team2Points"/>
             </HBox>
-            <GridPane alignment="CENTER" hgap="20" styleClass="table" fx:id="resultTable" >
+            <GridPane alignment="CENTER" hgap="20" styleClass="table" fx:id="resultTable">
                 <Label GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="team1Header">
                     a and b
                 </Label>
@@ -53,13 +53,34 @@
                 <padding>
                     <Insets bottom="20"/>
                 </padding>
-                <Button styleClass="button-clickable">
+                <Button styleClass="button-clickable" onAction="#onContinueButtonClick" fx:id="continueButton">
                     Continua
                 </Button>
-                <Button styleClass="button-clickable">
+                <Button styleClass="button-clickable" onAction="#onExitButtonClick">
                     Esci
                 </Button>
             </HBox>
+        </VBox>
+    </VBox>
+    <VBox alignment="BOTTOM_RIGHT"
+          visible="false"
+          fx:id="popup"
+          styleClass="popup-bg"
+          pickOnBounds="false">
+        <padding>
+            <Insets bottom="40" right="40"/>
+        </padding>
+        <VBox styleClass="popup" alignment="CENTER" pickOnBounds="false">
+
+            <VBox alignment="CENTER" spacing="20">
+                <padding>
+                    <Insets bottom="20" right="20" top="20" left="20"/>
+                </padding>
+                <Label wrapText="true"
+                       textAlignment="CENTER">
+                    La partita sta per ricominciare...
+                </Label>
+            </VBox>
         </VBox>
     </VBox>
 </StackPane>

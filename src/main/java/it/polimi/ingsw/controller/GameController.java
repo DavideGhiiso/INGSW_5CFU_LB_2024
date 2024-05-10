@@ -17,9 +17,11 @@ public abstract class GameController {
 
     protected Bot bot;
     protected boolean isFirstTeamLastCatcher = true;
+    protected Dealer dealer;
 
     protected GameController(Game game) {
         this.game = game;
+        dealer = new Dealer();
     }
 
     /**
@@ -54,6 +56,15 @@ public abstract class GameController {
                 game.getFirstTeam().getTakenCards(),
                 game.getSecondTeam().getTakenCards(),
                 game.getTable().getPlacedCards());
+    }
+
+    public void continueGame() {
+        playerIterator = new PlayerIterator(game.getPlayers());
+        currentPlayer = playerIterator.next();
+        dealer = new Dealer();
+        for(Player player: game.getPlayers()) {
+            player.setHand(dealer.getCardsHand());
+        }
     }
 
     public void setBotDifficulty(Difficulty difficulty) {

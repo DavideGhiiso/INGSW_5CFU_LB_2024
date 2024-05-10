@@ -15,12 +15,11 @@ import java.util.NoSuchElementException;
 
 public class OnlineGameController extends GameController {
     private static OnlineGameController instance = null;
-    private final Dealer dealer;
+
 
 
     private OnlineGameController(Game game) {
         super(game);
-        dealer = new Dealer();
     }
 
     public static OnlineGameController getInstance(Game game) {
@@ -102,7 +101,6 @@ public class OnlineGameController extends GameController {
             replaceClientWithBot(player);
         else
             removePlayer(player);
-        System.out.println("Handle: "+game.getPlayers());
     }
 
     private void replaceClientWithBot(Player player) {

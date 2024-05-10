@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Player {
     private String name;
-    private final List<Card> hand;
+    private List<Card> hand;
     private boolean isBot;
 
     public Player(String username, List<Card> generatedHand, boolean isBot) {
@@ -15,6 +15,10 @@ public class Player {
 
     public void playCard(Card card) {
         this.hand.remove(card);
+    }
+
+    public void setHand(List<Card> hand) {
+        this.hand = hand;
     }
 
     public String getName() {

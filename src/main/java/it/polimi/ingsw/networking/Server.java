@@ -103,6 +103,7 @@ public class Server extends Host {
         eventReceiver.attachEventHandler("REQUEST_GAME_INFO_EVENT", new RequestGameInfoHandler());
         eventReceiver.attachEventHandler("START_GAME_EVENT", new StartGameServerHandler());
         eventReceiver.attachEventHandler("PLACE_CARD_EVENT", new PlaceCardHandler());
+        eventReceiver.attachEventHandler("CONTINUE_GAME_EVENT", new ContinueGameHandler());
     }
 
     public ServerSocket getWelcomeSocket() {

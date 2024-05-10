@@ -54,3 +54,20 @@
     -fx-font-size: 25;
 }
 
+.winning-points {
+    -fx-text-fill: #ffdb76;
+    -fx-font-weight: bold;
+}
+
+.popup {
+    -fx-background-color: rgba(33, 86, 86, 0.56);
+    -fx-spacing: 20;
+    -fx-border-radius: 7px;
+    -fx-background-radius: 7px;
+    -fx-border-color: rgb(18, 66, 121);
+}
+
+.popup-bg {
+    -fx-fill-width: false;
+}
+
