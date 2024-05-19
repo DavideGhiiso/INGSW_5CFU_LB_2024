@@ -16,6 +16,7 @@ public class StartGameClientHandler implements EventHandler {
         Platform.runLater(() -> {
             SceneLoader.changeScene("fxml/ingame.fxml");
             StartGameEvent startGameEvent = (StartGameEvent) event.getEvent();
+
             SceneLoader.getCurrentController().handle(new ScoreEvent(
                     startGameEvent.getFistTeamNames(),
                     startGameEvent.getSecondTeamNames(),

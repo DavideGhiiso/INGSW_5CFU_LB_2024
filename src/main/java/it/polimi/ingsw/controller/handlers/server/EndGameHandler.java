@@ -17,14 +17,21 @@ import java.io.IOException;
 public class EndGameHandler implements EventHandler {
     @Override
     public void handle(Event event) {
-        GameResult[] gameResults = OnlineGameController.getInstance().endGame();
+        OnlineGameController onlineGameController = OnlineGameController.getInstance();
+        GameResult[] gameResults = onlineGameController.endGame();
         EndGameResult result = EndGameResult.DRAW;
         if(gameResults[0].getTotalPoints() > gameResults[1].getTotalPoints())
             result = EndGameResult.TEAM1;
         else if (gameResults[0].getTotalPoints() < gameResults[1].getTotalPoints())
             result = EndGameResult.TEAM2;
         try {
-            Server.getInstance().getEventTransmitter().broadcast(new EndGameResultsEvent(gameResults[0], gameResults[1], result));
+            Server.getInstance().getEventTransmitter().broadcast(
+                    new EndGameResultsEvent(
+                            gameResults[0],
+                            gameResults[1],
+                            result,
+                            onlineGameController.getTeam1Points(),
+                            onlineGameController.getTeam2Points()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

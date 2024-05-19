@@ -48,9 +48,13 @@ public class Team {
         return roundScopa;
     }
 
+    /**
+     * Method called when the round is ended. Resets the state of the team to the initial state
+     */
     public void endRound() {
         totalScopa += roundScopa;
         roundScopa = 0;
+        takenCards.clear();
     }
 
     public List<Player> getPlayers() {

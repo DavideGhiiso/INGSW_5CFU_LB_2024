@@ -8,7 +8,7 @@ import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.server.TableChangedEvent;
 import it.polimi.ingsw.events.data.server.NewTurnEvent;
 import it.polimi.ingsw.model.Card;
-import it.polimi.ingsw.model.EndGameException;
+import it.polimi.ingsw.model.exceptions.EndGameException;
 import it.polimi.ingsw.networking.Server;
 
 import java.io.IOException;

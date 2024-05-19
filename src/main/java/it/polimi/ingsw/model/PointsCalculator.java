@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.exceptions.IllegalCardConstructionException;
 import it.polimi.ingsw.utils.CardListUtils;
 
 import java.util.ArrayList;

@@ -11,11 +11,14 @@ import javafx.util.Duration;
 
 import java.net.URL;
 
+/**
+ * Transition wrapper class that, given an ImageView, animates it as if it was taken e.g. it rotates it by showing the back
+ */
 public class TakeCardTransition {
     private final ScaleTransition shrinkTransition;
     private final ScaleTransition growTransition;
     private boolean onFinishedSet = false;
-    private ImageView image;
+    private final ImageView image;
     public TakeCardTransition(ImageView image, double duration) {
         this.image = image;
         double initialScale = image.getScaleX();

@@ -21,12 +21,22 @@
             <Label fx:id="winnersLabel" styleClass="winners-label">
                 a and b
             </Label>
-            <HBox alignment="CENTER">
-                <Label fx:id="team1Points"/>
-                <Label text=" - "/>
-                <Label fx:id="team2Points"/>
-            </HBox>
-            <GridPane alignment="CENTER" hgap="20" styleClass="table" fx:id="resultTable">
+            <GridPane hgap="20" vgap="7" alignment="CENTER" fx:id="pointsGridPane">
+                <Label text="Round: " GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <Label fx:id="team1Points"/>
+                    <Label text=" - "/>
+                    <Label fx:id="team2Points"/>
+                </HBox>
+                <Label text="Totale: " GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <Label fx:id="team1PointsTotal"/>
+                    <Label text=" - "/>
+                    <Label fx:id="team2PointsTotal"/>
+                </HBox>
+            </GridPane>
+            <Separator/>
+            <GridPane alignment="CENTER" hgap="20" vgap="10" styleClass="table" fx:id="resultTable">
                 <Label GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="team1Header">
                     a and b
                 </Label>

@@ -1,11 +1,8 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.*;
-import org.junit.jupiter.api.BeforeAll;
+import it.polimi.ingsw.model.exceptions.IllegalCardConstructionException;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;

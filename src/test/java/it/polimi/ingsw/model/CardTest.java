@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Card;
-import it.polimi.ingsw.model.IllegalCardConstructionException;
-import it.polimi.ingsw.model.Suit;
+import it.polimi.ingsw.model.exceptions.IllegalCardConstructionException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;

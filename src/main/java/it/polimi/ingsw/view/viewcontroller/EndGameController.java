@@ -28,9 +28,13 @@ import java.util.ResourceBundle;
 public class EndGameController implements ViewController {
     private GameResult firstTeamResult;
     private GameResult secondTeamResult;
+    private int firstTeamTotalPoints;
+    private int secondTeamTotalPoints;
     private static final String TICK_SYMBOL = "✓";
     private static final String X_SYMBOL = "✕";
     private static final String DEUCE_SYMBOL = "-";
+    @FXML
+    GridPane pointsGridPane;
     @FXML
     Button continueButton;
     @FXML
@@ -41,6 +45,10 @@ public class EndGameController implements ViewController {
     Label team1Points;
     @FXML
     Label team2Points;
+    @FXML
+    Label team1PointsTotal;
+    @FXML
+    Label team2PointsTotal;
     @FXML
     Label team2Header;
     @FXML
@@ -64,6 +72,8 @@ public class EndGameController implements ViewController {
         EndGameResultsEvent endGameResultsEvent = (EndGameResultsEvent) event.getEvent();
         firstTeamResult = endGameResultsEvent.getFirstTeamResult();
         secondTeamResult = endGameResultsEvent.getSecondTeamResult();
+        firstTeamTotalPoints = endGameResultsEvent.getFirstTeamTotalPoints();
+        secondTeamTotalPoints = endGameResultsEvent.getSecondTeamTotalPoints();
         EndGameResult result = endGameResultsEvent.getResult();
         setWinnersLabel(result, result.equals(EndGameResult.TEAM1) ? firstTeamResult:secondTeamResult);
         setPoints();
@@ -80,19 +90,19 @@ public class EndGameController implements ViewController {
     }
 
     private void setPoints() {
-        int firstTeamPoints = firstTeamResult.getTotalPoints();
-        int secondTeamPoints = secondTeamResult.getTotalPoints();
-        if(firstTeamPoints >= 11 || secondTeamPoints >= 11)
+        if(firstTeamTotalPoints >= 11 || secondTeamTotalPoints >= 11)
             definitiveWinRoutine();
-        team1Points.setText(String.valueOf(firstTeamPoints));
-        if(firstTeamPoints >= 11 && firstTeamPoints >= secondTeamPoints)
-            team1Points.getStyleClass().add("winning-points");
+        team1Points.setText(String.valueOf(firstTeamResult.getTotalPoints()));
         team2Points.setText(String.valueOf(secondTeamResult.getTotalPoints()));
-        if(secondTeamPoints >= 11 && firstTeamPoints <= secondTeamPoints)
-            team1Points.getStyleClass().add("winning-points");
+        team1PointsTotal.setText(String.valueOf(firstTeamTotalPoints));
+        team2PointsTotal.setText(String.valueOf(secondTeamTotalPoints));
     }
 
     private void definitiveWinRoutine() {
+        if(firstTeamTotalPoints >= 11)
+            team1PointsTotal.getStyleClass().add("winning-points");
+        if(secondTeamTotalPoints >= 11)
+            team2PointsTotal.getStyleClass().add("winning-points");
         HBox buttonContainer = (HBox)continueButton.getParent();
         buttonContainer.getChildren().remove(continueButton);
         Button exitButton = (Button) buttonContainer.getChildren().getFirst();
@@ -102,12 +112,11 @@ public class EndGameController implements ViewController {
 
     private void onSeeResultsButtonClick(MouseEvent mouseEvent) {
         ((VBox)resultTable.getParent()).getChildren().remove(resultTable);
-        int firstTeamPoints = firstTeamResult.getTotalPoints();
-        int secondTeamPoints = secondTeamResult.getTotalPoints();
         GameResult winningTeam = null;
-        if(firstTeamPoints > secondTeamPoints)
+        pointsGridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0);
+        if(firstTeamTotalPoints > secondTeamTotalPoints)
             winningTeam = firstTeamResult;
-        else if (firstTeamPoints < secondTeamPoints)
+        else if (firstTeamTotalPoints < secondTeamTotalPoints)
             winningTeam = secondTeamResult;
         if(winningTeam != null)
             winnersLabel.setText("Vincono " + winningTeam.getFirstPlayer() + " e " + winningTeam.getSecondPlayer() + "!");

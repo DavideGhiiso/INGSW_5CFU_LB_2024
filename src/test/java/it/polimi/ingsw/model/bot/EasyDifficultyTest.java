@@ -2,10 +2,8 @@ package it.polimi.ingsw.model.bot;
 
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.Dealer;
-import it.polimi.ingsw.model.IllegalCardConstructionException;
+import it.polimi.ingsw.model.exceptions.IllegalCardConstructionException;
 import it.polimi.ingsw.model.Suit;
-import it.polimi.ingsw.model.bot.EasyDifficulty;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

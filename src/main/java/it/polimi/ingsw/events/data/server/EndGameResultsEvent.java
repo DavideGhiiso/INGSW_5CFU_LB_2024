@@ -9,13 +9,16 @@ public class EndGameResultsEvent extends BaseEvent {
     private final EndGameResult result;
     private final GameResult firstTeamResult;
     private final GameResult secondTeamResult;
+    private final int firstTeamTotalPoints;
+    private final int secondTeamTotalPoints;
 
-    public EndGameResultsEvent(GameResult firstTeamResult, GameResult secondTeamResult, EndGameResult result) {
+    public EndGameResultsEvent(GameResult firstTeamResult, GameResult secondTeamResult, EndGameResult result, int firstTeamTotalPoints, int secondTeamTotalPoints) {
         this.result = result;
         ID = "END_GAME_RESULTS_EVENT";
         this.firstTeamResult = firstTeamResult;
         this.secondTeamResult = secondTeamResult;
-
+        this.firstTeamTotalPoints = firstTeamTotalPoints;
+        this.secondTeamTotalPoints = secondTeamTotalPoints;
     }
 
     public EndGameResult getResult() {
@@ -28,5 +31,13 @@ public class EndGameResultsEvent extends BaseEvent {
 
     public GameResult getSecondTeamResult() {
         return secondTeamResult;
+    }
+
+    public int getFirstTeamTotalPoints() {
+        return firstTeamTotalPoints;
+    }
+
+    public int getSecondTeamTotalPoints() {
+        return secondTeamTotalPoints;
     }
 }

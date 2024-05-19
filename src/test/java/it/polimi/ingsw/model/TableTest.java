@@ -1,16 +1,10 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Card;
-import it.polimi.ingsw.model.IllegalCardConstructionException;
-import it.polimi.ingsw.model.Suit;
-import it.polimi.ingsw.model.Table;
+import it.polimi.ingsw.model.exceptions.IllegalCardConstructionException;
 import it.polimi.ingsw.utils.CardListUtils;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.ReflectionUtils;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 

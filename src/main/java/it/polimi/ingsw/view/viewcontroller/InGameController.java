@@ -8,7 +8,7 @@ import it.polimi.ingsw.events.data.server.NewTurnEvent;
 import it.polimi.ingsw.events.data.server.ScoreEvent;
 import it.polimi.ingsw.events.data.server.TableChangedEvent;
 import it.polimi.ingsw.model.Card;
-import it.polimi.ingsw.model.IllegalCardConstructionException;
+import it.polimi.ingsw.model.exceptions.IllegalCardConstructionException;
 import it.polimi.ingsw.model.Suit;
 import it.polimi.ingsw.networking.Client;
 import it.polimi.ingsw.view.SceneLoader;
@@ -201,7 +201,7 @@ public class InGameController implements ViewController, Initializable {
         northLabel.setText(teamNames.get(2));
         westLabel.setText(teamNames.get(3));
         team1Label.setText(event.getFirstTeamPoints() + "");
-        team1Label.setText(event.getSecondTeamPoints() + "");
+        team2Label.setText(event.getSecondTeamPoints() + "");
         if((selfIndex%2)!=0)
             classes = new String[]{"team2Label", "team1Label"};
         southLabel.getStyleClass().add(classes[0]);
@@ -259,7 +259,10 @@ public class InGameController implements ViewController, Initializable {
 
     private void takeRemainingCardsTransition() {
         List<ImageView> onTableCards = (List<ImageView>)(List<?>) new ArrayList<>(centralPane.getChildren());
-
+        if(onTableCards.isEmpty()) {
+            goToEndGameScene();
+            return;
+        }
         animationPlaying = true;
         for(ImageView card: onTableCards) {
             TakeCardTransition takeCardTransition = new TakeCardTransition(card, 700);
@@ -273,7 +276,7 @@ public class InGameController implements ViewController, Initializable {
 
     private void goToEndGameScene() {
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

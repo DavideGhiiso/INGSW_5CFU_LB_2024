@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.bot.Bot;
 import it.polimi.ingsw.model.bot.Difficulty;
 import it.polimi.ingsw.model.bot.EasyDifficulty;
+import it.polimi.ingsw.model.exceptions.EndGameException;
 
 import java.util.List;
 
