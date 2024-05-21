@@ -1,16 +1,20 @@
 package it.polimi.ingsw.view.viewcontroller;
 
+import it.polimi.ingsw.controller.OfflineGameController;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.GameInfo;
+import it.polimi.ingsw.events.data.client.ChangeBotDifficultyEvent;
 import it.polimi.ingsw.events.data.client.PlaceCardEvent;
 import it.polimi.ingsw.events.data.server.HandChangedEvent;
 import it.polimi.ingsw.events.data.server.NewTurnEvent;
 import it.polimi.ingsw.events.data.server.ScoreEvent;
 import it.polimi.ingsw.events.data.server.TableChangedEvent;
 import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.bot.Difficulties;
 import it.polimi.ingsw.model.exceptions.IllegalCardConstructionException;
 import it.polimi.ingsw.model.Suit;
 import it.polimi.ingsw.networking.Client;
+import it.polimi.ingsw.view.PlayerView;
 import it.polimi.ingsw.view.SceneLoader;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.viewcontroller.transitions.TablePlacementTransition;
@@ -20,8 +24,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -61,13 +67,25 @@ public class InGameController implements ViewController, Initializable {
     HBox bottomPane;
     @FXML
     VBox popup;
+    @FXML
+    Button exitButton;
+    @FXML
+    VBox menuWrapper;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        PlayerView playerView = SceneLoader.getPlayerView();
+        usernameLabel.setText(SceneLoader.getPlayerView().getUsername());
+        if(playerView.isOffline()) {
+            addDifficultyChanger();
+            setOffline();
+            return;
+        }
+        if(playerView.isYourTurn())
+            addDifficultyChanger();
         Client client = Client.getInstance();
         client.requestInfo(GameInfo.CURRENT_TABLE);
         client.requestInfo(GameInfo.CURRENT_HAND);
-        usernameLabel.setText(SceneLoader.getPlayerView().getUsername());
     }
 
     /**
@@ -320,9 +338,17 @@ public class InGameController implements ViewController, Initializable {
         Client.getInstance().send(new PlaceCardEvent(urlToCard(selectedCard.getImage().getUrl())));
     }
 
+    public void onPlayCardOfflineButtonClick(ActionEvent actionEvent) {
+
+    }
+
     public void onExitGameButtonClick(ActionEvent actionEvent) {
         Platform.runLater(() -> SceneLoader.changeScene("fxml/menu.fxml"));
         Client.getInstance().stop();
+    }
+
+    public void onExitOfflineGameButtonClick(ActionEvent actionEvent) {
+        Platform.runLater(() -> SceneLoader.changeScene("fxml/menu.fxml"));
     }
 
     private Card urlToCard(String url) {
@@ -334,5 +360,36 @@ public class InGameController implements ViewController, Initializable {
         } catch (IllegalCardConstructionException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void setOffline() {
+        playCardButton.setOnAction(this::onPlayCardOfflineButtonClick);
+        exitButton.setOnAction(this::onExitOfflineGameButtonClick);
+    }
+    private void addDifficultyChanger() {
+        VBox wrapper = new VBox();
+        ComboBox<String> comboBox = new ComboBox<>();
+        wrapper.setAlignment(Pos.CENTER);
+        comboBox.getItems().addAll("Facile", "Media", "Difficile");
+        comboBox.getSelectionModel().selectFirst();
+        comboBox.setOnAction(this::onDifficultyChange);
+
+        wrapper.setSpacing(15);
+        wrapper.getChildren().add(new Label("Difficoltà CPU:"));
+        wrapper.getChildren().add(comboBox);
+        menuWrapper.getChildren().add(1,wrapper);
+    }
+
+    public void onDifficultyChange(ActionEvent actionEvent) {
+        Difficulties newDifficulty = Difficulties.valueOf(
+                ((ComboBox) actionEvent.getSource())
+                        .getValue()
+                        .toString()
+                        .toUpperCase()
+        );
+        if(SceneLoader.getPlayerView().isOffline())
+            OfflineGameController.getInstance().setBotDifficulty(newDifficulty);
+        else
+            Client.getInstance().send(new ChangeBotDifficultyEvent(newDifficulty));
     }
 }

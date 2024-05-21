@@ -109,12 +109,15 @@
                  onAction="#onClosePopupClick">
             ✖
          </Button>
-         <VBox alignment="CENTER" spacing="20">
+         <VBox alignment="CENTER" spacing="20" fx:id="menuWrapper">
+            <padding>
+               <Insets bottom="20"/>
+            </padding>
             <Label wrapText="true"
-                   textAlignment="CENTER">
+                   textAlignment="CENTER" styleClass="menu-label">
                Menu
             </Label>
-            <Button onAction="#onExitGameButtonClick" styleClass="button-clickable">
+            <Button fx:id="exitButton" onAction="#onExitGameButtonClick" styleClass="button-clickable">
                Esci dal gioco
             </Button>
          </VBox>

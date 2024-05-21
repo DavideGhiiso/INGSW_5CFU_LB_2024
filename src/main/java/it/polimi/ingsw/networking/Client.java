@@ -1,6 +1,7 @@
 package it.polimi.ingsw.networking;
 
 import it.polimi.ingsw.controller.handlers.client.*;
+import it.polimi.ingsw.controller.handlers.server.ChangeBotDifficultyHandler;
 import it.polimi.ingsw.events.EventReceiver;
 import it.polimi.ingsw.events.data.BaseEvent;
 import it.polimi.ingsw.events.data.GameInfo;
@@ -72,7 +73,7 @@ public class Client extends Host {
         eventReceiver.attachEventHandler("USERNAME_CHANGED_EVENT", new UsernameChangedHandler());
         eventReceiver.attachEventHandler("GAME_RESUME_EVENT", new GameResumeHandler());
         eventReceiver.attachEventHandler("GAME_RESUMING_WARNING_EVENT", new GameResumingWarningHandler());
-
+        eventReceiver.attachEventHandler("CHANGE_BOT_DIFFICULTY_EVENT", new ChangeBotDifficultyHandler(true));
     }
     public void send(BaseEvent event) {
         try {

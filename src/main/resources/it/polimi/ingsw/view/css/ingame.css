@@ -127,3 +127,7 @@ StackPane * {
     -fx-font-weight: bold;
     -fx-font-size: 30px;
 }
+
+.menu-label {
+    -fx-font-size: 25pt;
+}

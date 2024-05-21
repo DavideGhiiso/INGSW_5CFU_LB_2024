@@ -8,7 +8,17 @@ import it.polimi.ingsw.model.exceptions.MaxPlayersReachedException;
 import java.util.Iterator;
 
 public class OfflineGameController extends GameController {
+    private static OfflineGameController instance = null;
+
     public final String DEFAULT_OFFLINE_GAME = "Tu";
+
+    public static OfflineGameController getInstance() {
+        return instance;
+    }
+    public static OfflineGameController getInstance(Game game) {
+        if(instance == null) instance = new OfflineGameController(game);
+        return instance;
+    }
 
     public OfflineGameController(Game game) {
         super(game);

@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 public class PlayerView {
     private boolean yourTurn;
     private String username;
+    private boolean offline;
 
     public PlayerView() {
         this.yourTurn = false;
@@ -23,5 +24,13 @@ public class PlayerView {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public boolean isOffline() {
+        return offline;
+    }
+
+    public void setOffline(boolean offline) {
+        this.offline = offline;
     }
 }
