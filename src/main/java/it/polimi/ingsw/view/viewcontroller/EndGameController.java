@@ -107,10 +107,12 @@ public class EndGameController implements ViewController {
         buttonContainer.getChildren().remove(continueButton);
         Button exitButton = (Button) buttonContainer.getChildren().getFirst();
         exitButton.setText("Vedi risultati");
-        exitButton.setOnMouseClicked(this::onSeeResultsButtonClick);
+        exitButton.setOnAction(e -> onSeeResultsButtonClick(e, exitButton));
     }
 
-    private void onSeeResultsButtonClick(MouseEvent mouseEvent) {
+    private void onSeeResultsButtonClick(ActionEvent actionEvent, Button exitButton) {
+        exitButton.setText("Esci");
+        exitButton.setOnAction(this::onExitButtonClick);
         ((VBox)resultTable.getParent()).getChildren().remove(resultTable);
         GameResult winningTeam = null;
         pointsGridPane.getChildren().removeIf(node -> GridPane.getRowIndex(node) == 0);

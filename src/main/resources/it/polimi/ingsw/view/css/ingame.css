@@ -52,7 +52,7 @@ StackPane * {
 }
 
 .team1Label {
-    -fx-text-fill: rgb(245, 102, 102);
+    -fx-text-fill: rgb(252, 131, 131);
 }
 
 .team2Label {
@@ -61,6 +61,7 @@ StackPane * {
 
 .current-player-label .text {
     -fx-underline: true;
+    -fx-font-weight: bold;
 }
 
 .bottom-pane-container {
