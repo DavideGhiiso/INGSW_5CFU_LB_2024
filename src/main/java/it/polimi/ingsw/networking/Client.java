@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 /**
  * Singleton class that contains all fundamental methods to handle a client
  */
-public class Client extends Host {
+public class Client {
     private static Client instance = null;
     private final EventReceiver eventReceiver;
     private Connection serverConnection;
