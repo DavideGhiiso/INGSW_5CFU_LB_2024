@@ -9,14 +9,14 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public abstract class Difficulty {
-    protected static int IN_HAND_VALUE_WEIGHT = 30;
-    protected static int TAKEN_CARDS_WEIGHT = 40;
-    protected static int SCOPA_RISK_WEIGHT = 60;
-    protected static int SEVEN_RISK_WEIGHT = 50;
-    protected static int DOES_SCOPA_WEIGHT = 100;
-    protected static int GOLD_PROFICIENCY_WEIGHT = 60;
-    protected static int SEVEN_PROFICIENCY_WEIGHT = 60;
-    protected static int TAKES_SEVEN_WEIGHT = 60;
+    protected static int IN_HAND_VALUE_WEIGHT = 5; // Prioritizes low number cards with more intensity in the first turns
+    protected static int TAKEN_CARDS_WEIGHT = 20; // Prioritizes cards that takes card
+    protected static int DOES_SCOPA_WEIGHT = 100; // Prioritizes cards that does Scopa
+    protected static int SEVEN_PROFICIENCY_WEIGHT = 70; // prioritizes its placement only if it takes at least a card
+    protected static int SCOPA_RISK_WEIGHT = 90; // Calculates the risk that by placing this card the next player might do scopa
+    protected static int SEVEN_RISK_WEIGHT = 70; // Calculates the risk that by placing this card the next player might take a seven.
+    protected static int GOLD_PROFICIENCY_WEIGHT = 60; // If it's a GOLDS, prioritizes its placement only if it takes at least a card
+    protected static int TAKES_SEVEN_WEIGHT = 60; // Prioritizes its placement if it takes a 7
     public abstract Card chooseCard(List<Card> inHandList, List<Card> onTableList, List<Card> playedCards);
 
     /**
@@ -41,6 +41,24 @@ public abstract class Difficulty {
         return finalOnTableList;
     }
 
+    protected Card getCardWithMaxWeight(List<Card> inHandList, List<Card> onTableList, List<Card> playedCards) {
+        Card returnCard = inHandList.getFirst();
+        double maxWeight = 0;
+
+        for(Card card: inHandList) {
+            double currentWeight = calculateWeight(card, inHandList, onTableList, playedCards);
+            System.out.println(card+": "+currentWeight);
+            if (currentWeight > maxWeight) {
+                maxWeight = currentWeight;
+                returnCard = card;
+            }
+        }
+        System.out.println("Selected: " + returnCard +"\n");
+        return returnCard;
+    }
+
+    protected abstract double calculateWeight(Card card, List<Card> inHandList, List<Card> onTableList, List<Card> playedCards);
+
     /**
      * Prioritizes low number cards with more intensity in the first turns
      */
@@ -54,7 +72,7 @@ public abstract class Difficulty {
      * This weight is always positive or 0
      */
     protected static double calculateTakenCardsProficiency(Card card, List<Card> onTableList, List<Card> onTableListIfPlaced) {
-        double result = (onTableList.size() - onTableListIfPlaced.size()) * TAKEN_CARDS_WEIGHT;;
+        double result = (onTableList.size() - onTableListIfPlaced.size()) * TAKEN_CARDS_WEIGHT;
         return result >= 0 ? result : 0;
     }
 
@@ -128,5 +146,27 @@ public abstract class Difficulty {
      */
     protected static boolean hasTakenACard(List<Card> onTableList, List<Card> onTableListIfPlaced) {
         return onTableList.size() > onTableListIfPlaced.size();
+    }
+
+    protected static double getSumOfWeight(Card card, List<Card> inHandList, List<Card> onTableList, List<Card> onTableListIfPlaced) {
+        return calculateInHandValueProficiency(card, inHandList) +
+                calculateTakenCardsProficiency(card, onTableList, onTableListIfPlaced) +
+                calculateDoesScopaProficiency(onTableListIfPlaced) +
+                calculateSevenProficiency(card, onTableList, onTableListIfPlaced) +
+                calculateGoldProficiency(card, onTableList, onTableListIfPlaced) +
+                calculateScopaRisk(onTableList, onTableListIfPlaced, inHandList) +
+                calculateSevenRisk(onTableListIfPlaced, inHandList) +
+                calculateTakesSevenProficiency(card, onTableList, onTableListIfPlaced);
+    }
+
+    protected static double getSumOfWeight(Card card, List<Card> inHandList, List<Card> onTableList, List<Card> onTableListIfPlaced, List<Card> inHandAndPlayedCards) {
+        return calculateInHandValueProficiency(card, inHandList) +
+                calculateTakenCardsProficiency(card, onTableList, onTableListIfPlaced) +
+                calculateDoesScopaProficiency(onTableListIfPlaced) +
+                calculateSevenProficiency(card, onTableList, onTableListIfPlaced) +
+                calculateGoldProficiency(card, onTableList, onTableListIfPlaced) +
+                calculateScopaRisk(onTableList, onTableListIfPlaced, inHandAndPlayedCards) +
+                calculateSevenRisk(onTableListIfPlaced, inHandAndPlayedCards) +
+                calculateTakesSevenProficiency(card, onTableList, onTableListIfPlaced);
     }
 }

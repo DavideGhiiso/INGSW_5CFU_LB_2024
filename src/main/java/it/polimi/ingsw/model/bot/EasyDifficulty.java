@@ -6,6 +6,7 @@ import it.polimi.ingsw.utils.CardListUtils;
 import java.util.List;
 
 public class EasyDifficulty extends Difficulty {
+    private static final int UNCERTAINTY_WEIGHT = 20; // Weight that adds a certain level of uncertainty to the bot choice
     public EasyDifficulty() {
     }
     @Override
@@ -15,32 +16,15 @@ public class EasyDifficulty extends Difficulty {
             return CardListUtils.cardWithHighestCount(inHandList);
         }
 
-        Card returnCard = inHandList.getFirst();
-        double maxWeight = 0;
-
-        for(Card card: inHandList) {
-            double currentWeight = calculateWeight(card, inHandList, onTableList, playedCards);
-//            System.out.println(card+": "+currentWeight);
-            if (currentWeight > maxWeight) {
-                maxWeight = currentWeight;
-                returnCard = card;
-            }
-        }
-        return returnCard;
+        return getCardWithMaxWeight(inHandList, onTableList, playedCards);
     }
 
-    private static double calculateWeight(Card card, List<Card> inHandList, List<Card> onTableList, List<Card> playedCards) {
+     protected double calculateWeight(Card card, List<Card> inHandList, List<Card> onTableList, List<Card> playedCards) {
         List<Card> onTableListIfPlaced = Difficulty.simulatePlacement(card, onTableList);
         //debugPrint(card, inHandList, onTableList, onTableListIfPlaced);
-
-        return  calculateInHandValueProficiency(card, inHandList) +
-                calculateTakenCardsProficiency(card, onTableList, onTableListIfPlaced) +
-                calculateDoesScopaProficiency(onTableListIfPlaced) +
-                calculateSevenProficiency(card, onTableList, onTableListIfPlaced) +
-                calculateGoldProficiency(card, onTableList, onTableListIfPlaced) +
-                calculateScopaRisk(onTableList, onTableListIfPlaced, inHandList) +
-                calculateSevenRisk(onTableListIfPlaced, inHandList) +
-                calculateTakesSevenProficiency(card, onTableList, onTableListIfPlaced);
+        int uncertainty = (int)((Math.random() - 0.5)*UNCERTAINTY_WEIGHT);
+         System.out.println("Unc: "+uncertainty);
+        return getSumOfWeight(card, inHandList, onTableList, onTableListIfPlaced) + uncertainty;
     }
 
     /**
