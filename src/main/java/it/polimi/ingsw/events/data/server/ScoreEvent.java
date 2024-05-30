@@ -1,6 +1,7 @@
 package it.polimi.ingsw.events.data.server;
 
 import it.polimi.ingsw.events.data.BaseEvent;
+import it.polimi.ingsw.model.Player;
 
 import java.util.Arrays;
 
@@ -16,6 +17,15 @@ public class ScoreEvent extends BaseEvent {
         this.secondTeamNames = secondTeamNames;
         this.firstTeamPoints = firstTeamPoints;
         this.secondTeamPoints = secondTeamPoints;
+    }
+
+    public ScoreEvent(Player[] firstTeam, Player[] secondTeam, int firstTeamPoints, int secondTeamPoints) {
+        this(
+                new String[]{firstTeam[0].getName(), firstTeam[1].getName()},
+                new String[]{secondTeam[0].getName(), secondTeam[1].getName()},
+                firstTeamPoints,
+                secondTeamPoints
+        );
     }
 
     public String[] getFistTeamNames() {

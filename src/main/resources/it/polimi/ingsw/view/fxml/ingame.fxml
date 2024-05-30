@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.shape.Circle?>
 <StackPane prefHeight="720.0"
            prefWidth="1280.0"
            xmlns="http://javafx.com/javafx/21"
@@ -88,7 +89,7 @@
             </HBox>
             <StackPane alignment="CENTER_RIGHT" pickOnBounds="false">
                <padding>
-                  <Insets right="30.0"/>
+                  <Insets right="60.0"/>
                </padding>
                <Button styleClass="button-clickable, play-button"
                        onAction="#onPlayCardButtonClick"
@@ -105,10 +106,13 @@
          fx:id="popup"
          styleClass="popup-bg">
       <VBox styleClass="popup">
-         <Button styleClass="button-clickable, back-popup-button"
-                 onAction="#onClosePopupClick">
-            ✖
-         </Button>
+         <StackPane VBox.vgrow="NEVER" styleClass="back-popup-button">
+            <Circle radius="25"/>
+            <Button styleClass="button-clickable"
+                    onAction="#onClosePopupClick">
+               ✖
+            </Button>
+         </StackPane>
          <VBox alignment="CENTER" spacing="20" fx:id="menuWrapper">
             <padding>
                <Insets bottom="20"/>

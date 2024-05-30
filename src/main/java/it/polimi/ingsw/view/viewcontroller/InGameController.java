@@ -5,10 +5,7 @@ import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.GameInfo;
 import it.polimi.ingsw.events.data.client.ChangeBotDifficultyEvent;
 import it.polimi.ingsw.events.data.client.PlaceCardEvent;
-import it.polimi.ingsw.events.data.server.HandChangedEvent;
-import it.polimi.ingsw.events.data.server.NewTurnEvent;
-import it.polimi.ingsw.events.data.server.ScoreEvent;
-import it.polimi.ingsw.events.data.server.TableChangedEvent;
+import it.polimi.ingsw.events.data.server.*;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.bot.Difficulties;
 import it.polimi.ingsw.model.exceptions.IllegalCardConstructionException;
@@ -78,7 +75,7 @@ public class InGameController implements ViewController, Initializable {
         usernameLabel.setText(SceneLoader.getPlayerView().getUsername());
         if(playerView.isOffline()) {
             addDifficultyChanger();
-            setOffline();
+            offlineGameRoutine();
             return;
         }
         if(playerView.isYourTurn())
@@ -93,6 +90,8 @@ public class InGameController implements ViewController, Initializable {
      * @see ScoreEvent
      * @see TableChangedEvent
      * @see NewTurnEvent
+     * @see ChangeBotDifficultyEvent
+     * @see EndGameResultsEvent
      */
     @Override
     public void handle(Event event) {
@@ -100,8 +99,9 @@ public class InGameController implements ViewController, Initializable {
             switch (event.getID()) {
                 case "HAND_CHANGED_EVENT" -> updateHand((HandChangedEvent) event);
                 case "SCORE_EVENT" -> updateScore((ScoreEvent) event);
-                case "TABLE_CHANGED_EVENT" -> updateTable((TableChangedEvent) event);
+                case "TABLE_CHANGED_EVENT" -> onTableUpdate((TableChangedEvent) event);
                 case "NEW_TURN_EVENT" -> updateCurrentPlayer((NewTurnEvent) event);
+                case "CHANGE_BOT_DIFFICULTY_EVENT" -> onChangeBotDifficulty(((ChangeBotDifficultyEvent)event).getDifficulty());
                 case "END_GAME_RESULTS_EVENT" -> {
                     receivedEndGameEvent = true;
                     endGameEventBuffer = event;
@@ -109,7 +109,9 @@ public class InGameController implements ViewController, Initializable {
             }
         });
     }
-
+    private void onChangeBotDifficulty(Difficulties difficulty) {
+        //TODO
+    }
 
     public void onMenuButtonClicked(ActionEvent actionEvent) {
         if(((Button)actionEvent.getSource()).getStyleClass().contains("button-non-clickable"))
@@ -213,7 +215,7 @@ public class InGameController implements ViewController, Initializable {
         teamNames.add(event.getFistTeamNames()[1]);
         teamNames.add(event.getSecondTeamNames()[1]);
         int selfIndex = teamNames.indexOf(SceneLoader.getPlayerView().getUsername());
-        teamNames = sortPlayers(teamNames,selfIndex);
+        teamNames = sortPlayers(teamNames, selfIndex);
         southLabel.setText(teamNames.getFirst());
         eastLabel.setText(teamNames.get(1));
         northLabel.setText(teamNames.get(2));
@@ -230,14 +232,13 @@ public class InGameController implements ViewController, Initializable {
 
     private List<String> sortPlayers(List<String> players, int selfIndex) {
         List<String> result = new ArrayList<>();
-
         for(int idx=0; idx < players.size(); idx++) {
             result.add(idx, players.get((idx + selfIndex) % players.size())); // TODO: handle IndexOutOfBounds
         }
         return result;
     }
 
-    private void updateTable(TableChangedEvent event) {
+    private void onTableUpdate(TableChangedEvent event) {
         Method onTableStyle;
         try {
             onTableStyle = InGameController.class.getMethod("onTableStyle", ImageView.class);
@@ -315,9 +316,15 @@ public class InGameController implements ViewController, Initializable {
     }
 
     private void refreshTable(TableChangedEvent event, Method onTableStyle) {
-        centralPane.getChildren().clear();
-        centralPane.getChildren().addAll(getCardsImageViews(event.getCards(), onTableStyle));
+        List<Card> cards = event.getCards();
+        updateTable(onTableStyle, cards);
     }
+
+    private void updateTable(Method onTableStyle, List<Card> cards) {
+        centralPane.getChildren().clear();
+        centralPane.getChildren().addAll(getCardsImageViews(cards, onTableStyle));
+    }
+
 
     private void updateCurrentPlayer(NewTurnEvent event) {
         List<Label> labels = new ArrayList<>();
@@ -339,7 +346,11 @@ public class InGameController implements ViewController, Initializable {
     }
 
     public void onPlayCardOfflineButtonClick(ActionEvent actionEvent) {
-
+        OfflineGameController offlineGameController = OfflineGameController.getInstance();
+        playCardButton.setVisible(false);
+        SceneLoader.getPlayerView().setYourTurn(false);
+        Card placedCard = urlToCard(selectedCard.getImage().getUrl());
+        new Thread(() -> offlineGameController.placeCardAndPlayBot(placedCard)).start();
     }
 
     public void onExitGameButtonClick(ActionEvent actionEvent) {
@@ -362,10 +373,15 @@ public class InGameController implements ViewController, Initializable {
         }
     }
 
-    private void setOffline() {
+    private void offlineGameRoutine() {
+        OfflineGameController offlineGameController = OfflineGameController.getInstance();
+        offlineGameController.setObserver(this);
+        offlineGameController.startGame();
+        usernameLabel.setVisible(false);
         playCardButton.setOnAction(this::onPlayCardOfflineButtonClick);
         exitButton.setOnAction(this::onExitOfflineGameButtonClick);
     }
+
     private void addDifficultyChanger() {
         VBox wrapper = new VBox();
         ComboBox<String> comboBox = new ComboBox<>();
@@ -381,12 +397,17 @@ public class InGameController implements ViewController, Initializable {
     }
 
     public void onDifficultyChange(ActionEvent actionEvent) {
-        Difficulties newDifficulty = Difficulties.valueOf(
-                ((ComboBox) actionEvent.getSource())
-                        .getValue()
-                        .toString()
-                        .toUpperCase()
-        );
+        Difficulties newDifficulty =
+                switch (((ComboBox) actionEvent.getSource())
+                    .getValue()
+                    .toString()
+                    .toUpperCase()
+                ) {
+                    case "FACILE" -> Difficulties.EASY;
+                    case "MEDIA" -> Difficulties.MEDIUM;
+                    case "DIFFICILE" -> Difficulties.HARD;
+                    default -> Difficulties.HARD;
+                };
         if(SceneLoader.getPlayerView().isOffline())
             OfflineGameController.getInstance().setBotDifficulty(newDifficulty);
         else

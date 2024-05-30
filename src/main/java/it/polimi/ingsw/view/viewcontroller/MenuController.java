@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.OfflineGameController;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.view.PlayerView;
 import it.polimi.ingsw.view.SceneLoader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -20,7 +21,10 @@ public class MenuController implements ViewController {
     }
 
     public void onOfflineButtonClick(ActionEvent actionEvent) {
-        SceneLoader.getPlayerView().setOffline(true);
+        PlayerView playerView = SceneLoader.getPlayerView();
+        playerView.setOffline(true);
+        playerView.setUsername(OfflineGameController.DEFAULT_OFFLINE_GAME);
+        playerView.setYourTurn(true);
         OfflineGameController.getInstance(new Game());
         Platform.runLater(() -> SceneLoader.changeScene("fxml/ingame.fxml"));
     }

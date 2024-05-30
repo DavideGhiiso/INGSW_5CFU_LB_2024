@@ -18,37 +18,23 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @see it.polimi.ingsw.events.data.client.PlaceCardEvent
+ * Places card on table and notifies all clients, sends the new hand to current player and advances turn.
+ * If the game is over, starts the end game routine
+ * @see PlaceCardEvent
  */
 public class PlaceCardHandler implements EventHandler {
     @Override
     public void handle(Event event) {
-
-        if(event.isLocal())
-            handleOfflineEvent((PlaceCardEvent) event.getEvent());
-        else
-            handleOnlineEvent((PlaceCardEvent) event.getEvent(), event.getConnection());
-
-    }
-
-    private void handleOfflineEvent(PlaceCardEvent event) {
-
-    }
-
-    /**
-     * Places card on table and notifies all clients, sends the new hand to current player and advances turn.
-     * If the game is over, starts the end game routine
-     */
-    private void handleOnlineEvent(PlaceCardEvent event, Connection connection) {
+        PlaceCardEvent placeCardEvent = (PlaceCardEvent) event.getEvent();
         OnlineGameController onlineGameController = OnlineGameController.getInstance();
         EventTransmitter eventTransmitter = Server.getInstance().getEventTransmitter();
-        List<Card> cardOnTable = onlineGameController.placeCard(event.getCard());
+        List<Card> cardOnTable = onlineGameController.placeCard(placeCardEvent.getCard());
         List<Card> currentPlayerHand = onlineGameController.getCurrentPlayer().getHand();
         try {
             // sends new table to everyone
-            eventTransmitter.broadcast(new TableChangedEvent(cardOnTable, event.getCard()));
+            eventTransmitter.broadcast(new TableChangedEvent(cardOnTable, placeCardEvent.getCard()));
             // sends new hand to current player
-            connection.send(new HandChangedEvent(currentPlayerHand));
+            event.getConnection().send(new HandChangedEvent(currentPlayerHand));
             onlineGameController.nextTurn();
             if(onlineGameController.getCurrentPlayer().isBot()) {
                 new BotTurnHandler().handle(new BotTurnEvent());

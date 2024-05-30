@@ -1,6 +1,6 @@
 StackPane * {
     -fx-font-family: "Cambria";
-
+    -fx-text-fill: rgb(195, 208, 210);
 }
 
 .label {
@@ -12,7 +12,27 @@ StackPane * {
 }
 
 .main-scene {
-    -fx-background-color: #89c4c3;
+    -fx-background-color: rgb(76, 115, 148);
+}
+
+ComboBox {
+    -fx-cursor: hand;
+    -fx-background-radius: 10;
+    -fx-background-color: rgb(35, 62, 82);
+    -fx-font-size: 15pt;
+}
+
+.combo-box .list-cell{
+    -fx-background-color: rgb(41,71,95);
+}
+
+.combo-box .list-cell:hover{
+    -fx-cursor: hand;
+    -fx-background-color: rgb(35, 62, 82);
+}
+
+.combo-box .list-cell:selected{
+    -fx-background-color: rgb(35, 62, 82);
 }
 
 .button-non-clickable {
@@ -20,12 +40,12 @@ StackPane * {
 }
 
 .button-clickable {
-    -fx-background-color: #cecece;
+    -fx-background-color: rgb(218, 76, 102);
     -fx-cursor: hand;
 }
 
 .play-button {
-    -fx-background-color: rgb(31, 141, 160);
+    -fx-background-color: rgb(182,54,77);
     -fx-text-fill: white;
 }
 
@@ -35,10 +55,12 @@ StackPane * {
 }
 
 .top-pane-wrapper {
-    -fx-pref-height: 100px;
+    -fx-pref-height: 120px;
     -fx-pref-width: 200px;
-    -fx-background-color: rgb(31, 141, 160);
+    -fx-background-color: rgb(41,71,95);
     -fx-fill-width: true;
+    -fx-border-width: 0 0 2px 0;
+    -fx-border-color: rgb(195, 208, 210);
 }
 
 .top-pane {
@@ -52,7 +74,7 @@ StackPane * {
 }
 
 .team1Label {
-    -fx-text-fill: rgb(252, 131, 131);
+    -fx-text-fill: rgb(218, 76, 102);
 }
 
 .team2Label {
@@ -66,7 +88,7 @@ StackPane * {
 
 .bottom-pane-container {
     -fx-pref-height: 100px;
-    -fx-background-color: linear-gradient(to top, rgb(54, 54, 54), transparent);
+    -fx-background-color: linear-gradient(to top, rgb(54, 54, 54), transparent, transparent);
 }
 
 .bottom-pane {
@@ -84,25 +106,36 @@ StackPane * {
 }
 
 .popup {
-    -fx-background-color: rgb(117, 179, 187);
+    -fx-background-color: rgb(41,71,95);
     -fx-pref-height: 250px;
     -fx-pref-width: 400px;
     -fx-spacing: 20;
+    -fx-border-width: 2px;
     -fx-border-radius: 7px;
     -fx-background-radius: 7px;
-    -fx-border-color: rgb(18, 66, 121);
+    -fx-border-color: rgb(153, 161, 164);
 }
 
 .popup-bg {
-    -fx-background-color: rgba(109, 199, 192, 0.4);
+    -fx-background-color: rgba(35, 62, 82, 0.4);
     -fx-fill-width: false;
 }
 
 .back-popup-button {
-    -fx-border-radius: 50;
-    -fx-background-radius: 50;
+    -fx-max-width: 60px;
+    -fx-background-color: transparent;
     -fx-translate-x: -20;
     -fx-translate-y: -20;
+}
+
+.back-popup-button Circle {
+    -fx-stroke: rgb(153, 161, 164);
+    -fx-stroke-width: 2px;
+    -fx-fill: rgb(218, 76, 102);
+}
+
+.back-popup-button Button {
+    -fx-background-color: transparent;
 }
 
 .in-hand-card {
@@ -111,7 +144,7 @@ StackPane * {
 }
 
 .selected-card {
-    -fx-effect: dropshadow(one-pass-box, rgb(31, 141, 160), 10, 100, 0, 0);
+    -fx-effect: dropshadow(one-pass-box, rgb(218, 76, 102), 10, 100, 0, 0);
 }
 
 .top-label-wrapper {
@@ -123,11 +156,12 @@ StackPane * {
 }
 
 .username {
-    -fx-text-fill: #edf8f6;
+    -fx-text-fill: rgb(195, 208, 210);
     -fx-font-weight: bold;
     -fx-font-size: 30px;
 }
 
 .menu-label {
-    -fx-font-size: 25pt;
+    -fx-font-size: 27pt;
+    -fx-font-weight: bold;
 }

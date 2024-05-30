@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.viewcontroller;
 
+import it.polimi.ingsw.controller.OfflineGameController;
 import it.polimi.ingsw.events.data.client.ContinueGameEvent;
 import it.polimi.ingsw.events.data.server.EndGameResult;
 import it.polimi.ingsw.events.data.server.EndGameResultsEvent;
@@ -86,7 +87,13 @@ public class EndGameController implements ViewController {
             winnersLabel.setText("Pareggio");
             return;
         }
-        winnersLabel.setText("Vincono " + winningTeam.getFirstPlayer() + " e " + winningTeam.getSecondPlayer() + "!");
+        if(SceneLoader.getPlayerView().isOffline()) {
+            if(winningTeam.getFirstPlayer().equals(OfflineGameController.DEFAULT_OFFLINE_GAME) || winningTeam.getSecondPlayer().equals(OfflineGameController.DEFAULT_OFFLINE_GAME))
+               winnersLabel.setText("Hai vinto!");
+            else
+                winnersLabel.setText("Hai perso!");
+        } else
+            winnersLabel.setText("Vincono " + winningTeam.getFirstPlayer() + " e " + winningTeam.getSecondPlayer() + "!");
     }
 
     private void setPoints() {
@@ -107,10 +114,10 @@ public class EndGameController implements ViewController {
         buttonContainer.getChildren().remove(continueButton);
         Button exitButton = (Button) buttonContainer.getChildren().getFirst();
         exitButton.setText("Vedi risultati");
-        exitButton.setOnAction(e -> onSeeResultsButtonClick(e, exitButton));
+        exitButton.setOnAction(e -> onSeeResultsButtonClick(exitButton));
     }
 
-    private void onSeeResultsButtonClick(ActionEvent actionEvent, Button exitButton) {
+    private void onSeeResultsButtonClick(Button exitButton) {
         exitButton.setText("Esci");
         exitButton.setOnAction(this::onExitButtonClick);
         ((VBox)resultTable.getParent()).getChildren().remove(resultTable);
@@ -162,11 +169,18 @@ public class EndGameController implements ViewController {
         Button continueButton = (Button)actionEvent.getSource();
         continueButton.getStyleClass().remove("button-clickable");
         continueButton.getStyleClass().add("button-non-clickable");
-        Client.getInstance().send(new ContinueGameEvent());
+        if(SceneLoader.getPlayerView().isOffline()) {
+            SceneLoader.changeScene("fxml/ingame.fxml");
+            OfflineGameController.getInstance().continueGame();
+            SceneLoader.getPlayerView().setYourTurn(true);
+        }
+        else
+            Client.getInstance().send(new ContinueGameEvent());
     }
 
     public void onExitButtonClick(ActionEvent actionEvent) {
         Platform.runLater(() -> SceneLoader.changeScene("fxml/menu.fxml"));
-        Client.getInstance().stop();
+        if(!SceneLoader.getPlayerView().isOffline())
+            Client.getInstance().stop();
     }
 }

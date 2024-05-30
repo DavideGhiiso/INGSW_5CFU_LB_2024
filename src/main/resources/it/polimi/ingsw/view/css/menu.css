@@ -1,19 +1,26 @@
 * {
     -fx-font-family: "Cambria";
 }
+.scene {
+    -fx-background-color: rgba(41,71,95,255);
+}
 
 .button-wrapper {
-    -fx-spacing: 10;
+    -fx-spacing: 15;
 }
 
 .button {
-    -fx-background-color: rgb(31, 141, 160);
+    -fx-background-color: rgba(182,54,77,255);
     -fx-font-size: 20pt;
-    -fx-text-fill: #FFFFFF;
+    -fx-pref-width: 300px;
+    -fx-text-fill: rgba(226,228,241,255);
     -fx-cursor: hand;
+    -fx-background-radius: 5;
 }
 
 .title {
-    -fx-font-size: 40pt;
+    -fx-font-weight: bold;
+    -fx-text-fill: rgba(226,228,241,255);
+    -fx-font-size: 120pt;
     -fx-padding: 120px;
 }

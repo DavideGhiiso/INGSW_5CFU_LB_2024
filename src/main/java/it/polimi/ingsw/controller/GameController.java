@@ -77,7 +77,7 @@ public abstract class GameController {
         return bot.playCard(inHandList);
     }
 
-    public abstract void endMatch();
+    protected abstract void endMatch();
 
     public Player getCurrentPlayer() {
         return currentPlayer;

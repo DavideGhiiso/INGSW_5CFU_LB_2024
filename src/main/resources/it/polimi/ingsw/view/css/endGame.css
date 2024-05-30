@@ -1,5 +1,6 @@
 * {
     -fx-font-family: "Cambria";
+    -fx-text-fill: rgb(195, 208, 210);
 }
 .button {
     -fx-font-size: 15pt;
@@ -15,7 +16,7 @@ Separator .line {
 }
 
 .bg {
-    -fx-background-color: rgb(167, 191, 192);
+    -fx-background-color: rgb(71, 87, 112);
 }
 
 .button-non-clickable {
@@ -23,7 +24,7 @@ Separator .line {
 }
 
 .button-clickable {
-    -fx-background-color: #cecece;
+    -fx-background-color: rgb(218, 76, 102);
     -fx-cursor: hand;
     -fx-min-width: 100px;
 }
@@ -33,17 +34,17 @@ Separator .line {
     -fx-border-width: 3px;
     -fx-background-radius: 10;
     -fx-border-radius: 10;
-    -fx-background-color: rgb(94, 149, 150);
-    -fx-border-color: rgb(0, 71, 73);
+    -fx-background-color: rgb(41,71,95);
+    -fx-border-color: rgb(195, 208, 210);
     -fx-max-height: 500;
-    -fx-max-width: 500;
+    -fx-max-width: 650;
 }
 
 .title {
     -fx-font-size: 55px;
     -fx-font-weight: bold;
     -fx-text-fill: white;
-    -fx-background-color: rgb(33, 86, 86);
+    -fx-background-color: rgb(35, 62, 82);
     -fx-background-radius: 7;
     -fx-padding: 10 30 10 30;
 }
@@ -67,11 +68,11 @@ Separator .line {
 }
 
 .popup {
-    -fx-background-color: rgba(33, 86, 86, 0.56);
+    -fx-background-color: rgba(35, 62, 82, 0.56);
     -fx-spacing: 20;
     -fx-border-radius: 7px;
     -fx-background-radius: 7px;
-    -fx-border-color: rgb(18, 66, 121);
+    -fx-border-color: rgb(195, 208, 210);
 }
 
 .popup-bg {

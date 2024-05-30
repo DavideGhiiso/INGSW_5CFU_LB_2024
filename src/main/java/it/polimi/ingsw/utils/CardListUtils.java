@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Suit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class CardListUtils {
     public static int sumOfNumbers(List<Card> cards) {
@@ -91,17 +92,19 @@ public class CardListUtils {
     }
 
     /**
-     * Returns the card that appears more often in the list and is contained in the sublist. Prioritize low cards
-     * @param cardList list to inspect
-     * @param sublist list that must contain the returned card
+     * Returns the card that appears more often in the two lists and is contained in the first list. Prioritize low cards
+     * @param cardList list that must contain the returned card
+     * @param secondaryCardList secondary list
      * @return the card that appears more often in the list
      */
-    public static Card cardWithHighestCount(List<Card> cardList, List<Card> sublist) {
+    public static Card cardWithHighestCount(List<Card> cardList, List<Card> secondaryCardList) {
         Card cardWithHighestCount = cardList.getLast();
         int maxCount = 0;
         for(Card card: cardList.reversed()) {
-            int nOfSameCardsInHand = CardListUtils.numbersCount(cardList, card.getNumber());
-            if(nOfSameCardsInHand > maxCount && sublist.contains(card)) {
+            int nOfSameCardsInHand = CardListUtils.numbersCount(
+                    Stream.concat(cardList.stream(), secondaryCardList.stream()).toList(),
+                    card.getNumber());
+            if(nOfSameCardsInHand > maxCount) {
                 maxCount = nOfSameCardsInHand;
                 cardWithHighestCount = card;
             }
