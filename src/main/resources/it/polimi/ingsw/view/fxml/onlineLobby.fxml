@@ -53,7 +53,7 @@
                 <Label fx:id="popupContent"
                        wrapText="true"
                        textAlignment="CENTER">
-                    Connecting to server...
+                    Stai per entrare nella partita...
                 </Label>
             </VBox>
         </VBox>

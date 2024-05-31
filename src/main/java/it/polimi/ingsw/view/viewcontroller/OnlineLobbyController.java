@@ -126,7 +126,8 @@ public class OnlineLobbyController implements ViewController {
                 }
 
                 case OK_ONGOING -> {
-
+                    popupContent.setText("Stai per entrare nella partita...");
+                    Platform.runLater(() -> SceneLoader.changeScene("fxml/ingame.fxml"));
                 }
             }
         });

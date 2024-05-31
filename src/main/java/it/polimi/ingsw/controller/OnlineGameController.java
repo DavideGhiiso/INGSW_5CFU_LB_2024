@@ -40,6 +40,15 @@ public class OnlineGameController extends GameController {
 
     }
 
+    public boolean isPlayerPresent(String username) {
+        try {
+            game.getPlayer(username);
+            return true;
+        } catch (NonexistentPlayerException e) {
+            return false;
+        }
+    }
+
     /**
      * Tries to add a new Player to the game instance
      * @param username username of the Player to add

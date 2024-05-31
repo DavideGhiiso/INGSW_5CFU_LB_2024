@@ -32,24 +32,30 @@ public class JoinGameHandler implements EventHandler {
         Response response = Response.OK;
         JoinGameEvent joinGameEvent = (JoinGameEvent) event.getEvent();
         Connection connection = event.getConnection();
+        OnlineGameController onlineGameController = OnlineGameController.getInstance();
 
-        if(OnlineGameController.getInstance() == null)
-            OnlineGameController.getInstance(new Game());
-        connection.setConnectionID(joinGameEvent.getUsername());
-        try {
-            OnlineGameController.getInstance().addPlayer(joinGameEvent.getUsername());
-        } catch (MaxPlayersReachedException e) {
-            if(OnlineGameController.getInstance().botIsPlaying())
-                response = Response.CAN_REPLACE_BOT; // a bot is playing
-            else
-                response = Response.GAME_FULL; // game is full, client cannot join
-        } catch (UsernameTakenException e) {
+        if(onlineGameController == null)
+            onlineGameController = OnlineGameController.getInstance(new Game());
+
+        if(onlineGameController.isPlayerPresent(joinGameEvent.getUsername())) {
             response = Response.USERNAME_TAKEN;
+        } else {
+            connection.setConnectionID(joinGameEvent.getUsername());
+            try {
+                onlineGameController.addPlayer(joinGameEvent.getUsername());
+            } catch (MaxPlayersReachedException e) {
+                if (onlineGameController.botIsPlaying())
+                    response = Response.CAN_REPLACE_BOT; // a bot is playing
+                else
+                    response = Response.GAME_FULL; // game is full, client cannot join
+            } catch (UsernameTakenException e) {
+                response = Response.USERNAME_TAKEN;
+            }
         }
 
         try {
             event.getConnection().send(new JoinGameResponseEvent(response));
-            if(OnlineGameController.getInstance().canStartGame())
+            if(OnlineGameController.getInstance().canStartGame() && !onlineGameController.isGameStarted())
                 new StartGameServerHandler().handle(new StartGameEvent());
         } catch (IOException e) {
             new ClientDisconnectedHandler().handle(new ConnectionEvent(new ClientDisconnectedEvent(), event.getConnection()));
