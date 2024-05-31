@@ -1,10 +1,19 @@
 * {
     -fx-font-family: "Cambria";
     -fx-font-size: 15pt;
+    -fx-text-fill: rgba(226,228,241,255);
 }
 
-.stackPane-top {
-    -fx-background-color: rgb(31, 141, 160);
+.root {
+    -fx-background-color: rgb(76, 115, 148);
+    -fx-spacing: 50;
+}
+
+.top-pane {
+    -fx-background-color: rgb(35, 62, 82);
+    -fx-padding: 30px;
+    -fx-border-width: 0 0 2px 0;
+    -fx-border-color: rgb(195, 208, 210);
 }
 
 HBox {
@@ -12,6 +21,11 @@ HBox {
 }
 
 .back-button {
-    -fx-background-color: #cecece;
+    -fx-background-color: rgb(182,54,77);
     -fx-cursor: hand;
+}
+
+TextField {
+    -fx-background-color: rgb(35, 62, 82);
+    -fx-highlight-fill: rgb(182,54,77);
 }

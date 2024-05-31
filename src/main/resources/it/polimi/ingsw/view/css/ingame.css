@@ -1,6 +1,6 @@
 StackPane * {
     -fx-font-family: "Cambria";
-    -fx-text-fill: rgb(195, 208, 210);
+    -fx-text-fill: rgba(226,228,241,255);
 }
 
 .label {

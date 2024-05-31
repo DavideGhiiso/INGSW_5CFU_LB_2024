@@ -7,32 +7,18 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<StackPane xmlns="http://javafx.com/javafx"
+<VBox xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="it.polimi.ingsw.view.viewcontroller.OptionsController"
-            stylesheets="@../css/options.css">
-    <StackPane alignment="TOP_CENTER">
-        <StackPane styleClass="stackPane-top" maxHeight="120">
-            <StackPane alignment="TOP_LEFT">
-                <StackPane.margin>
-                    <Insets top="40" left="30">
-
-                    </Insets>
-                </StackPane.margin>
-                <Button onAction="#onBackButtonClick" styleClass="back-button">
-                    indietro
-                </Button>
-            </StackPane>
-        </StackPane>
-    </StackPane>
+            stylesheets="@../css/options.css" styleClass="root">
+    <HBox styleClass="top-pane" maxHeight="120" alignment="CENTER_LEFT">
+        <Button onAction="#onBackButtonClick" styleClass="back-button">
+            indietro
+        </Button>
+    </HBox>
     <StackPane>
-        <StackPane.margin>
-            <Insets top="170">
-
-            </Insets>
-        </StackPane.margin>
         <HBox alignment="TOP_CENTER">
-            <VBox>
+            <VBox VBox.vgrow="NEVER">
                 <Label>
                     Indirizzo del server
                 </Label>
@@ -40,7 +26,7 @@
 
                 </TextField>
             </VBox>
-            <VBox>
+            <VBox VBox.vgrow="NEVER">
                 <Label>
                     Porta del server
                 </Label>
@@ -50,5 +36,4 @@
             </VBox>
         </HBox>
     </StackPane>
-
-</StackPane>
+</VBox>
