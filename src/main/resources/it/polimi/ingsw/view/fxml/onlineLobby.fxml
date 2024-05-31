@@ -5,12 +5,13 @@
 
 <?import javafx.geometry.Insets?>
 
+<?import javafx.scene.shape.Circle?>
 <StackPane xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="it.polimi.ingsw.view.viewcontroller.OnlineLobbyController"
            stylesheets="@../css/onlineLobby.css" styleClass="scene">
     <StackPane alignment="TOP_CENTER">
-        <StackPane styleClass="stackPane-top" maxHeight="120">
+        <StackPane styleClass="stackPane-top" maxHeight="110">
             <StackPane alignment="TOP_LEFT">
                 <StackPane.margin>
                     <Insets top="40" left="30">
@@ -44,11 +45,14 @@
           fx:id="popup"
           styleClass="popup-bg">
         <VBox styleClass="popup">
-            <Button styleClass="button-non-clickable, back-popup-button"
-                    fx:id="closePopupButton"
-                    onAction="#onClosePopupClick">
-                ✖
-            </Button>
+            <StackPane VBox.vgrow="NEVER" styleClass="back-popup-button">
+                <Circle radius="22"/>
+                <Button styleClass="button-non-clickable"
+                        fx:id="closePopupButton"
+                        onAction="#onClosePopupClick">
+                    ✖
+                </Button>
+            </StackPane>
             <VBox alignment="CENTER">
                 <Label fx:id="popupContent"
                        wrapText="true"

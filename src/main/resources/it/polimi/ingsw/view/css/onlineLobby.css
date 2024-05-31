@@ -1,6 +1,11 @@
 * {
     -fx-font-family: "Cambria";
     -fx-font-size: 15pt;
+    -fx-text-fill: rgba(226,228,241,255);
+}
+
+.scene {
+    -fx-background-color: rgb(76, 115, 148);
 }
 
 .vbox {
@@ -14,12 +19,14 @@
 }
 
 .button-clickable {
-    -fx-background-color: #cecece;
+    -fx-background-color: rgb(182,54,77);
     -fx-cursor: hand;
 }
 
 .stackPane-top {
-    -fx-background-color: rgb(31, 141, 160);
+    -fx-background-color: rgb(35, 62, 82);
+    -fx-border-width: 0 0 2px 0;
+    -fx-border-color: rgb(195, 208, 210);
 }
 
 .text-field {
@@ -32,23 +39,38 @@
 }
 
 .popup {
-    -fx-background-color: rgb(117, 179, 187);
+    -fx-background-color: rgb(41,71,95);
     -fx-pref-height: 250px;
     -fx-pref-width: 400px;
     -fx-spacing: 20;
     -fx-border-radius: 7px;
     -fx-background-radius: 7px;
-    -fx-border-color: rgb(18, 66, 121);
+    -fx-border-color: rgb(153, 161, 164);
 }
 
 .popup-bg {
-    -fx-background-color: rgba(109, 199, 192, 0.4);
+    -fx-background-color: rgba(35, 62, 82, 0.48);
     -fx-fill-width: false;
 }
 
 .back-popup-button {
-    -fx-border-radius: 50;
-    -fx-background-radius: 50;
+    -fx-max-width: 60px;
+    -fx-background-color: transparent;
     -fx-translate-x: -20;
     -fx-translate-y: -20;
+}
+
+.back-popup-button Circle {
+    -fx-stroke: rgb(153, 161, 164);
+    -fx-stroke-width: 2px;
+    -fx-fill: rgb(218, 76, 102);
+}
+
+.back-popup-button Button {
+    -fx-background-color: transparent;
+}
+
+TextField {
+    -fx-background-color: rgb(35, 62, 82);
+    -fx-highlight-fill: rgb(182,54,77);
 }
