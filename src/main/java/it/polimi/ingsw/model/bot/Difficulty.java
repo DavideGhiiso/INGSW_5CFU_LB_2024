@@ -13,10 +13,11 @@ public abstract class Difficulty {
     protected static int TAKEN_CARDS_WEIGHT = 20; // Prioritizes cards that takes card
     protected static int DOES_SCOPA_WEIGHT = 100; // Prioritizes cards that does Scopa
     protected static int SEVEN_PROFICIENCY_WEIGHT = 70; // prioritizes its placement only if it takes at least a card
-    protected static int SCOPA_RISK_WEIGHT = 90; // Calculates the risk that by placing this card the next player might do scopa
-    protected static int SEVEN_RISK_WEIGHT = 70; // Calculates the risk that by placing this card the next player might take a seven.
-    protected static int GOLD_PROFICIENCY_WEIGHT = 60; // If it's a GOLDS, prioritizes its placement only if it takes at least a card
     protected static int TAKES_SEVEN_WEIGHT = 60; // Prioritizes its placement if it takes a 7
+    protected static int GOLD_PROFICIENCY_WEIGHT = 60; // If it's a GOLDS, prioritizes its placement only if it takes at least a card
+    protected static int TAKES_GOLDS_WEIGHT = 25; // Prioritizes its placement if it takes a GOLDS card
+    protected static int SCOPA_RISK_WEIGHT = 80; // Calculates the risk that by placing this card the next player might do scopa
+    protected static int SEVEN_RISK_WEIGHT = 70; // Calculates the risk that by placing this card the next player might take a seven.
     public abstract Card chooseCard(List<Card> inHandList, List<Card> onTableList, List<Card> playedCards);
 
     /**
@@ -61,6 +62,7 @@ public abstract class Difficulty {
 
     /**
      * Prioritizes low number cards with more intensity in the first turns
+     * This weight is always positive
      */
     protected static double calculateInHandValueProficiency(Card card, List<Card> inHandList) {
         // the intensity is max in the first turn and goes down rapidly with exp decay
@@ -110,6 +112,18 @@ public abstract class Difficulty {
     }
 
     /**
+     * Prioritizes its placement if it takes a GOLDS.
+     * This weight is always positive or 0 and proportional to number of taken
+     */
+    protected static double calculateTakesGoldProficiency(Card card, List<Card> onTableList, List<Card> onTableListIfPlaced) {
+        int goldsBefore = CardListUtils.suitsCount(onTableList, Suit.GOLDS);
+        int goldsAfter = CardListUtils.suitsCount(onTableListIfPlaced,Suit.GOLDS);
+        int takenGolds = goldsBefore - goldsAfter;
+        return (Math.max(takenGolds, 0)) * TAKES_GOLDS_WEIGHT;
+
+    }
+
+    /**
      * Calculates the risk that by placing this card the next player might do scopa.
      * If scopa has been made or remaining cards adds up to more than 10 there's no risk:
      * else the risk depends on how many cards can still scopa.
@@ -154,6 +168,7 @@ public abstract class Difficulty {
                 calculateDoesScopaProficiency(onTableListIfPlaced) +
                 calculateSevenProficiency(card, onTableList, onTableListIfPlaced) +
                 calculateGoldProficiency(card, onTableList, onTableListIfPlaced) +
+                calculateTakesGoldProficiency(card, onTableList, onTableListIfPlaced) +
                 calculateScopaRisk(onTableList, onTableListIfPlaced, inHandList) +
                 calculateSevenRisk(onTableListIfPlaced, inHandList) +
                 calculateTakesSevenProficiency(card, onTableList, onTableListIfPlaced);
@@ -165,6 +180,7 @@ public abstract class Difficulty {
                 calculateDoesScopaProficiency(onTableListIfPlaced) +
                 calculateSevenProficiency(card, onTableList, onTableListIfPlaced) +
                 calculateGoldProficiency(card, onTableList, onTableListIfPlaced) +
+                calculateTakesGoldProficiency(card, onTableList, onTableListIfPlaced) +
                 calculateScopaRisk(onTableList, onTableListIfPlaced, inHandAndPlayedCards) +
                 calculateSevenRisk(onTableListIfPlaced, inHandAndPlayedCards) +
                 calculateTakesSevenProficiency(card, onTableList, onTableListIfPlaced);
