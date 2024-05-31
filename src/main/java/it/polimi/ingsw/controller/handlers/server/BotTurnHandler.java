@@ -24,7 +24,7 @@ public class BotTurnHandler implements EventHandler {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        while(onlineGameController.getCurrentPlayer().isBot()) {
+        while(onlineGameController.getCurrentPlayer().isBot() && onlineGameController.isGameStarted()) {
             List<Card> currentPlayerHand = onlineGameController.getCurrentPlayer().getHand();
             Card botCard = onlineGameController.playCardBot(currentPlayerHand);
             List<Card> cardsOnTable = onlineGameController.placeCard(botCard);
@@ -40,6 +40,5 @@ public class BotTurnHandler implements EventHandler {
                 break;
             }
         }
-
     }
 }

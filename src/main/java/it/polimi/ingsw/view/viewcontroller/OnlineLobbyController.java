@@ -106,22 +106,23 @@ public class OnlineLobbyController implements ViewController {
             Response response = joinGameResponseEvent.getResponse();
             switch (response) {
                 case OK -> {
-                    popupContent.setText("Joining game...");
+                    popupContent.setText("Stai per entrare nella partita...");
                     Platform.runLater(() -> SceneLoader.changeScene("fxml/waitingRoom.fxml"));
                 }
                 case CAN_REPLACE_BOT -> {
                     Client.getInstance().send(new JoinOnGoingGameEvent(usernameField.getText()));
                 }
                 case GAME_FULL -> {
-                    popupContent.setText("This server is already full!");
+                    popupContent.setText("Questo server è già pieno!");
                     closePopupButton.getStyleClass().add("button-clickable");
                     closePopupButton.getStyleClass().remove("button-non-clickable");
                     Client.getInstance().stop();
                 }
                 case USERNAME_TAKEN -> {
-                    popupContent.setText("The username " + usernameField.getText() + " is already in use! You'll join the game with a different username");
-                    Platform.runLater(() -> SceneLoader.changeScene("fxml/waitingRoom.fxml"));
-                    Client.getInstance().requestInfo(GameInfo.USERNAME);
+                    popupContent.setText("Lo username " + usernameField.getText() + " è già in uso!");
+                    closePopupButton.getStyleClass().add("button-clickable");
+                    closePopupButton.getStyleClass().remove("button-non-clickable");
+                    Client.getInstance().stop();
                 }
 
                 case OK_ONGOING -> {

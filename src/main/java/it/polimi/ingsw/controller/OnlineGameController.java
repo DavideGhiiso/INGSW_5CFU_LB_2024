@@ -26,6 +26,11 @@ public class OnlineGameController extends GameController {
         if(instance == null) instance = new OnlineGameController(game);
         return instance;
     }
+
+    public void reset() {
+        game = new Game();
+        dealer = new Dealer();
+    }
     public static OnlineGameController getInstance() {
         return instance;
     }
@@ -120,7 +125,6 @@ public class OnlineGameController extends GameController {
     public boolean isGameStarted() {
         return game.isStarted();
     }
-
     @Override
     public String toString() {
         return game.getPlayers().toString();

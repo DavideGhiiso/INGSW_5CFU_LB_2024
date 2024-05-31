@@ -13,7 +13,7 @@ import java.util.List;
  * Class used to control the game by manipulating the model. It contains the game instance, the player iterator and the bot
  */
 public abstract class GameController {
-    protected final Game game;
+    protected Game game;
     protected Player currentPlayer;
     protected PlayerIterator playerIterator;
     protected int team1Points = 0;

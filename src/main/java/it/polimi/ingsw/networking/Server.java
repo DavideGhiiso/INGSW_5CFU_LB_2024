@@ -94,6 +94,15 @@ public class Server {
         }
     }
 
+    public void reset() {
+        this.stop();
+        this.start();
+    }
+
+    public boolean isEmpty() {
+        return connectedClients.isEmpty();
+    }
+
     private void attachEventHandlers() {
         eventReceiver.attachEventHandler("PONG_EVENT", new PongHandler());
         eventReceiver.attachEventHandler("JOIN_GAME_EVENT", new JoinGameHandler());

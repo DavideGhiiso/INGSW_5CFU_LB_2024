@@ -57,7 +57,7 @@ public class Game {
         Player player;
         try {
             player = players.stream()
-                    .filter(p -> p.getName().equals(username)).toList().getFirst();
+                    .filter(p -> p.getName().equals(username)).toList().getLast();
         } catch (NoSuchElementException e) {
             throw new NonexistentPlayerException(username);
         }

@@ -69,7 +69,8 @@ public class EventReceiver implements Runnable {
                 receivedEvent = eventsQueue.remove();
             }
             // TODO: remove println
-            System.out.println("Received " + receivedEvent.getID());
+            if (!receivedEvent.getID().equals("PING_EVENT") && !receivedEvent.getID().equals("PONG_EVENT"))
+                System.out.println("Received " + receivedEvent.getID());
             sortEvent(receivedEvent);
         }
     }
