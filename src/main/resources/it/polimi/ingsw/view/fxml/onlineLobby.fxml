@@ -19,7 +19,7 @@
                     </Insets>
                 </StackPane.margin>
                 <Button fx:id="backButton" onAction="#onBackButtonClick" styleClass="button-clickable">
-                    indietro
+                    Indietro
                 </Button>
             </StackPane>
         </StackPane>

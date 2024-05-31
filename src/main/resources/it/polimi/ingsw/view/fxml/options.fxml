@@ -10,7 +10,7 @@
 <VBox xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="it.polimi.ingsw.view.viewcontroller.OptionsController"
-            stylesheets="@../css/options.css" styleClass="root">
+            stylesheets="@../css/options.css" styleClass="scene">
     <HBox styleClass="top-pane" maxHeight="120" alignment="CENTER_LEFT">
         <Button onAction="#onBackButtonClick" styleClass="back-button">
             indietro

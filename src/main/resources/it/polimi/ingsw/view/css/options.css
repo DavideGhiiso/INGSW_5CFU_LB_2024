@@ -4,7 +4,7 @@
     -fx-text-fill: rgba(226,228,241,255);
 }
 
-.root {
+.scene {
     -fx-background-color: rgb(76, 115, 148);
     -fx-spacing: 50;
 }
