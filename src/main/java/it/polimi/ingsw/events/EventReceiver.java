@@ -1,5 +1,6 @@
 package it.polimi.ingsw.events;
 
+import it.polimi.ingsw.controller.handlers.EventHandler;
 import it.polimi.ingsw.events.data.Event;
 
 import java.util.*;

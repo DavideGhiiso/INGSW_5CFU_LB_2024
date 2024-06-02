@@ -1,7 +1,6 @@
 package it.polimi.ingsw.controller.handlers.server;
 
-import it.polimi.ingsw.events.EventHandler;
-import it.polimi.ingsw.events.data.ConnectionEvent;
+import it.polimi.ingsw.controller.handlers.EventHandler;
 import it.polimi.ingsw.events.data.Event;
 
 /**

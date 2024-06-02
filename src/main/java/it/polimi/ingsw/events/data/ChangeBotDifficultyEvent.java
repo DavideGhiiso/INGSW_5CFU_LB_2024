@@ -1,4 +1,4 @@
-package it.polimi.ingsw.events.data.client;
+package it.polimi.ingsw.events.data;
 
 import it.polimi.ingsw.events.data.BaseEvent;
 import it.polimi.ingsw.model.bot.Difficulties;

@@ -1,9 +1,9 @@
 package it.polimi.ingsw.controller.handlers.server;
 
 import it.polimi.ingsw.controller.OnlineGameController;
-import it.polimi.ingsw.events.EventHandler;
+import it.polimi.ingsw.controller.handlers.EventHandler;
 import it.polimi.ingsw.events.data.Event;
-import it.polimi.ingsw.events.data.client.ChangeBotDifficultyEvent;
+import it.polimi.ingsw.events.data.ChangeBotDifficultyEvent;
 import it.polimi.ingsw.model.bot.Difficulties;
 import it.polimi.ingsw.networking.Server;
 import it.polimi.ingsw.view.SceneLoader;

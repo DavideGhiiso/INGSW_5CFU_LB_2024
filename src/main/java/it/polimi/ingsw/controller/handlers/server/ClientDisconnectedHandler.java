@@ -1,8 +1,7 @@
 package it.polimi.ingsw.controller.handlers.server;
 
 import it.polimi.ingsw.controller.OnlineGameController;
-import it.polimi.ingsw.controller.handlers.server.BotTurnHandler;
-import it.polimi.ingsw.events.EventHandler;
+import it.polimi.ingsw.controller.handlers.EventHandler;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.server.BotTurnEvent;
 import it.polimi.ingsw.events.data.server.ClientDisconnectedEvent;

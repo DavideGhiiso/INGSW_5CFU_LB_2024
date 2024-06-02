@@ -1,6 +1,7 @@
-package it.polimi.ingsw.events;
+package it.polimi.ingsw.controller.handlers;
 
 import it.polimi.ingsw.controller.OnlineGameController;
+import it.polimi.ingsw.events.EventTransmitter;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.server.ScoreEvent;
 

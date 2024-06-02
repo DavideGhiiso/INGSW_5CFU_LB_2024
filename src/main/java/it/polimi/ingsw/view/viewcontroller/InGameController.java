@@ -3,7 +3,7 @@ package it.polimi.ingsw.view.viewcontroller;
 import it.polimi.ingsw.controller.OfflineGameController;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.GameInfo;
-import it.polimi.ingsw.events.data.client.ChangeBotDifficultyEvent;
+import it.polimi.ingsw.events.data.ChangeBotDifficultyEvent;
 import it.polimi.ingsw.events.data.client.PlaceCardEvent;
 import it.polimi.ingsw.events.data.server.*;
 import it.polimi.ingsw.model.Card;

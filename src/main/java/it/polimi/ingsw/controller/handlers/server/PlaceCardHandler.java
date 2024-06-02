@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller.handlers.server;
 
 import it.polimi.ingsw.controller.OnlineGameController;
-import it.polimi.ingsw.events.EventHandler;
+import it.polimi.ingsw.controller.handlers.EventHandler;
 import it.polimi.ingsw.events.EventTransmitter;
 import it.polimi.ingsw.events.data.*;
 import it.polimi.ingsw.events.data.client.PlaceCardEvent;
@@ -11,7 +11,6 @@ import it.polimi.ingsw.events.data.server.TableChangedEvent;
 import it.polimi.ingsw.events.data.server.NewTurnEvent;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.exceptions.EndGameException;
-import it.polimi.ingsw.networking.Connection;
 import it.polimi.ingsw.networking.Server;
 
 import java.io.IOException;
