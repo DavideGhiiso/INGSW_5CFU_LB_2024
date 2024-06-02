@@ -44,7 +44,7 @@ public abstract class Difficulty {
 
     protected Card getCardWithMaxWeight(List<Card> inHandList, List<Card> onTableList, List<Card> playedCards) {
         Card returnCard = inHandList.getFirst();
-        double maxWeight = 0;
+        double maxWeight = -10000;
 
         for(Card card: inHandList) {
             double currentWeight = calculateWeight(card, inHandList, onTableList, playedCards);
