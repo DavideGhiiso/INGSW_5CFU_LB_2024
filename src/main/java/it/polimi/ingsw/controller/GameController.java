@@ -87,7 +87,7 @@ public abstract class GameController {
     }
 
     public void nextTurn() throws EndGameException {
-        if (playerIterator.getTurnNumber() == 10) {
+        if (playerIterator.getTurnNumber() == Game.N_OF_TURNS) {
             throw new EndGameException();
         }
         currentPlayer = playerIterator.next();
