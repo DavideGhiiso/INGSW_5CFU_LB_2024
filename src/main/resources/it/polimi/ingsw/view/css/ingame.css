@@ -165,3 +165,13 @@ ComboBox {
     -fx-font-size: 27pt;
     -fx-font-weight: bold;
 }
+
+StackPane > Label {
+    -fx-background-color: rgba(41, 71, 95, 0.57);
+    -fx-padding: 20px;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10;
+    -fx-background-radius: 11;
+    -fx-border-color: rgb(153, 161, 164);
+    -fx-text-alignment: center;
+}

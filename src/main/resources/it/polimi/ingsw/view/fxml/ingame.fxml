@@ -127,4 +127,7 @@
          </VBox>
       </VBox>
    </VBox>
+   <Label fx:id="difficultyPopup" visible="false">
+      La difficoltà del bot è stata impostata a
+   </Label>
 </StackPane>

@@ -16,6 +16,7 @@ import it.polimi.ingsw.view.SceneLoader;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.viewcontroller.transitions.TablePlacementTransition;
 import it.polimi.ingsw.view.viewcontroller.transitions.TakeCardTransition;
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,6 +32,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -42,6 +44,8 @@ public class InGameController implements ViewController, Initializable {
     private boolean animationPlaying = false;
     private boolean receivedEndGameEvent = false;
     private Event endGameEventBuffer; // used to store an EndGameEvent in case an animation is playing when received
+    @FXML
+    Label difficultyPopup;
     @FXML
     Label usernameLabel;
     @FXML
@@ -73,13 +77,11 @@ public class InGameController implements ViewController, Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         PlayerView playerView = SceneLoader.getPlayerView();
         usernameLabel.setText(SceneLoader.getPlayerView().getUsername());
+        addDifficultyChanger();
         if(playerView.isOffline()) {
-            addDifficultyChanger();
             offlineGameRoutine();
             return;
         }
-        if(playerView.isYourTurn())
-            addDifficultyChanger();
         Client client = Client.getInstance();
         client.requestInfo(GameInfo.CURRENT_TABLE);
         client.requestInfo(GameInfo.CURRENT_HAND);
@@ -110,7 +112,17 @@ public class InGameController implements ViewController, Initializable {
         });
     }
     private void onChangeBotDifficulty(Difficulties difficulty) {
-        //TODO
+        ComboBox comboBox = (ComboBox) ((VBox) menuWrapper.getChildren().get(1)).getChildren().getLast();
+        comboBox.getSelectionModel().select(difficulty.ordinal());
+        if(!popup.isVisible()) {
+            difficultyPopup.setText("La difficoltà del bot è stata impostata a\n"+ comboBox.getSelectionModel().getSelectedItem().toString());
+            FadeTransition animation = new FadeTransition(Duration.millis(2000), difficultyPopup);
+            animation.setOnFinished(e -> difficultyPopup.setVisible(false));
+            animation.setFromValue(1.0);
+            animation.setToValue(0);
+            difficultyPopup.setVisible(true);
+            animation.play();
+        }
     }
 
     public void onMenuButtonClicked(ActionEvent actionEvent) {
@@ -405,7 +417,6 @@ public class InGameController implements ViewController, Initializable {
                 ) {
                     case "FACILE" -> Difficulties.EASY;
                     case "MEDIA" -> Difficulties.MEDIUM;
-                    case "DIFFICILE" -> Difficulties.HARD;
                     default -> Difficulties.HARD;
                 };
         if(SceneLoader.getPlayerView().isOffline())
