@@ -28,9 +28,29 @@ public class PointsCalculator {
     }
 
     private boolean hasPrimieraPoint() {
-        if(CardListUtils.numbersCount(takenCards, 7) > 2) return true;
-        if(CardListUtils.numbersCount(takenCards, 6) > 2) return true;
-        return false;
+        if(!hasAtLeastACardPerSuit())
+            return false;
+        int nOfSeven = CardListUtils.numbersCount(takenCards, 7);
+        int nOfSix = CardListUtils.numbersCount(takenCards, 6);
+        int nOfOne = CardListUtils.numbersCount(takenCards, 1);
+        int nOfFive = CardListUtils.numbersCount(takenCards, 5);
+        int nOfFour = CardListUtils.numbersCount(takenCards, 4);
+        int nOfThree = CardListUtils.numbersCount(takenCards, 3);
+        int nOfTwo = CardListUtils.numbersCount(takenCards, 2);
+        return nOfSeven > 2 ||
+                nOfSeven == 2 && nOfSix > 2 ||
+                nOfSix == 2 && nOfOne > 2 ||
+                nOfOne == 2 && nOfFive > 2 ||
+                nOfFive == 2 && nOfFour > 2 ||
+                nOfFour == 2 && nOfThree > 2 ||
+                nOfThree == 2 && nOfTwo > 2;
+    }
+
+    private boolean hasAtLeastACardPerSuit() {
+        return  CardListUtils.suitsCount(takenCards, Suit.GOLDS) > 0 &&
+                CardListUtils.suitsCount(takenCards, Suit.CLUBS) > 0 &&
+                CardListUtils.suitsCount(takenCards, Suit.CUPS) > 0 &&
+                CardListUtils.suitsCount(takenCards, Suit.SWORDS) > 0;
     }
 
     public List<Points> getPoints() {

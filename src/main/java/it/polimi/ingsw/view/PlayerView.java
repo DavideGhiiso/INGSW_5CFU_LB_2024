@@ -1,11 +1,15 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.bot.Difficulties;
+
 public class PlayerView {
     private boolean yourTurn;
     private String username;
     private boolean offline;
+    private Difficulties currentDifficulty;
 
     public PlayerView() {
+        currentDifficulty = Difficulties.EASY;
         this.yourTurn = false;
         username = "";
     }
@@ -32,5 +36,13 @@ public class PlayerView {
 
     public void setOffline(boolean offline) {
         this.offline = offline;
+    }
+
+    public Difficulties getCurrentDifficulty() {
+        return currentDifficulty;
+    }
+
+    public void setCurrentDifficulty(Difficulties currentDifficulty) {
+        this.currentDifficulty = currentDifficulty;
     }
 }

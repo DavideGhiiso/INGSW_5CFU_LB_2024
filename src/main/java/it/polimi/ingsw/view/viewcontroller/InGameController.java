@@ -399,7 +399,7 @@ public class InGameController implements ViewController, Initializable {
         ComboBox<String> comboBox = new ComboBox<>();
         wrapper.setAlignment(Pos.CENTER);
         comboBox.getItems().addAll("Facile", "Media", "Difficile");
-        comboBox.getSelectionModel().selectFirst();
+        comboBox.getSelectionModel().select(SceneLoader.getPlayerView().getCurrentDifficulty().ordinal());
         comboBox.setOnAction(this::onDifficultyChange);
 
         wrapper.setSpacing(15);

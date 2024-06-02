@@ -20,11 +20,12 @@ public class ChangeBotDifficultyHandler implements EventHandler {
     }
     @Override
     public void handle(Event event) {
+        Difficulties newDifficulty = ((ChangeBotDifficultyEvent) event).getDifficulty();
         if(clientSide) {
+            SceneLoader.getPlayerView().setCurrentDifficulty(newDifficulty);
             SceneLoader.getCurrentController().handle(event);
             return;
         }
-        Difficulties newDifficulty = ((ChangeBotDifficultyEvent) event).getDifficulty();
         OnlineGameController.getInstance().setBotDifficulty(newDifficulty);
         try {
             if(OnlineGameController.getInstance().botIsPlaying())
