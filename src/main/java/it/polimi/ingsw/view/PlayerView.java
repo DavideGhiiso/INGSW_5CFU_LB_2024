@@ -9,7 +9,7 @@ public class PlayerView {
     private Difficulties currentDifficulty;
 
     public PlayerView() {
-        currentDifficulty = Difficulties.EASY;
+        currentDifficulty = Difficulties.HARD;
         this.yourTurn = false;
         username = "";
     }

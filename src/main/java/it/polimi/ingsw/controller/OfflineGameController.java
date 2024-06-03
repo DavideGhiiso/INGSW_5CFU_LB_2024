@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.events.data.EndGameEvent;
 import it.polimi.ingsw.events.data.server.*;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.bot.Difficulties;
 import it.polimi.ingsw.model.exceptions.EndGameException;
 import it.polimi.ingsw.model.exceptions.MaxPlayersReachedException;
 import it.polimi.ingsw.model.exceptions.NonexistentPlayerException;
@@ -131,5 +132,11 @@ public class OfflineGameController extends GameController {
     @Override
     public void endMatch() {
 
+    }
+
+    @Override
+    public void setBotDifficulty(Difficulties difficulty) {
+        super.setBotDifficulty(difficulty);
+        SceneLoader.getPlayerView().setCurrentDifficulty(difficulty);
     }
 }

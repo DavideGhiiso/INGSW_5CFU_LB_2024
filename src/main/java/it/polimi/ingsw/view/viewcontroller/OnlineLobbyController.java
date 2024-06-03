@@ -24,9 +24,11 @@ import java.util.Objects;
  * Class that controls the interactive elements in the onlineLobby scene and the reception of a JoinGameResponseEvent
  */
 public class OnlineLobbyController implements ViewController {
-    private static OnlineLobbyController instance;
     private static final int MIN_USERNAME_LENGTH = 3;
     private static final int MAX_USERNAME_LENGTH = 10;
+    private boolean connected = false;
+    @FXML
+    Button okPopupButton;
     @FXML
     VBox popup;
     @FXML
@@ -104,13 +106,18 @@ public class OnlineLobbyController implements ViewController {
         Platform.runLater(() -> {
             JoinGameResponseEvent joinGameResponseEvent = (JoinGameResponseEvent) event.getEvent();
             Response response = joinGameResponseEvent.getResponse();
+            popupContent.setText("Stai per entrare nella partita...");
+            okPopupButton.setVisible(false);
             switch (response) {
                 case OK -> {
-                    popupContent.setText("Stai per entrare nella partita...");
                     Platform.runLater(() -> SceneLoader.changeScene("fxml/waitingRoom.fxml"));
                 }
                 case CAN_REPLACE_BOT -> {
-                    Client.getInstance().send(new JoinOnGoingGameEvent(usernameField.getText()));
+                    closePopupButton.getStyleClass().add("button-clickable");
+                    closePopupButton.getStyleClass().remove("button-non-clickable");
+                    popupContent.setText("La partita è già iniziata.\nVuoi entrare comunque?");
+                    okPopupButton.setVisible(true);
+                    connected = true;
                 }
                 case GAME_FULL -> {
                     popupContent.setText("Questo server è già pieno!");
@@ -126,7 +133,6 @@ public class OnlineLobbyController implements ViewController {
                 }
 
                 case OK_ONGOING -> {
-                    popupContent.setText("Stai per entrare nella partita...");
                     Platform.runLater(() -> SceneLoader.changeScene("fxml/ingame.fxml"));
                 }
             }
@@ -137,6 +143,14 @@ public class OnlineLobbyController implements ViewController {
         if (closePopupButton.getStyleClass().contains("button-non-clickable"))
             return;
         popup.setVisible(false);
-        popupContent.setText("Connecting to server...");
+        popup.getStyleClass().add("button-non-clickable");
+        popup.getStyleClass().remove("button-clickable");
+        if(connected)
+            Client.getInstance().stop();
+    }
+
+    public void onOkPopupButtonClick(ActionEvent actionEvent) {
+        if(okPopupButton.getStyleClass().contains("button-clickable"))
+            Client.getInstance().send(new JoinOnGoingGameEvent(usernameField.getText()));
     }
 }

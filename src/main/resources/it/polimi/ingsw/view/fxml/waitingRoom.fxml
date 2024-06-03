@@ -49,7 +49,7 @@
             <VBox styleClass="popup">
                 <StackPane VBox.vgrow="NEVER" styleClass="back-popup-button">
                     <Circle radius="22"/>
-                    <Button styleClass="button-non-clickable"
+                    <Button styleClass="button-clickable"
                             fx:id="closePopupButton"
                             onAction="#onClosePopupClick">
                         ✖

@@ -10,7 +10,7 @@
            stylesheets="@../css/menu.css" alignment="CENTER" styleClass="scene">
     <children>
         <Label styleClass="title">
-            Titolo
+            Scopone
         </Label>
     </children>
     <children>

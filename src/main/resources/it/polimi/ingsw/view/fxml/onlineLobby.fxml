@@ -53,12 +53,15 @@
                     ✖
                 </Button>
             </StackPane>
-            <VBox alignment="CENTER">
+            <VBox alignment="CENTER" spacing="30">
                 <Label fx:id="popupContent"
                        wrapText="true"
                        textAlignment="CENTER">
                     Stai per entrare nella partita...
                 </Label>
+                <Button fx:id="okPopupButton" onAction="#onOkPopupButtonClick" styleClass="button-clickable" visible="false">
+                    Entra
+                </Button>
             </VBox>
         </VBox>
     </VBox>

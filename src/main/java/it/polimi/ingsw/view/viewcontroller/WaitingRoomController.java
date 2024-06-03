@@ -103,7 +103,8 @@ public class WaitingRoomController implements ViewController, Initializable {
             this.oldPlayersNumber = newValue;
             updateCounter(newValue);
             if(updatePlayerCountEvent.getPlayerCount() >= 2) {
-                startAnywayButton.getStyleClass().add("button-clickable");
+                if(!startAnywayButton.getStyleClass().contains("button-clickable"))
+                    startAnywayButton.getStyleClass().add("button-clickable");
                 startAnywayButton.getStyleClass().remove("button-non-clickable");
             }
             else {

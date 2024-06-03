@@ -1,10 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.bot.Bot;
-import it.polimi.ingsw.model.bot.Difficulties;
-import it.polimi.ingsw.model.bot.Difficulty;
-import it.polimi.ingsw.model.bot.EasyDifficulty;
+import it.polimi.ingsw.model.bot.*;
 import it.polimi.ingsw.model.exceptions.EndGameException;
 
 import java.util.List;
@@ -55,7 +52,7 @@ public abstract class GameController {
         game.setStarted(true);
         playerIterator = new PlayerIterator(game.getPlayers());
         currentPlayer = playerIterator.next();
-        bot = new Bot(new EasyDifficulty(),
+        bot = new Bot(new HardDifficulty(),
                 game.getFirstTeam().getTakenCards(),
                 game.getSecondTeam().getTakenCards(),
                 game.getTable().getPlacedCards());
