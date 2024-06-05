@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.bot;
 
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.Suit;
+import it.polimi.ingsw.networking.Server;
 import it.polimi.ingsw.utils.CardListUtils;
 
 import java.util.ArrayList;
@@ -48,13 +49,15 @@ public abstract class Difficulty {
 
         for(Card card: inHandList) {
             double currentWeight = calculateWeight(card, inHandList, onTableList, playedCards);
-            System.out.println(card+": "+currentWeight);
+            if(Server.DEBUG)
+                System.out.println(card+": "+currentWeight);
             if (currentWeight > maxWeight) {
                 maxWeight = currentWeight;
                 returnCard = card;
             }
         }
-        System.out.println("Selected: " + returnCard +"\n");
+        if(Server.DEBUG)
+            System.out.println("Selected: " + returnCard +"\n");
         return returnCard;
     }
 

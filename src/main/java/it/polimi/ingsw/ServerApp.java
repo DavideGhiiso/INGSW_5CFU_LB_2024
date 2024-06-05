@@ -5,10 +5,18 @@ import it.polimi.ingsw.networking.Server;
 public class ServerApp {
     public static void main(String[] args) {
         Server server;
-        if(args.length == 2)
-            server = Server.getInstance(Integer.parseInt(args[0]));
-        else
-            server = Server.getInstance();
+        switch (args.length) {
+            case 2: {
+                server = Server.getInstance(Integer.parseInt(args[0]));
+                break;
+            }
+            case 3: {
+                Server.DEBUG = true;
+            }
+            default: {
+                server = Server.getInstance();
+            }
+        }
         server.start();
     }
 }

@@ -19,6 +19,7 @@ public class Server {
      * Singleton server instance
      */
     private static Server instance = null;
+    public static boolean DEBUG = false;
     private final int port;
     private final ServerSocket welcomeSocket;
     private final NetworkListener networkListener;
