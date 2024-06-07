@@ -1,0 +1,290 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > EndGameController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.viewcontroller</a>
+</div>
+
+<h1>Coverage Summary for Class: EndGameController (it.polimi.ingsw.view.viewcontroller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EndGameController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/77)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.view.viewcontroller;
+&nbsp;
+&nbsp;import it.polimi.ingsw.controller.OfflineGameController;
+&nbsp;import it.polimi.ingsw.events.data.client.ContinueGameEvent;
+&nbsp;import it.polimi.ingsw.events.data.server.EndGameResult;
+&nbsp;import it.polimi.ingsw.events.data.server.EndGameResultsEvent;
+&nbsp;import it.polimi.ingsw.events.data.Event;
+&nbsp;import it.polimi.ingsw.events.data.server.GameResumingWarningEvent;
+&nbsp;import it.polimi.ingsw.model.GameResult;
+&nbsp;import it.polimi.ingsw.model.Points;
+&nbsp;import it.polimi.ingsw.networking.Client;
+&nbsp;import it.polimi.ingsw.view.SceneLoader;
+&nbsp;import javafx.application.Platform;
+&nbsp;import javafx.event.ActionEvent;
+&nbsp;import javafx.fxml.FXML;
+&nbsp;import javafx.fxml.Initializable;
+&nbsp;import javafx.geometry.HPos;
+&nbsp;import javafx.scene.control.Button;
+&nbsp;import javafx.scene.control.Label;
+&nbsp;import javafx.scene.input.MouseEvent;
+&nbsp;import javafx.scene.layout.GridPane;
+&nbsp;import javafx.scene.layout.HBox;
+&nbsp;import javafx.scene.layout.VBox;
+&nbsp;
+&nbsp;import java.net.URL;
+&nbsp;import java.util.Objects;
+&nbsp;import java.util.ResourceBundle;
+&nbsp;
+<b class="nc">&nbsp;public class EndGameController implements ViewController {</b>
+&nbsp;    private GameResult firstTeamResult;
+&nbsp;    private GameResult secondTeamResult;
+&nbsp;    private int firstTeamTotalPoints;
+&nbsp;    private int secondTeamTotalPoints;
+&nbsp;    private static final String TICK_SYMBOL = &quot;?&quot;;
+&nbsp;    private static final String X_SYMBOL = &quot;?&quot;;
+&nbsp;    private static final String DEUCE_SYMBOL = &quot;-&quot;;
+&nbsp;    @FXML
+&nbsp;    GridPane pointsGridPane;
+&nbsp;    @FXML
+&nbsp;    Button continueButton;
+&nbsp;    @FXML
+&nbsp;    VBox popup;
+&nbsp;    @FXML
+&nbsp;    GridPane resultTable;
+&nbsp;    @FXML
+&nbsp;    Label team1Points;
+&nbsp;    @FXML
+&nbsp;    Label team2Points;
+&nbsp;    @FXML
+&nbsp;    Label team1PointsTotal;
+&nbsp;    @FXML
+&nbsp;    Label team2PointsTotal;
+&nbsp;    @FXML
+&nbsp;    Label team2Header;
+&nbsp;    @FXML
+&nbsp;    Label team1Header;
+&nbsp;    @FXML
+&nbsp;    Label winnersLabel;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @see EndGameResultsEvent
+&nbsp;     * @see it.polimi.ingsw.events.data.server.GameResumingWarningEvent
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void handle(Event event) {
+<b class="nc">&nbsp;        switch (event.getID()) {</b>
+<b class="nc">&nbsp;            case &quot;END_GAME_RESULTS_EVENT&quot; -&gt; onEndGameResultsEvent(event);</b>
+<b class="nc">&nbsp;            case &quot;GAME_RESUMING_WARNING_EVENT&quot; -&gt; popup.setVisible(true);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void onEndGameResultsEvent(Event event) {
+<b class="nc">&nbsp;        EndGameResultsEvent endGameResultsEvent = (EndGameResultsEvent) event.getEvent();</b>
+<b class="nc">&nbsp;        firstTeamResult = endGameResultsEvent.getFirstTeamResult();</b>
+<b class="nc">&nbsp;        secondTeamResult = endGameResultsEvent.getSecondTeamResult();</b>
+<b class="nc">&nbsp;        firstTeamTotalPoints = endGameResultsEvent.getFirstTeamTotalPoints();</b>
+<b class="nc">&nbsp;        secondTeamTotalPoints = endGameResultsEvent.getSecondTeamTotalPoints();</b>
+<b class="nc">&nbsp;        EndGameResult result = endGameResultsEvent.getResult();</b>
+<b class="nc">&nbsp;        setWinnersLabel(result, result.equals(EndGameResult.TEAM1) ? firstTeamResult:secondTeamResult);</b>
+<b class="nc">&nbsp;        setPoints();</b>
+<b class="nc">&nbsp;        setTeamHeaders();</b>
+<b class="nc">&nbsp;        populateTable();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void setWinnersLabel(EndGameResult result, GameResult winningTeam) {
+<b class="nc">&nbsp;        if(result.equals(EndGameResult.DRAW)) {</b>
+<b class="nc">&nbsp;            winnersLabel.setText(&quot;Pareggio&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        if(SceneLoader.getPlayerView().isOffline()) {</b>
+<b class="nc">&nbsp;            if(winningTeam.getFirstPlayer().equals(OfflineGameController.DEFAULT_OFFLINE_GAME) || winningTeam.getSecondPlayer().equals(OfflineGameController.DEFAULT_OFFLINE_GAME))</b>
+<b class="nc">&nbsp;               winnersLabel.setText(&quot;Hai vinto!&quot;);</b>
+&nbsp;            else
+<b class="nc">&nbsp;                winnersLabel.setText(&quot;Hai perso!&quot;);</b>
+&nbsp;        } else
+<b class="nc">&nbsp;            winnersLabel.setText(&quot;Vincono &quot; + winningTeam.getFirstPlayer() + &quot; e &quot; + winningTeam.getSecondPlayer() + &quot;!&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void setPoints() {
+<b class="nc">&nbsp;        if(firstTeamTotalPoints &gt;= 11 || secondTeamTotalPoints &gt;= 11)</b>
+<b class="nc">&nbsp;            definitiveWinRoutine();</b>
+<b class="nc">&nbsp;        team1Points.setText(String.valueOf(firstTeamResult.getTotalPoints()));</b>
+<b class="nc">&nbsp;        team2Points.setText(String.valueOf(secondTeamResult.getTotalPoints()));</b>
+<b class="nc">&nbsp;        team1PointsTotal.setText(String.valueOf(firstTeamTotalPoints));</b>
+<b class="nc">&nbsp;        team2PointsTotal.setText(String.valueOf(secondTeamTotalPoints));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void definitiveWinRoutine() {
+<b class="nc">&nbsp;        if(firstTeamTotalPoints &gt;= 11)</b>
+<b class="nc">&nbsp;            team1PointsTotal.getStyleClass().add(&quot;winning-points&quot;);</b>
+<b class="nc">&nbsp;        if(secondTeamTotalPoints &gt;= 11)</b>
+<b class="nc">&nbsp;            team2PointsTotal.getStyleClass().add(&quot;winning-points&quot;);</b>
+<b class="nc">&nbsp;        HBox buttonContainer = (HBox)continueButton.getParent();</b>
+<b class="nc">&nbsp;        buttonContainer.getChildren().remove(continueButton);</b>
+<b class="nc">&nbsp;        Button exitButton = (Button) buttonContainer.getChildren().getFirst();</b>
+<b class="nc">&nbsp;        exitButton.setText(&quot;Vedi risultati&quot;);</b>
+<b class="nc">&nbsp;        exitButton.setOnAction(e -&gt; onSeeResultsButtonClick(exitButton));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void onSeeResultsButtonClick(Button exitButton) {
+<b class="nc">&nbsp;        exitButton.setText(&quot;Esci&quot;);</b>
+<b class="nc">&nbsp;        exitButton.setOnAction(this::onExitButtonClick);</b>
+<b class="nc">&nbsp;        ((VBox)resultTable.getParent()).getChildren().remove(resultTable);</b>
+<b class="nc">&nbsp;        GameResult winningTeam = null;</b>
+<b class="nc">&nbsp;        pointsGridPane.getChildren().removeIf(node -&gt; GridPane.getRowIndex(node) == 0);</b>
+<b class="nc">&nbsp;        if(firstTeamTotalPoints &gt; secondTeamTotalPoints)</b>
+<b class="nc">&nbsp;            winningTeam = firstTeamResult;</b>
+<b class="nc">&nbsp;        else if (firstTeamTotalPoints &lt; secondTeamTotalPoints)</b>
+<b class="nc">&nbsp;            winningTeam = secondTeamResult;</b>
+<b class="nc">&nbsp;        if(winningTeam != null)</b>
+<b class="nc">&nbsp;            winnersLabel.setText(&quot;Vincono &quot; + winningTeam.getFirstPlayer() + &quot; e &quot; + winningTeam.getSecondPlayer() + &quot;!&quot;);</b>
+&nbsp;        else
+<b class="nc">&nbsp;            winnersLabel.setText(&quot;Pareggio!&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void setTeamHeaders() {
+<b class="nc">&nbsp;        team1Header.setText(firstTeamResult.getFirstPlayer() + &quot; e &quot; + firstTeamResult.getSecondPlayer());</b>
+<b class="nc">&nbsp;        team2Header.setText(secondTeamResult.getFirstPlayer() + &quot; e &quot; + secondTeamResult.getSecondPlayer());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void populateTable() {
+<b class="nc">&nbsp;        resultTable.add(getGridPaneLabel(String.valueOf(firstTeamResult.getScopa())), 1,1); // col row</b>
+<b class="nc">&nbsp;        resultTable.add(getGridPaneLabel(String.valueOf(secondTeamResult.getScopa())), 2,1);</b>
+<b class="nc">&nbsp;        int row = 2;</b>
+<b class="nc">&nbsp;        for(Points point: Points.values()) {</b>
+<b class="nc">&nbsp;            if(firstTeamResult.getPointsMade().contains(point)) {</b>
+<b class="nc">&nbsp;                resultTable.add(getGridPaneLabel(TICK_SYMBOL), 1,row);</b>
+<b class="nc">&nbsp;                resultTable.add(getGridPaneLabel(X_SYMBOL), 2,row);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            else if(secondTeamResult.getPointsMade().contains(point)) {</b>
+<b class="nc">&nbsp;                resultTable.add(getGridPaneLabel(TICK_SYMBOL), 2,row);</b>
+<b class="nc">&nbsp;                resultTable.add(getGridPaneLabel(X_SYMBOL), 1,row);</b>
+&nbsp;            }
+&nbsp;            else {
+<b class="nc">&nbsp;                resultTable.add(getGridPaneLabel(DEUCE_SYMBOL), 1,row);</b>
+<b class="nc">&nbsp;                resultTable.add(getGridPaneLabel(DEUCE_SYMBOL), 2,row);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            row++;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private Label getGridPaneLabel(String content) {
+<b class="nc">&nbsp;        Label label = new Label(content);</b>
+<b class="nc">&nbsp;        GridPane.setHalignment(label, HPos.CENTER);</b>
+<b class="nc">&nbsp;        return label;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void onContinueButtonClick(ActionEvent actionEvent) {
+<b class="nc">&nbsp;        Button continueButton = (Button)actionEvent.getSource();</b>
+<b class="nc">&nbsp;        continueButton.getStyleClass().remove(&quot;button-clickable&quot;);</b>
+<b class="nc">&nbsp;        continueButton.getStyleClass().add(&quot;button-non-clickable&quot;);</b>
+<b class="nc">&nbsp;        if(SceneLoader.getPlayerView().isOffline()) {</b>
+<b class="nc">&nbsp;            SceneLoader.changeScene(&quot;fxml/ingame.fxml&quot;);</b>
+<b class="nc">&nbsp;            OfflineGameController.getInstance().continueGame();</b>
+<b class="nc">&nbsp;            SceneLoader.getPlayerView().setYourTurn(true);</b>
+&nbsp;        }
+&nbsp;        else
+<b class="nc">&nbsp;            Client.getInstance().send(new ContinueGameEvent());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void onExitButtonClick(ActionEvent actionEvent) {
+<b class="nc">&nbsp;        Platform.runLater(() -&gt; SceneLoader.changeScene(&quot;fxml/menu.fxml&quot;));</b>
+<b class="nc">&nbsp;        if(!SceneLoader.getPlayerView().isOffline())</b>
+<b class="nc">&nbsp;            Client.getInstance().stop();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-06-07 10:40</div>
+</div>
+</body>
+</html>

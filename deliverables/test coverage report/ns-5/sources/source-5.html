@@ -1,0 +1,143 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > EndGameHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.controller.handlers.server</a>
+</div>
+
+<h1>Coverage Summary for Class: EndGameHandler (it.polimi.ingsw.controller.handlers.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EndGameHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.controller.handlers.server;
+&nbsp;
+&nbsp;import it.polimi.ingsw.controller.OnlineGameController;
+&nbsp;import it.polimi.ingsw.controller.handlers.EventHandler;
+&nbsp;import it.polimi.ingsw.events.data.server.EndGameResult;
+&nbsp;import it.polimi.ingsw.events.data.server.EndGameResultsEvent;
+&nbsp;import it.polimi.ingsw.events.data.Event;
+&nbsp;import it.polimi.ingsw.model.GameResult;
+&nbsp;import it.polimi.ingsw.networking.Server;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;/**
+&nbsp; * @see it.polimi.ingsw.events.data.EndGameEvent
+&nbsp; * @see  EndGameResultsEvent
+&nbsp; */
+<b class="nc">&nbsp;public class EndGameHandler implements EventHandler {</b>
+&nbsp;    @Override
+&nbsp;    public void handle(Event event) {
+<b class="nc">&nbsp;        OnlineGameController onlineGameController = OnlineGameController.getInstance();</b>
+<b class="nc">&nbsp;        GameResult[] gameResults = onlineGameController.endGame();</b>
+<b class="nc">&nbsp;        EndGameResult result = EndGameResult.DRAW;</b>
+<b class="nc">&nbsp;        if(gameResults[0].getTotalPoints() &gt; gameResults[1].getTotalPoints())</b>
+<b class="nc">&nbsp;            result = EndGameResult.TEAM1;</b>
+<b class="nc">&nbsp;        else if (gameResults[0].getTotalPoints() &lt; gameResults[1].getTotalPoints())</b>
+<b class="nc">&nbsp;            result = EndGameResult.TEAM2;</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            Server.getInstance().getEventTransmitter().broadcast(</b>
+&nbsp;                    new EndGameResultsEvent(
+&nbsp;                            gameResults[0],
+&nbsp;                            gameResults[1],
+&nbsp;                            result,
+<b class="nc">&nbsp;                            onlineGameController.getTeam1Points(),</b>
+<b class="nc">&nbsp;                            onlineGameController.getTeam2Points()));</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-06-07 10:40</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,295 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Difficulty</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model.bot</a>
+</div>
+
+<h1>Coverage Summary for Class: Difficulty (it.polimi.ingsw.model.bot)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Difficulty</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (16/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.5%
+  </span>
+  <span class="absValue">
+    (77/79)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.model.bot;
+&nbsp;
+&nbsp;import it.polimi.ingsw.model.Card;
+&nbsp;import it.polimi.ingsw.model.Suit;
+&nbsp;import it.polimi.ingsw.networking.Server;
+&nbsp;import it.polimi.ingsw.utils.CardListUtils;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Stream;
+&nbsp;
+<b class="fc">&nbsp;public abstract class Difficulty {</b>
+<b class="fc">&nbsp;    protected static int IN_HAND_VALUE_WEIGHT = 5; // Prioritizes low number cards with more intensity in the first turns</b>
+<b class="fc">&nbsp;    protected static int TAKEN_CARDS_WEIGHT = 20; // Prioritizes cards that takes card</b>
+<b class="fc">&nbsp;    protected static int DOES_SCOPA_WEIGHT = 300; // Prioritizes cards that does Scopa</b>
+<b class="fc">&nbsp;    protected static int SEVEN_PROFICIENCY_WEIGHT = 70; // prioritizes its placement only if it takes at least a card</b>
+<b class="fc">&nbsp;    protected static int TAKES_SEVEN_WEIGHT = 60; // Prioritizes its placement if it takes a 7</b>
+<b class="fc">&nbsp;    protected static int GOLD_PROFICIENCY_WEIGHT = 60; // If it&#39;s a GOLDS, prioritizes its placement only if it takes at least a card</b>
+<b class="fc">&nbsp;    protected static int TAKES_GOLDS_WEIGHT = 25; // Prioritizes its placement if it takes a GOLDS card</b>
+<b class="fc">&nbsp;    protected static int SCOPA_RISK_WEIGHT = 80; // Calculates the risk that by placing this card the next player might do scopa</b>
+<b class="fc">&nbsp;    protected static int SEVEN_RISK_WEIGHT = 70; // Calculates the risk that by placing this card the next player might take a seven.</b>
+&nbsp;    public abstract Card chooseCard(List&lt;Card&gt; inHandList, List&lt;Card&gt; onTableList, List&lt;Card&gt; playedCards);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Simulates the placement of a card by returning the table if the passed card is placed
+&nbsp;     * @param card card to be placed
+&nbsp;     * @param onTableList list of card on table
+&nbsp;     * @return list representing the table after the card gets placed
+&nbsp;     */
+&nbsp;    public static List&lt;Card&gt; simulatePlacement(Card card, List&lt;Card&gt; onTableList) {
+<b class="fc">&nbsp;        List&lt;Card&gt; finalOnTableList = new ArrayList&lt;&gt;(onTableList);</b>
+<b class="fc">&nbsp;        List&lt;List&lt;Card&gt;&gt; combinations = CardListUtils.getAllCombinations(onTableList,4);</b>
+&nbsp;
+&nbsp;        // if card can take 1 or more cards, remove from simulated list:
+<b class="fc">&nbsp;        for(List&lt;Card&gt; combination: combinations) {</b>
+<b class="fc">&nbsp;            if(card.getNumber() == CardListUtils.sumOfNumbers(combination)) {</b>
+<b class="fc">&nbsp;                finalOnTableList.remove(card);</b>
+<b class="fc">&nbsp;                finalOnTableList.removeAll(combination);</b>
+<b class="fc">&nbsp;                return finalOnTableList;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        finalOnTableList.add(card);</b>
+<b class="fc">&nbsp;        return finalOnTableList;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected Card getCardWithMaxWeight(List&lt;Card&gt; inHandList, List&lt;Card&gt; onTableList, List&lt;Card&gt; playedCards) {
+<b class="fc">&nbsp;        Card returnCard = inHandList.getFirst();</b>
+<b class="fc">&nbsp;        double maxWeight = -10000;</b>
+&nbsp;
+<b class="fc">&nbsp;        for(Card card: inHandList) {</b>
+<b class="fc">&nbsp;            double currentWeight = calculateWeight(card, inHandList, onTableList, playedCards);</b>
+<b class="fc">&nbsp;            if(Server.DEBUG)</b>
+<b class="nc">&nbsp;                System.out.println(card+&quot;: &quot;+currentWeight);</b>
+<b class="fc">&nbsp;            if (currentWeight &gt; maxWeight) {</b>
+<b class="fc">&nbsp;                maxWeight = currentWeight;</b>
+<b class="fc">&nbsp;                returnCard = card;</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        if(Server.DEBUG)</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Selected: &quot; + returnCard +&quot;\n&quot;);</b>
+<b class="fc">&nbsp;        return returnCard;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected abstract double calculateWeight(Card card, List&lt;Card&gt; inHandList, List&lt;Card&gt; onTableList, List&lt;Card&gt; playedCards);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prioritizes low number cards with more intensity in the first turns
+&nbsp;     * This weight is always positive
+&nbsp;     */
+&nbsp;    protected static double calculateInHandValueProficiency(Card card, List&lt;Card&gt; inHandList) {
+&nbsp;        // the intensity is max in the first turn and goes down rapidly with exp decay
+<b class="fc">&nbsp;        return (11 - card.getNumber()) * Math.exp((double) (inHandList.size() - 10) / 4) * IN_HAND_VALUE_WEIGHT;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prioritizes cards that takes card.
+&nbsp;     * This weight is always positive or 0
+&nbsp;     */
+&nbsp;    protected static double calculateTakenCardsProficiency(Card card, List&lt;Card&gt; onTableList, List&lt;Card&gt; onTableListIfPlaced) {
+<b class="fc">&nbsp;        double result = (onTableList.size() - onTableListIfPlaced.size()) * TAKEN_CARDS_WEIGHT;</b>
+<b class="fc">&nbsp;        return result &gt;= 0 ? result : 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prioritizes cards that does Scopa
+&nbsp;     */
+&nbsp;    protected static double calculateDoesScopaProficiency(List&lt;Card&gt; onTableListIfPlaced) {
+<b class="fc">&nbsp;        return (onTableListIfPlaced.isEmpty() ? 1:0) * DOES_SCOPA_WEIGHT;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * If it&#39;s a 7, prioritizes its placement only if it takes at least a card, else reduces its weight
+&nbsp;     */
+&nbsp;    protected static double calculateSevenProficiency(Card card, List&lt;Card&gt; onTableList, List&lt;Card&gt; onTableListIfPlaced) {
+<b class="fc">&nbsp;        return (card.getNumber() == 7 ? 1:0)</b>
+<b class="fc">&nbsp;                * (hasTakenACard(onTableList, onTableListIfPlaced) ? 1:-1)</b>
+&nbsp;                * SEVEN_PROFICIENCY_WEIGHT;
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * Prioritizes its placement if it takes a 7.
+&nbsp;     * This weight is always positive or 0
+&nbsp;     */
+&nbsp;    protected static double calculateTakesSevenProficiency(Card card, List&lt;Card&gt; onTableList, List&lt;Card&gt; onTableListIfPlaced) {
+<b class="fc">&nbsp;        int sevenBefore = CardListUtils.numbersCount(onTableList, 7);</b>
+<b class="fc">&nbsp;        int sevenAfter = CardListUtils.numbersCount(onTableListIfPlaced, 7);</b>
+<b class="fc">&nbsp;        return (sevenBefore &gt; sevenAfter ? 1:0) * TAKES_SEVEN_WEIGHT;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     * If it&#39;s a GOLDS, prioritizes its placement only if it takes at least a card, else reduces its weight
+&nbsp;     */
+&nbsp;    protected static double calculateGoldProficiency(Card card, List&lt;Card&gt; onTableList, List&lt;Card&gt; onTableListIfPlaced) {
+<b class="fc">&nbsp;        return (card.getSuit() == Suit.GOLDS ? 1:0)</b>
+<b class="fc">&nbsp;                * (hasTakenACard(onTableList, onTableListIfPlaced) ? 1:-1)</b>
+&nbsp;                * GOLD_PROFICIENCY_WEIGHT;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prioritizes its placement if it takes a GOLDS.
+&nbsp;     * This weight is always positive or 0 and proportional to number of taken
+&nbsp;     */
+&nbsp;    protected static double calculateTakesGoldProficiency(Card card, List&lt;Card&gt; onTableList, List&lt;Card&gt; onTableListIfPlaced) {
+<b class="fc">&nbsp;        int goldsBefore = CardListUtils.suitsCount(onTableList, Suit.GOLDS);</b>
+<b class="fc">&nbsp;        int goldsAfter = CardListUtils.suitsCount(onTableListIfPlaced,Suit.GOLDS);</b>
+<b class="fc">&nbsp;        int takenGolds = goldsBefore - goldsAfter;</b>
+<b class="fc">&nbsp;        return (Math.max(takenGolds, 0)) * TAKES_GOLDS_WEIGHT;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Calculates the risk that by placing this card the next player might do scopa.
+&nbsp;     * If scopa has been made or remaining cards adds up to more than 10 there&#39;s no risk:
+&nbsp;     * else the risk depends on how many cards can still scopa.
+&nbsp;     * This weight is always negative or 0.
+&nbsp;     * @param inHandAndPlayedCards in hand + already played cards
+&nbsp;     */
+&nbsp;    protected static double calculateScopaRisk(List&lt;Card&gt; onTableList, List&lt;Card&gt; onTableListIfPlaced, List&lt;Card&gt; inHandAndPlayedCards) {
+<b class="fc">&nbsp;        if(onTableListIfPlaced.isEmpty()) return 0; // no risk</b>
+<b class="fc">&nbsp;        int sumOfCardsIfPlaced = CardListUtils.sumOfNumbers(onTableListIfPlaced); // sum of number on table if card is placed</b>
+<b class="fc">&nbsp;        if(sumOfCardsIfPlaced &gt; 10) return 0; // no risk</b>
+<b class="fc">&nbsp;        int nOfCardsThatCanStillScopa = 4 - CardListUtils.numbersCount(Stream.concat(inHandAndPlayedCards.stream(), onTableList.stream()).toList(), sumOfCardsIfPlaced);</b>
+<b class="fc">&nbsp;        return -(nOfCardsThatCanStillScopa * SCOPA_RISK_WEIGHT);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Calculates the risk that by placing this card the next player might take a seven.
+&nbsp;     * If opponents have no sevens there is no risk: else the risk depends on how many sevens remains and if there is a
+&nbsp;     * seven combination on table.
+&nbsp;     * This weight is always negative or 0.
+&nbsp;     * @param inHandAndPlayedCards in hand + already played cards
+&nbsp;     */
+&nbsp;    protected static double calculateSevenRisk(List&lt;Card&gt; onTableListIfPlaced, List&lt;Card&gt; inHandAndPlayedCards) {
+<b class="fc">&nbsp;        int remainingSeven = 4 - CardListUtils.numbersCount(inHandAndPlayedCards, 7);</b>
+<b class="fc">&nbsp;        if(remainingSeven == 0) return 0;</b>
+<b class="fc">&nbsp;        List&lt;List&lt;Card&gt;&gt; combinations = CardListUtils.getAllCombinations(onTableListIfPlaced, 3);</b>
+<b class="fc">&nbsp;        boolean sevenCombinationPresent = combinations.stream()</b>
+<b class="fc">&nbsp;                                            .map(CardListUtils::sumOfNumbers)</b>
+<b class="fc">&nbsp;                                            .anyMatch(sum -&gt; sum == 7);</b>
+<b class="fc">&nbsp;        return -(remainingSeven * (sevenCombinationPresent ? 1:0) * SEVEN_RISK_WEIGHT);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns true if the onTableListIfPlaced has fewer cards than onTableList
+&nbsp;     */
+&nbsp;    protected static boolean hasTakenACard(List&lt;Card&gt; onTableList, List&lt;Card&gt; onTableListIfPlaced) {
+<b class="fc">&nbsp;        return onTableList.size() &gt; onTableListIfPlaced.size();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected static double getSumOfWeight(Card card, List&lt;Card&gt; inHandList, List&lt;Card&gt; onTableList, List&lt;Card&gt; onTableListIfPlaced) {
+<b class="fc">&nbsp;        return calculateInHandValueProficiency(card, inHandList) +</b>
+<b class="fc">&nbsp;                calculateTakenCardsProficiency(card, onTableList, onTableListIfPlaced) +</b>
+<b class="fc">&nbsp;                calculateDoesScopaProficiency(onTableListIfPlaced) +</b>
+<b class="fc">&nbsp;                calculateSevenProficiency(card, onTableList, onTableListIfPlaced) +</b>
+<b class="fc">&nbsp;                calculateGoldProficiency(card, onTableList, onTableListIfPlaced) +</b>
+<b class="fc">&nbsp;                calculateTakesGoldProficiency(card, onTableList, onTableListIfPlaced) +</b>
+<b class="fc">&nbsp;                calculateScopaRisk(onTableList, onTableListIfPlaced, inHandList) +</b>
+<b class="fc">&nbsp;                calculateSevenRisk(onTableListIfPlaced, inHandList) +</b>
+<b class="fc">&nbsp;                calculateTakesSevenProficiency(card, onTableList, onTableListIfPlaced);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    protected static double getSumOfWeight(Card card, List&lt;Card&gt; inHandList, List&lt;Card&gt; onTableList, List&lt;Card&gt; onTableListIfPlaced, List&lt;Card&gt; inHandAndPlayedCards) {
+<b class="fc">&nbsp;        return calculateInHandValueProficiency(card, inHandList) +</b>
+<b class="fc">&nbsp;                calculateTakenCardsProficiency(card, onTableList, onTableListIfPlaced) +</b>
+<b class="fc">&nbsp;                calculateDoesScopaProficiency(onTableListIfPlaced) +</b>
+<b class="fc">&nbsp;                calculateSevenProficiency(card, onTableList, onTableListIfPlaced) +</b>
+<b class="fc">&nbsp;                calculateGoldProficiency(card, onTableList, onTableListIfPlaced) +</b>
+<b class="fc">&nbsp;                calculateTakesGoldProficiency(card, onTableList, onTableListIfPlaced) +</b>
+<b class="fc">&nbsp;                calculateScopaRisk(onTableList, onTableListIfPlaced, inHandAndPlayedCards) +</b>
+<b class="fc">&nbsp;                calculateSevenRisk(onTableListIfPlaced, inHandAndPlayedCards) +</b>
+<b class="fc">&nbsp;                calculateTakesSevenProficiency(card, onTableList, onTableListIfPlaced);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-06-07 10:40</div>
+</div>
+</body>
+</html>

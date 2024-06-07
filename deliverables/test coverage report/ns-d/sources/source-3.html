@@ -1,0 +1,199 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Connection</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.networking</a>
+</div>
+
+<h1>Coverage Summary for Class: Connection (it.polimi.ingsw.networking)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Connection</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.networking;
+&nbsp;
+&nbsp;import it.polimi.ingsw.events.data.BaseEvent;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.net.InetSocketAddress;
+&nbsp;import java.net.Socket;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class that handles a Connection between two hosts at socket level
+&nbsp; */
+&nbsp;public class Connection {
+&nbsp;    private final Socket foreignHostSocket;
+&nbsp;    private String connectionID;
+&nbsp;    private final ObjectInputStream inputStream;
+&nbsp;    private final ObjectOutputStream outputStream;
+&nbsp;    private static final int TIMEOUT = 2000;
+<b class="nc">&nbsp;    private final int PING_FAILURE_THRESHOLD = 10;</b>
+<b class="nc">&nbsp;    private int currentPingFailure = PING_FAILURE_THRESHOLD;</b>
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Used to create a new Client side connection
+&nbsp;     * @param address address to connect to
+&nbsp;     * @param port port to connect to
+&nbsp;     */
+<b class="nc">&nbsp;    public Connection(String address, int port) throws IOException {</b>
+<b class="nc">&nbsp;        this.foreignHostSocket = new Socket();</b>
+<b class="nc">&nbsp;        foreignHostSocket.connect(new InetSocketAddress(address, port), TIMEOUT);</b>
+<b class="nc">&nbsp;        outputStream = new ObjectOutputStream(foreignHostSocket.getOutputStream());</b>
+<b class="nc">&nbsp;        inputStream = new ObjectInputStream(foreignHostSocket.getInputStream());</b>
+<b class="nc">&nbsp;        connectionID = &quot;server&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Used to create a new Server side connection
+&nbsp;     */
+<b class="nc">&nbsp;    public Connection(Socket socket) throws IOException {</b>
+<b class="nc">&nbsp;        this.foreignHostSocket = socket;</b>
+<b class="nc">&nbsp;        outputStream = new ObjectOutputStream(foreignHostSocket.getOutputStream());</b>
+<b class="nc">&nbsp;        inputStream = new ObjectInputStream(foreignHostSocket.getInputStream());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that allows to send an Event through this Connection socket
+&nbsp;     * @param event an Event object to send
+&nbsp;     */
+&nbsp;    public void send(BaseEvent event) throws IOException {
+<b class="nc">&nbsp;        synchronized (outputStream) {</b>
+<b class="nc">&nbsp;            outputStream.writeObject(event);</b>
+<b class="nc">&nbsp;            outputStream.flush();</b>
+<b class="nc">&nbsp;            outputStream.reset();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Method that allows to receive an Event from the socket
+&nbsp;     * @return an Event received through the Socket
+&nbsp;     */
+&nbsp;    public BaseEvent receive() throws IOException, ClassNotFoundException {
+<b class="nc">&nbsp;        return (BaseEvent) inputStream.readObject();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void close() throws IOException {
+<b class="nc">&nbsp;        synchronized (outputStream) {</b>
+<b class="nc">&nbsp;            outputStream.close();</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        inputStream.close();</b>
+<b class="nc">&nbsp;        foreignHostSocket.close();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void decrementPingFailure() {
+<b class="nc">&nbsp;        currentPingFailure--;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void resetPingFailure() {
+<b class="nc">&nbsp;        currentPingFailure = PING_FAILURE_THRESHOLD;</b>
+&nbsp;    }
+&nbsp;    public boolean isFailed() {
+<b class="nc">&nbsp;        return currentPingFailure == 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getConnectionID() {
+<b class="nc">&nbsp;        return connectionID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setConnectionID(String connectionID) {
+<b class="nc">&nbsp;        this.connectionID = connectionID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;        return connectionID;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-06-07 10:40</div>
+</div>
+</body>
+</html>

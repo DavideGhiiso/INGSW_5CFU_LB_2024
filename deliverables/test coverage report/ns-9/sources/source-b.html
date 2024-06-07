@@ -1,0 +1,150 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ScoreEvent</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.events.data.server</a>
+</div>
+
+<h1>Coverage Summary for Class: ScoreEvent (it.polimi.ingsw.events.data.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ScoreEvent</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.events.data.server;
+&nbsp;
+&nbsp;import it.polimi.ingsw.events.data.BaseEvent;
+&nbsp;import it.polimi.ingsw.model.Player;
+&nbsp;
+&nbsp;import java.util.Arrays;
+&nbsp;
+&nbsp;public class ScoreEvent extends BaseEvent {
+&nbsp;    private final String[] fistTeamNames;
+&nbsp;    private final String[] secondTeamNames;
+&nbsp;    private final int firstTeamPoints;
+&nbsp;    private final int secondTeamPoints;
+&nbsp;
+<b class="nc">&nbsp;    public ScoreEvent(String[] fistTeamNames, String[] secondTeamNames, int firstTeamPoints, int secondTeamPoints) {</b>
+<b class="nc">&nbsp;        ID = &quot;SCORE_EVENT&quot;;</b>
+<b class="nc">&nbsp;        this.fistTeamNames = fistTeamNames;</b>
+<b class="nc">&nbsp;        this.secondTeamNames = secondTeamNames;</b>
+<b class="nc">&nbsp;        this.firstTeamPoints = firstTeamPoints;</b>
+<b class="nc">&nbsp;        this.secondTeamPoints = secondTeamPoints;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ScoreEvent(Player[] firstTeam, Player[] secondTeam, int firstTeamPoints, int secondTeamPoints) {
+<b class="nc">&nbsp;        this(</b>
+<b class="nc">&nbsp;                new String[]{firstTeam[0].getName(), firstTeam[1].getName()},</b>
+<b class="nc">&nbsp;                new String[]{secondTeam[0].getName(), secondTeam[1].getName()},</b>
+&nbsp;                firstTeamPoints,
+&nbsp;                secondTeamPoints
+&nbsp;        );
+&nbsp;    }
+&nbsp;
+&nbsp;    public String[] getFistTeamNames() {
+<b class="nc">&nbsp;        return fistTeamNames;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String[] getSecondTeamNames() {
+<b class="nc">&nbsp;        return secondTeamNames;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getFirstTeamPoints() {
+<b class="nc">&nbsp;        return firstTeamPoints;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getSecondTeamPoints() {
+<b class="nc">&nbsp;        return secondTeamPoints;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-06-07 10:40</div>
+</div>
+</body>
+</html>
