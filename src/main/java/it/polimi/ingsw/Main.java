@@ -15,8 +15,10 @@ public class Main {
     }
 
     private static void printHelp() {
-        System.out.println("Help: no arguments\n" +
-                "\t no arguments\t start the client" +
-                "\t server <port>\t starts the server");
+        System.out.println("""
+                Help: incorrect use of arguments
+                \t no arguments\t start the client
+                \t server\t starts the server on the default port (12000)\n
+                \t server <port>\t starts the server on specified port""");
     }
 }

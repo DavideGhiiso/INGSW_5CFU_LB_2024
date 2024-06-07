@@ -58,7 +58,10 @@ public class Server {
             instance = new Server(port);
         return instance;
     }
-
+    /**
+     * Returns the Singleton instance of this Server
+     * @return the Singleton server instance
+     */
     public static Server getInstance() {
         if(instance == null)
             instance = new Server(Server.DEFAULT_PORT);
@@ -95,11 +98,6 @@ public class Server {
         }
     }
 
-    public void reset() {
-        this.stop();
-        this.start();
-    }
-
     public boolean isEmpty() {
         return connectedClients.isEmpty();
     }
@@ -119,9 +117,20 @@ public class Server {
     public ServerSocket getWelcomeSocket() {
         return welcomeSocket;
     }
+
+    /**
+     * Adds a client to the current connected clients
+     * @param connection client connection
+     * @param thread client dedicated thread pointer
+     */
     public synchronized void addClient(Connection connection, Thread thread) {
         connectedClients.put(connection, thread);
     }
+
+    /**
+     * Removes a disconnected client from the server
+     * @param connection client connection
+     */
     public synchronized void removeClient(Connection connection) {
         if(connectedClients.containsKey(connection))
             connectedClients.get(connection).interrupt();
