@@ -64,6 +64,11 @@ public class Game {
         return player;
     }
 
+    public List<Player> rotatePlayers() {
+        players.addLast(players.removeFirst());
+        return players;
+    }
+
     public Table getTable() {
         return table;
     }

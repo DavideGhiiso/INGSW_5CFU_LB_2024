@@ -1,0 +1,31 @@
+* {
+    -fx-font-family: "Cambria";
+    -fx-text-fill: rgba(226,228,241,255);
+}
+
+.main-scene {
+    -fx-background-color: rgb(76, 115, 148);
+}
+
+Text {
+    -fx-text-fill: rgba(226,228,241,255);
+    -fx-font-weight: bold;
+    -fx-font-size: 30pt;
+}
+
+.label {
+    -fx-font-size: 15pt;
+}
+
+.button-clickable {
+    -fx-font-size: 15pt;
+    -fx-background-color: rgb(218, 76, 102);
+    -fx-cursor: hand;
+}
+
+Separator .line {
+    -fx-max-width: 500px;
+    -fx-border-width: 0;
+    -fx-pref-height: 2;
+    -fx-background-color: rgb(195, 208, 210);
+}

@@ -40,7 +40,7 @@ public class OfflineGameController extends GameController {
             game.addPlayer(new Player(DEFAULT_OFFLINE_GAME, dealer.getCardsHand(), false));
 
             for(int index=1; index <= Game.MAX_PLAYERS - 1; index++) {
-                game.addPlayer(new Player("BOT_" + index, dealer.getCardsHand(), true));
+                game.addPlayer(new Player("BOT" + index, dealer.getCardsHand(), true));
             }
         } catch (MaxPlayersReachedException e) {
             throw new RuntimeException(e);
@@ -64,7 +64,10 @@ public class OfflineGameController extends GameController {
         }
         observer.handle(new HandChangedEvent(hand));
         observer.handle(new NewTurnEvent(currentPlayer.getName()));
+        if(currentPlayer.getName().equals(DEFAULT_OFFLINE_GAME))
+            SceneLoader.getPlayerView().setYourTurn(true);
     }
+
     public void placeCardAndPlayBot(Card card) {
         List<Card> table = super.placeCard(card);
         List<Card> hand;
@@ -79,8 +82,13 @@ public class OfflineGameController extends GameController {
             nextTurn();
             observer.handle(new NewTurnEvent(currentPlayer.getName()));
         } catch (EndGameException e) {
-            throw new RuntimeException(e);
+            sendEndGameResultsEvent();
+            return;
         }
+        loopThroughBots();
+    }
+
+    private void loopThroughBots() {
         while (currentPlayer.isBot()) {
             try {
                 playBotTurn();
@@ -126,7 +134,16 @@ public class OfflineGameController extends GameController {
                 getTeam2Points()
         ));
         observer.handle(new NewTurnEvent(currentPlayer.getName()));
-        observer.handle(new HandChangedEvent(currentPlayer.getHand()));
+        try {
+            observer.handle(new HandChangedEvent(game.getPlayer(DEFAULT_OFFLINE_GAME).getHand()));
+        } catch (NonexistentPlayerException e) {
+            throw new RuntimeException(e);
+        }
+        if(currentPlayer.isBot()) {
+            new Thread(this::loopThroughBots).start();
+        }
+        else
+            SceneLoader.getPlayerView().setYourTurn(true);
     }
 
     @Override

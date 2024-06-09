@@ -50,6 +50,7 @@ Separator .line {
 }
 
 .winners-label {
+    -fx-padding: 10px;
     -fx-font-size: 50px;
     -fx-font-weight: bold;
 }

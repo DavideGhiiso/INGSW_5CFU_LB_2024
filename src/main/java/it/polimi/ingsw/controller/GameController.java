@@ -92,12 +92,17 @@ public abstract class GameController {
 
     public GameResult[] endGame() {
         game.addRemainingCards();
+        rotatePlayers();
         GameResult[] gameResults = getGamesResults();
         team1Points += gameResults[0].getTotalPoints();
         team2Points += gameResults[1].getTotalPoints();
         game.getFirstTeam().endRound();
         game.getSecondTeam().endRound();
         return gameResults;
+    }
+
+    private void rotatePlayers() {
+        playerIterator = new PlayerIterator(game.rotatePlayers());
     }
 
     public String[] getFirstTeamNames() {

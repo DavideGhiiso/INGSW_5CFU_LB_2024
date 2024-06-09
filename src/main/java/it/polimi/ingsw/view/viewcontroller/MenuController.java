@@ -24,7 +24,6 @@ public class MenuController implements ViewController {
         PlayerView playerView = SceneLoader.getPlayerView();
         playerView.setOffline(true);
         playerView.setUsername(OfflineGameController.DEFAULT_OFFLINE_GAME);
-        playerView.setYourTurn(true);
         OfflineGameController.getInstance(new Game());
         Platform.runLater(() -> SceneLoader.changeScene("fxml/ingame.fxml"));
     }

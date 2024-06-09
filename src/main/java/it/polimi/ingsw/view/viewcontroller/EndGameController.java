@@ -65,7 +65,11 @@ public class EndGameController implements ViewController {
     public void handle(Event event) {
         switch (event.getID()) {
             case "END_GAME_RESULTS_EVENT" -> onEndGameResultsEvent(event);
-            case "GAME_RESUMING_WARNING_EVENT" -> popup.setVisible(true);
+            case "GAME_RESUMING_WARNING_EVENT" -> {
+                continueButton.getStyleClass().remove("button-clickable");
+                continueButton.getStyleClass().add("button-non-clickable");
+                popup.setVisible(true);
+            }
         }
     }
 
@@ -172,7 +176,6 @@ public class EndGameController implements ViewController {
         if(SceneLoader.getPlayerView().isOffline()) {
             SceneLoader.changeScene("fxml/ingame.fxml");
             OfflineGameController.getInstance().continueGame();
-            SceneLoader.getPlayerView().setYourTurn(true);
         }
         else
             Client.getInstance().send(new ContinueGameEvent());
