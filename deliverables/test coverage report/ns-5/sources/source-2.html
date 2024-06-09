@@ -1,0 +1,141 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > ChangeBotDifficultyHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.controller.handlers.server</a>
+</div>
+
+<h1>Coverage Summary for Class: ChangeBotDifficultyHandler (it.polimi.ingsw.controller.handlers.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChangeBotDifficultyHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.controller.handlers.server;
+&nbsp;
+&nbsp;import it.polimi.ingsw.controller.OnlineGameController;
+&nbsp;import it.polimi.ingsw.controller.handlers.EventHandler;
+&nbsp;import it.polimi.ingsw.events.data.Event;
+&nbsp;import it.polimi.ingsw.events.data.ChangeBotDifficultyEvent;
+&nbsp;import it.polimi.ingsw.model.bot.Difficulties;
+&nbsp;import it.polimi.ingsw.networking.Server;
+&nbsp;import it.polimi.ingsw.view.SceneLoader;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;/**
+&nbsp; * @see ChangeBotDifficultyEvent
+&nbsp; */
+&nbsp;public class ChangeBotDifficultyHandler implements EventHandler {
+&nbsp;    private final boolean clientSide;
+<b class="nc">&nbsp;    public ChangeBotDifficultyHandler(boolean clientSide) {</b>
+<b class="nc">&nbsp;        this.clientSide = clientSide;</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public void handle(Event event) {
+<b class="nc">&nbsp;        Difficulties newDifficulty = ((ChangeBotDifficultyEvent) event).getDifficulty();</b>
+<b class="nc">&nbsp;        if(clientSide) {</b>
+<b class="nc">&nbsp;            SceneLoader.getPlayerView().setCurrentDifficulty(newDifficulty);</b>
+<b class="nc">&nbsp;            SceneLoader.getCurrentController().handle(event);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        OnlineGameController.getInstance().setBotDifficulty(newDifficulty);</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            if(OnlineGameController.getInstance().botIsPlaying())</b>
+<b class="nc">&nbsp;                Server.getInstance().getEventTransmitter().broadcast(new ChangeBotDifficultyEvent(newDifficulty));</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-06-09 22:09</div>
+</div>
+</body>
+</html>

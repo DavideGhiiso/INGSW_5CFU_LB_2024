@@ -1,0 +1,131 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > TableChangedEvent</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.events.data.server</a>
+</div>
+
+<h1>Coverage Summary for Class: TableChangedEvent (it.polimi.ingsw.events.data.server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TableChangedEvent</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.events.data.server;
+&nbsp;
+&nbsp;import it.polimi.ingsw.events.data.BaseEvent;
+&nbsp;import it.polimi.ingsw.model.Card;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Event that contains the new state of the table that must be displayed
+&nbsp; */
+&nbsp;public class TableChangedEvent extends BaseEvent {
+&nbsp;    private final List&lt;Card&gt; cards;
+&nbsp;    private final Card playedCard;
+<b class="nc">&nbsp;    public TableChangedEvent(List&lt;Card&gt; currentPlacedCards, Card playedCard) {</b>
+<b class="nc">&nbsp;        ID = &quot;TABLE_CHANGED_EVENT&quot;;</b>
+<b class="nc">&nbsp;        cards = currentPlacedCards;</b>
+<b class="nc">&nbsp;        this.playedCard = playedCard;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Card&gt; getCards() {
+<b class="nc">&nbsp;        return cards;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Card getPlayedCard() {
+<b class="nc">&nbsp;        return playedCard;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-06-09 22:09</div>
+</div>
+</body>
+</html>

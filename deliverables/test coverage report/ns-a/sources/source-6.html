@@ -1,0 +1,151 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Player</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Player (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Player</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    22,2%
+  </span>
+  <span class="absValue">
+    (2/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    41,7%
+  </span>
+  <span class="absValue">
+    (5/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.model;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public class Player {
+&nbsp;    private String name;
+&nbsp;    private List&lt;Card&gt; hand;
+&nbsp;    private boolean isBot;
+&nbsp;
+<b class="fc">&nbsp;    public Player(String username, List&lt;Card&gt; generatedHand, boolean isBot) {</b>
+<b class="fc">&nbsp;        this.name = username;</b>
+<b class="fc">&nbsp;        this.hand = generatedHand;</b>
+<b class="fc">&nbsp;        this.isBot = isBot;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void playCard(Card card) {
+<b class="nc">&nbsp;        this.hand.remove(card);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setHand(List&lt;Card&gt; hand) {
+<b class="nc">&nbsp;        this.hand = hand;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getName() {
+<b class="fc">&nbsp;        return name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Card&gt; getHand() {
+<b class="nc">&nbsp;        return hand;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean isBot() {
+<b class="nc">&nbsp;        return isBot;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setBot(boolean bot) {
+<b class="nc">&nbsp;        isBot = bot;</b>
+&nbsp;    }
+&nbsp;    public void setName(String name) {
+<b class="nc">&nbsp;        this.name = name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;        return name + &quot; &quot; + (isBot? &quot;BOT&quot;:&quot;&quot;);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-06-09 22:09</div>
+</div>
+</body>
+</html>

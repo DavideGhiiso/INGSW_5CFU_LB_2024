@@ -1,0 +1,139 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Bot</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model.bot</a>
+</div>
+
+<h1>Coverage Summary for Class: Bot (it.polimi.ingsw.model.bot)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Bot</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (9/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.model.bot;
+&nbsp;
+&nbsp;import it.polimi.ingsw.model.Card;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Stream;
+&nbsp;
+&nbsp;public class Bot {
+&nbsp;    private final static int THINK_TIME = 3000;
+&nbsp;    private Difficulty difficulty;
+&nbsp;    private List&lt;Card&gt; team1Cards;
+&nbsp;    private List&lt;Card&gt; team2Cards;
+&nbsp;    private List&lt;Card&gt; onTableList;
+&nbsp;
+<b class="fc">&nbsp;    public Bot(Difficulty difficulty, List&lt;Card&gt; team1Cards, List&lt;Card&gt; team2Cards, List&lt;Card&gt; onTableList) {</b>
+<b class="fc">&nbsp;        this.difficulty = difficulty;</b>
+<b class="fc">&nbsp;        this.team1Cards = team1Cards;</b>
+<b class="fc">&nbsp;        this.team2Cards = team2Cards;</b>
+<b class="fc">&nbsp;        this.onTableList = onTableList;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setDifficulty(Difficulty difficulty) {
+<b class="nc">&nbsp;        this.difficulty = difficulty;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Card playCard(List&lt;Card&gt; inHandList) {
+&nbsp;        try {
+<b class="fc">&nbsp;            Thread.sleep(THINK_TIME);</b>
+<b class="nc">&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        List&lt;Card&gt; playedCards = Stream.concat(team1Cards.stream(), team2Cards.stream()).toList();</b>
+<b class="fc">&nbsp;        return difficulty.chooseCard(inHandList, onTableList, playedCards);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-06-09 22:09</div>
+</div>
+</body>
+</html>

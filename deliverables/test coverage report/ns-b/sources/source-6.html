@@ -1,0 +1,145 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > MediumDifficulty</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model.bot</a>
+</div>
+
+<h1>Coverage Summary for Class: MediumDifficulty (it.polimi.ingsw.model.bot)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MediumDifficulty</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.model.bot;
+&nbsp;
+&nbsp;import it.polimi.ingsw.model.Card;
+&nbsp;import it.polimi.ingsw.networking.Server;
+&nbsp;import it.polimi.ingsw.utils.CardListUtils;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Stream;
+&nbsp;
+<b class="nc">&nbsp;public class MediumDifficulty extends Difficulty {</b>
+&nbsp;    @Override
+&nbsp;    public Card chooseCard(List&lt;Card&gt; inHandList, List&lt;Card&gt; onTableList, List&lt;Card&gt; playedCards) {
+<b class="nc">&nbsp;        List&lt;Card&gt; playerCardsPartial = new ArrayList&lt;&gt;(playedCards);</b>
+<b class="nc">&nbsp;        removeRandomCards(playerCardsPartial);</b>
+<b class="nc">&nbsp;        if(Server.DEBUG)</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Remembered list: &quot;+playerCardsPartial);</b>
+<b class="nc">&nbsp;        if(onTableList.isEmpty()) {</b>
+<b class="nc">&nbsp;            return CardListUtils.cardWithHighestCount(inHandList, playerCardsPartial);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return getCardWithMaxWeight(inHandList, onTableList, playerCardsPartial);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected double calculateWeight(Card card, List&lt;Card&gt; inHandList, List&lt;Card&gt; onTableList, List&lt;Card&gt; playedCards) {
+<b class="nc">&nbsp;        List&lt;Card&gt; onTableListIfPlaced = Difficulty.simulatePlacement(card, onTableList);</b>
+<b class="nc">&nbsp;        List&lt;Card&gt; inHandAndPlayedCards = Stream.concat(inHandList.stream(), playedCards.stream()).toList();</b>
+<b class="nc">&nbsp;        return getSumOfWeight(card, inHandList, onTableList, onTableListIfPlaced, inHandAndPlayedCards);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void removeRandomCards(List&lt;Card&gt; cards) {
+<b class="nc">&nbsp;        int cardToRemove = (int)((Math.random()*(cards.size()-1)));</b>
+<b class="nc">&nbsp;        int nOfCardsToRemove = (int)((Math.random()*(cards.size()-1)));</b>
+<b class="nc">&nbsp;        for(int i=0;i &lt; nOfCardsToRemove;i++) {</b>
+<b class="nc">&nbsp;            cards.remove(cardToRemove);</b>
+<b class="nc">&nbsp;            cardToRemove = (int)((Math.random()*(cards.size()-1)));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+&nbsp;
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-06-09 22:09</div>
+</div>
+</body>
+</html>

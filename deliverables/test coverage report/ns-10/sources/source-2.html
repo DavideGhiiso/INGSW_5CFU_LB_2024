@@ -1,0 +1,531 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > InGameController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.viewcontroller</a>
+</div>
+
+<h1>Coverage Summary for Class: InGameController (it.polimi.ingsw.view.viewcontroller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InGameController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/214)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.view.viewcontroller;
+&nbsp;
+&nbsp;import it.polimi.ingsw.controller.OfflineGameController;
+&nbsp;import it.polimi.ingsw.events.data.Event;
+&nbsp;import it.polimi.ingsw.events.data.GameInfo;
+&nbsp;import it.polimi.ingsw.events.data.ChangeBotDifficultyEvent;
+&nbsp;import it.polimi.ingsw.events.data.client.PlaceCardEvent;
+&nbsp;import it.polimi.ingsw.events.data.server.*;
+&nbsp;import it.polimi.ingsw.model.Card;
+&nbsp;import it.polimi.ingsw.model.bot.Difficulties;
+&nbsp;import it.polimi.ingsw.model.exceptions.IllegalCardConstructionException;
+&nbsp;import it.polimi.ingsw.model.Suit;
+&nbsp;import it.polimi.ingsw.networking.Client;
+&nbsp;import it.polimi.ingsw.view.PlayerView;
+&nbsp;import it.polimi.ingsw.view.SceneLoader;
+&nbsp;import it.polimi.ingsw.view.View;
+&nbsp;import it.polimi.ingsw.view.viewcontroller.transitions.TablePlacementTransition;
+&nbsp;import it.polimi.ingsw.view.viewcontroller.transitions.TakeCardTransition;
+&nbsp;import javafx.animation.FadeTransition;
+&nbsp;import javafx.application.Platform;
+&nbsp;import javafx.collections.ObservableList;
+&nbsp;import javafx.event.ActionEvent;
+&nbsp;import javafx.fxml.FXML;
+&nbsp;import javafx.fxml.Initializable;
+&nbsp;import javafx.geometry.Pos;
+&nbsp;import javafx.scene.Node;
+&nbsp;import javafx.scene.control.Button;
+&nbsp;import javafx.scene.control.ComboBox;
+&nbsp;import javafx.scene.control.Label;
+&nbsp;import javafx.scene.image.Image;
+&nbsp;import javafx.scene.image.ImageView;
+&nbsp;import javafx.scene.input.MouseEvent;
+&nbsp;import javafx.scene.layout.HBox;
+&nbsp;import javafx.scene.layout.VBox;
+&nbsp;import javafx.util.Duration;
+&nbsp;
+&nbsp;import java.lang.reflect.InvocationTargetException;
+&nbsp;import java.lang.reflect.Method;
+&nbsp;import java.net.URL;
+&nbsp;import java.util.*;
+&nbsp;
+<b class="nc">&nbsp;public class InGameController implements ViewController, Initializable {</b>
+<b class="nc">&nbsp;    private ImageView selectedCard = null;</b>
+<b class="nc">&nbsp;    private boolean animationPlaying = false;</b>
+<b class="nc">&nbsp;    private boolean receivedEndGameEvent = false;</b>
+&nbsp;    private Event endGameEventBuffer; // used to store an EndGameEvent in case an animation is playing when received
+&nbsp;    @FXML
+&nbsp;    Label difficultyPopup;
+&nbsp;    @FXML
+&nbsp;    Label usernameLabel;
+&nbsp;    @FXML
+&nbsp;    HBox centralPane;
+&nbsp;    @FXML
+&nbsp;    Button playCardButton;
+&nbsp;    @FXML
+&nbsp;    Label northLabel;
+&nbsp;    @FXML
+&nbsp;    Label westLabel;
+&nbsp;    @FXML
+&nbsp;    Label southLabel;
+&nbsp;    @FXML
+&nbsp;    Label eastLabel;
+&nbsp;    @FXML
+&nbsp;    Label team1Label;
+&nbsp;    @FXML
+&nbsp;    Label team2Label;
+&nbsp;    @FXML
+&nbsp;    HBox bottomPane;
+&nbsp;    @FXML
+&nbsp;    VBox popup;
+&nbsp;    @FXML
+&nbsp;    Button exitButton;
+&nbsp;    @FXML
+&nbsp;    VBox menuWrapper;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void initialize(URL url, ResourceBundle resourceBundle) {
+<b class="nc">&nbsp;        PlayerView playerView = SceneLoader.getPlayerView();</b>
+<b class="nc">&nbsp;        usernameLabel.setText(SceneLoader.getPlayerView().getUsername());</b>
+<b class="nc">&nbsp;        addDifficultyChanger();</b>
+<b class="nc">&nbsp;        if(playerView.isOffline()) {</b>
+<b class="nc">&nbsp;            offlineGameRoutine();</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        Client client = Client.getInstance();</b>
+<b class="nc">&nbsp;        client.requestInfo(GameInfo.CURRENT_TABLE);</b>
+<b class="nc">&nbsp;        client.requestInfo(GameInfo.CURRENT_HAND);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @see HandChangedEvent
+&nbsp;     * @see ScoreEvent
+&nbsp;     * @see TableChangedEvent
+&nbsp;     * @see NewTurnEvent
+&nbsp;     * @see ChangeBotDifficultyEvent
+&nbsp;     * @see EndGameResultsEvent
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void handle(Event event) {
+<b class="nc">&nbsp;        Platform.runLater(() -&gt; {</b>
+<b class="nc">&nbsp;            switch (event.getID()) {</b>
+<b class="nc">&nbsp;                case &quot;HAND_CHANGED_EVENT&quot; -&gt; updateHand((HandChangedEvent) event);</b>
+<b class="nc">&nbsp;                case &quot;SCORE_EVENT&quot; -&gt; updateScore((ScoreEvent) event);</b>
+<b class="nc">&nbsp;                case &quot;TABLE_CHANGED_EVENT&quot; -&gt; onTableUpdate((TableChangedEvent) event);</b>
+<b class="nc">&nbsp;                case &quot;NEW_TURN_EVENT&quot; -&gt; updateCurrentPlayer((NewTurnEvent) event);</b>
+<b class="nc">&nbsp;                case &quot;CHANGE_BOT_DIFFICULTY_EVENT&quot; -&gt; onChangeBotDifficulty(((ChangeBotDifficultyEvent)event).getDifficulty());</b>
+&nbsp;                case &quot;END_GAME_RESULTS_EVENT&quot; -&gt; {
+<b class="nc">&nbsp;                    receivedEndGameEvent = true;</b>
+<b class="nc">&nbsp;                    endGameEventBuffer = event;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        });
+&nbsp;    }
+&nbsp;    private void onChangeBotDifficulty(Difficulties difficulty) {
+<b class="nc">&nbsp;        ComboBox comboBox = (ComboBox) ((VBox) menuWrapper.getChildren().get(1)).getChildren().getLast();</b>
+<b class="nc">&nbsp;        comboBox.getSelectionModel().select(difficulty.ordinal());</b>
+<b class="nc">&nbsp;        if(!popup.isVisible()) {</b>
+<b class="nc">&nbsp;            difficultyPopup.setText(&quot;La difficoltà del bot è stata impostata a\n&quot;+ comboBox.getSelectionModel().getSelectedItem().toString());</b>
+<b class="nc">&nbsp;            FadeTransition animation = new FadeTransition(Duration.millis(2000), difficultyPopup);</b>
+<b class="nc">&nbsp;            animation.setOnFinished(e -&gt; difficultyPopup.setVisible(false));</b>
+<b class="nc">&nbsp;            animation.setFromValue(1.0);</b>
+<b class="nc">&nbsp;            animation.setToValue(0);</b>
+<b class="nc">&nbsp;            difficultyPopup.setVisible(true);</b>
+<b class="nc">&nbsp;            animation.play();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void onMenuButtonClicked(ActionEvent actionEvent) {
+<b class="nc">&nbsp;        if(((Button)actionEvent.getSource()).getStyleClass().contains(&quot;button-non-clickable&quot;))</b>
+&nbsp;            return;
+<b class="nc">&nbsp;        popup.setVisible(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void onClosePopupClick(ActionEvent actionEvent) {
+<b class="nc">&nbsp;        if(((Button)actionEvent.getSource()).getStyleClass().contains(&quot;button-non-clickable&quot;))</b>
+&nbsp;            return;
+<b class="nc">&nbsp;        popup.setVisible(false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void onImageClick(MouseEvent mouseEvent) {
+<b class="nc">&nbsp;        if(!SceneLoader.getPlayerView().isYourTurn() || animationPlaying)</b>
+&nbsp;            return;
+<b class="nc">&nbsp;        ImageView clickedImage = (ImageView) mouseEvent.getSource();</b>
+<b class="nc">&nbsp;        if(selectedCard == clickedImage) { // click on already selected card =&gt; toggle</b>
+<b class="nc">&nbsp;            selectedCard.getStyleClass().remove(&quot;selected-card&quot;);</b>
+<b class="nc">&nbsp;            selectedCard = null;</b>
+<b class="nc">&nbsp;            playCardButton.setVisible(false);</b>
+&nbsp;        } else { // change selected card
+<b class="nc">&nbsp;            if(selectedCard != null) {</b>
+<b class="nc">&nbsp;                selectedCard.getStyleClass().remove(&quot;selected-card&quot;);</b>
+<b class="nc">&nbsp;                selectedCard.setViewOrder(0.0);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            selectedCard = clickedImage;</b>
+<b class="nc">&nbsp;            selectedCard.getStyleClass().add(&quot;selected-card&quot;);</b>
+<b class="nc">&nbsp;            playCardButton.setVisible(true);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets a list of ImageView that each represent a card. A style is added through passed method
+&nbsp;     * @param cards list of cards to convert
+&nbsp;     * @param style method to stylyze every card
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    private List&lt;ImageView&gt; getCardsImageViews(List&lt;Card&gt; cards, Method style) {
+<b class="nc">&nbsp;        List&lt;ImageView&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for(Card card: cards) {</b>
+<b class="nc">&nbsp;            result.add(getCardImageView(card, style));</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private ImageView getCardImageView(Card card, Method style) {
+<b class="nc">&nbsp;        URL path = View.class.getResource(&quot;images/&quot; + card.getNumber()+ &quot;_&quot; +card.getSuit().toString() + &quot;.png&quot;);</b>
+<b class="nc">&nbsp;        ImageView imageView = new ImageView(new Image(String.valueOf(path)));</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            style.invoke(this, imageView);</b>
+<b class="nc">&nbsp;        } catch (IllegalAccessException | InvocationTargetException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return imageView;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void inHandStyle(ImageView imageView) {
+<b class="nc">&nbsp;        imageView.getStyleClass().add(&quot;in-hand-card&quot;);</b>
+<b class="nc">&nbsp;        imageView.setOnMouseClicked(this::onImageClick);</b>
+<b class="nc">&nbsp;        imageView.setOnMouseEntered(this::onMouseEntered);</b>
+<b class="nc">&nbsp;        imageView.setOnMouseExited(this::onMouseExited);</b>
+<b class="nc">&nbsp;        imageView.setFitHeight(200);</b>
+<b class="nc">&nbsp;        imageView.setPreserveRatio(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void onTableStyle(ImageView imageView) {
+<b class="nc">&nbsp;        imageView.getStyleClass().add(&quot;in-hand-card&quot;);</b>
+<b class="nc">&nbsp;        imageView.setOnMouseClicked(this::onImageClick);</b>
+<b class="nc">&nbsp;        imageView.setOnMouseEntered(this::onMouseEntered);</b>
+<b class="nc">&nbsp;        imageView.setOnMouseExited(this::onMouseExited);</b>
+<b class="nc">&nbsp;        imageView.setFitHeight(200);</b>
+<b class="nc">&nbsp;        imageView.setPreserveRatio(true);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void onMouseEntered(MouseEvent mouseEvent) {
+<b class="nc">&nbsp;        ImageView clickedImage = (ImageView) mouseEvent.getSource();</b>
+<b class="nc">&nbsp;        clickedImage.setViewOrder(-1.0);</b>
+&nbsp;    }
+&nbsp;    private void onMouseExited(MouseEvent mouseEvent) {
+<b class="nc">&nbsp;        ImageView clickedImage = (ImageView) mouseEvent.getSource();</b>
+<b class="nc">&nbsp;        if(!clickedImage.equals(selectedCard))</b>
+<b class="nc">&nbsp;            clickedImage.setViewOrder(0.0);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void updateHand(HandChangedEvent event) {
+&nbsp;        Method inHandStyle;
+&nbsp;        try {
+<b class="nc">&nbsp;            inHandStyle = InGameController.class.getMethod(&quot;inHandStyle&quot;, ImageView.class);</b>
+<b class="nc">&nbsp;        } catch (NoSuchMethodException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        bottomPane.getChildren().clear();</b>
+<b class="nc">&nbsp;        bottomPane.getChildren().addAll(getCardsImageViews(event.getHand(), inHandStyle));</b>
+&nbsp;    }
+&nbsp;    private void updateScore(ScoreEvent event) {
+<b class="nc">&nbsp;        String[] classes = {&quot;team1Label&quot;, &quot;team2Label&quot;};</b>
+<b class="nc">&nbsp;        List&lt;String&gt; teamNames = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        teamNames.add(event.getFistTeamNames()[0]);</b>
+<b class="nc">&nbsp;        teamNames.add(event.getSecondTeamNames()[0]);</b>
+<b class="nc">&nbsp;        teamNames.add(event.getFistTeamNames()[1]);</b>
+<b class="nc">&nbsp;        teamNames.add(event.getSecondTeamNames()[1]);</b>
+<b class="nc">&nbsp;        int selfIndex = teamNames.indexOf(SceneLoader.getPlayerView().getUsername());</b>
+<b class="nc">&nbsp;        teamNames = sortPlayers(teamNames, selfIndex);</b>
+<b class="nc">&nbsp;        southLabel.setText(teamNames.getFirst());</b>
+<b class="nc">&nbsp;        eastLabel.setText(teamNames.get(1));</b>
+<b class="nc">&nbsp;        northLabel.setText(teamNames.get(2));</b>
+<b class="nc">&nbsp;        westLabel.setText(teamNames.get(3));</b>
+<b class="nc">&nbsp;        team1Label.setText(event.getFirstTeamPoints() + &quot;&quot;);</b>
+<b class="nc">&nbsp;        team2Label.setText(event.getSecondTeamPoints() + &quot;&quot;);</b>
+<b class="nc">&nbsp;        if((selfIndex%2)!=0)</b>
+<b class="nc">&nbsp;            classes = new String[]{&quot;team2Label&quot;, &quot;team1Label&quot;};</b>
+<b class="nc">&nbsp;        southLabel.getStyleClass().add(classes[0]);</b>
+<b class="nc">&nbsp;        northLabel.getStyleClass().add(classes[0]);</b>
+<b class="nc">&nbsp;        eastLabel.getStyleClass().add(classes[1]);</b>
+<b class="nc">&nbsp;        westLabel.getStyleClass().add(classes[1]);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private List&lt;String&gt; sortPlayers(List&lt;String&gt; players, int selfIndex) {
+<b class="nc">&nbsp;        List&lt;String&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for(int idx=0; idx &lt; players.size(); idx++) {</b>
+<b class="nc">&nbsp;            result.add(idx, players.get((idx + selfIndex) % players.size())); // TODO: handle IndexOutOfBounds</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void onTableUpdate(TableChangedEvent event) {
+&nbsp;        Method onTableStyle;
+&nbsp;        try {
+<b class="nc">&nbsp;            onTableStyle = InGameController.class.getMethod(&quot;onTableStyle&quot;, ImageView.class);</b>
+<b class="nc">&nbsp;        } catch (NoSuchMethodException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        if(event.getPlayedCard() != null) { // card is placed</b>
+<b class="nc">&nbsp;            animationPlaying = true;</b>
+<b class="nc">&nbsp;            ImageView placedCardImage = getCardImageView(event.getPlayedCard(), onTableStyle);</b>
+<b class="nc">&nbsp;            centralPane.getChildren().add(placedCardImage);</b>
+<b class="nc">&nbsp;            List&lt;ImageView&gt; takenCards = difference(centralPane.getChildren(), getCardsImageViews(event.getCards(), onTableStyle));</b>
+<b class="nc">&nbsp;            TablePlacementTransition transition = new TablePlacementTransition(placedCardImage, 50, -20, 500);</b>
+<b class="nc">&nbsp;            transition.setOnFinished(e -&gt; takeCardsTransition(event, takenCards, onTableStyle));</b>
+<b class="nc">&nbsp;            transition.play();</b>
+<b class="nc">&nbsp;        } else // table refresh</b>
+<b class="nc">&nbsp;            refreshTable(event, onTableStyle);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void takeCardsTransition(TableChangedEvent event, List&lt;ImageView&gt; takenCards, Method onTableStyle) {
+<b class="nc">&nbsp;        if(!takenCards.isEmpty())</b>
+<b class="nc">&nbsp;            for(ImageView card: takenCards) {</b>
+<b class="nc">&nbsp;                TakeCardTransition takeCardTransition = new TakeCardTransition(card, 700);</b>
+<b class="nc">&nbsp;                takeCardTransition.setOnFinished(ev -&gt; {</b>
+<b class="nc">&nbsp;                    animationPlaying = false;</b>
+<b class="nc">&nbsp;                    refreshTable(event, onTableStyle);</b>
+&nbsp;                });
+<b class="nc">&nbsp;                takeCardTransition.play();</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        else {
+<b class="nc">&nbsp;            animationPlaying = false;</b>
+<b class="nc">&nbsp;            refreshTable(event, onTableStyle);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if(receivedEndGameEvent) {</b>
+<b class="nc">&nbsp;            takeRemainingCardsTransition();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void takeRemainingCardsTransition() {
+<b class="nc">&nbsp;        List&lt;ImageView&gt; onTableCards = (List&lt;ImageView&gt;)(List&lt;?&gt;) new ArrayList&lt;&gt;(centralPane.getChildren());</b>
+<b class="nc">&nbsp;        if(onTableCards.isEmpty()) {</b>
+<b class="nc">&nbsp;            goToEndGameScene();</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        animationPlaying = true;</b>
+<b class="nc">&nbsp;        for(ImageView card: onTableCards) {</b>
+<b class="nc">&nbsp;            TakeCardTransition takeCardTransition = new TakeCardTransition(card, 700);</b>
+<b class="nc">&nbsp;            takeCardTransition.setOnFinished(ev -&gt; {</b>
+<b class="nc">&nbsp;                animationPlaying = false;</b>
+<b class="nc">&nbsp;                goToEndGameScene();</b>
+&nbsp;            });
+<b class="nc">&nbsp;            takeCardTransition.play();</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void goToEndGameScene() {
+&nbsp;        try {
+<b class="nc">&nbsp;            Thread.sleep(1000);</b>
+<b class="nc">&nbsp;        } catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        SceneLoader.changeScene(&quot;fxml/endgame.fxml&quot;);</b>
+<b class="nc">&nbsp;        SceneLoader.getCurrentController().handle(endGameEventBuffer);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private List&lt;ImageView&gt; difference(ObservableList&lt;Node&gt; a, List&lt;ImageView&gt; b) {
+<b class="nc">&nbsp;        List&lt;ImageView&gt; result = (List&lt;ImageView&gt;)(List&lt;?&gt;) new ArrayList&lt;&gt;(a);</b>
+<b class="nc">&nbsp;        result.removeIf(aCard -&gt; {</b>
+<b class="nc">&nbsp;            for (ImageView bCards : b) {</b>
+<b class="nc">&nbsp;                if (aCard.getImage().getUrl().equals(bCards.getImage().getUrl()))</b>
+<b class="nc">&nbsp;                    return true;</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        });
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void refreshTable(TableChangedEvent event, Method onTableStyle) {
+<b class="nc">&nbsp;        List&lt;Card&gt; cards = event.getCards();</b>
+<b class="nc">&nbsp;        updateTable(onTableStyle, cards);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void updateTable(Method onTableStyle, List&lt;Card&gt; cards) {
+<b class="nc">&nbsp;        centralPane.getChildren().clear();</b>
+<b class="nc">&nbsp;        centralPane.getChildren().addAll(getCardsImageViews(cards, onTableStyle));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    private void updateCurrentPlayer(NewTurnEvent event) {
+<b class="nc">&nbsp;        List&lt;Label&gt; labels = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        labels.add(southLabel);</b>
+<b class="nc">&nbsp;        labels.add(eastLabel);</b>
+<b class="nc">&nbsp;        labels.add(northLabel);</b>
+<b class="nc">&nbsp;        labels.add(westLabel);</b>
+<b class="nc">&nbsp;        for(Label l: labels) {</b>
+<b class="nc">&nbsp;            l.getStyleClass().remove(&quot;current-player-label&quot;);</b>
+<b class="nc">&nbsp;            if(l.getText().equals(event.getUsername()))</b>
+<b class="nc">&nbsp;                l.getStyleClass().add(&quot;current-player-label&quot;);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void onPlayCardButtonClick(ActionEvent actionEvent) {
+<b class="nc">&nbsp;        playCardButton.setVisible(false);</b>
+<b class="nc">&nbsp;        SceneLoader.getPlayerView().setYourTurn(false);</b>
+<b class="nc">&nbsp;        Client.getInstance().send(new PlaceCardEvent(urlToCard(selectedCard.getImage().getUrl())));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void onPlayCardOfflineButtonClick(ActionEvent actionEvent) {
+<b class="nc">&nbsp;        OfflineGameController offlineGameController = OfflineGameController.getInstance();</b>
+<b class="nc">&nbsp;        playCardButton.setVisible(false);</b>
+<b class="nc">&nbsp;        SceneLoader.getPlayerView().setYourTurn(false);</b>
+<b class="nc">&nbsp;        Card placedCard = urlToCard(selectedCard.getImage().getUrl());</b>
+<b class="nc">&nbsp;        new Thread(() -&gt; offlineGameController.placeCardAndPlayBot(placedCard)).start();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void onExitGameButtonClick(ActionEvent actionEvent) {
+<b class="nc">&nbsp;        Platform.runLater(() -&gt; SceneLoader.changeScene(&quot;fxml/menu.fxml&quot;));</b>
+<b class="nc">&nbsp;        Client.getInstance().stop();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void onExitOfflineGameButtonClick(ActionEvent actionEvent) {
+<b class="nc">&nbsp;        Platform.runLater(() -&gt; SceneLoader.changeScene(&quot;fxml/menu.fxml&quot;));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private Card urlToCard(String url) {
+<b class="nc">&nbsp;        String[] args = url.split(&quot;/&quot;);</b>
+<b class="nc">&nbsp;        String name = args[args.length-1];</b>
+<b class="nc">&nbsp;        args = name.split(&quot;_&quot;);</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            return new Card(Suit.valueOf(args[1].replaceAll(&quot;.png&quot;, &quot;&quot;)), Integer.parseInt(args[0]));</b>
+<b class="nc">&nbsp;        } catch (IllegalCardConstructionException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void offlineGameRoutine() {
+<b class="nc">&nbsp;        OfflineGameController offlineGameController = OfflineGameController.getInstance();</b>
+<b class="nc">&nbsp;        offlineGameController.setObserver(this);</b>
+<b class="nc">&nbsp;        offlineGameController.startGame();</b>
+<b class="nc">&nbsp;        usernameLabel.setVisible(false);</b>
+<b class="nc">&nbsp;        playCardButton.setOnAction(this::onPlayCardOfflineButtonClick);</b>
+<b class="nc">&nbsp;        exitButton.setOnAction(this::onExitOfflineGameButtonClick);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void addDifficultyChanger() {
+<b class="nc">&nbsp;        VBox wrapper = new VBox();</b>
+<b class="nc">&nbsp;        ComboBox&lt;String&gt; comboBox = new ComboBox&lt;&gt;();</b>
+<b class="nc">&nbsp;        wrapper.setAlignment(Pos.CENTER);</b>
+<b class="nc">&nbsp;        comboBox.getItems().addAll(&quot;Facile&quot;, &quot;Media&quot;, &quot;Difficile&quot;);</b>
+<b class="nc">&nbsp;        comboBox.getSelectionModel().select(SceneLoader.getPlayerView().getCurrentDifficulty().ordinal());</b>
+<b class="nc">&nbsp;        comboBox.setOnAction(this::onDifficultyChange);</b>
+&nbsp;
+<b class="nc">&nbsp;        wrapper.setSpacing(15);</b>
+<b class="nc">&nbsp;        wrapper.getChildren().add(new Label(&quot;Difficoltà CPU:&quot;));</b>
+<b class="nc">&nbsp;        wrapper.getChildren().add(comboBox);</b>
+<b class="nc">&nbsp;        menuWrapper.getChildren().add(1,wrapper);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void onDifficultyChange(ActionEvent actionEvent) {
+&nbsp;        Difficulties newDifficulty =
+<b class="nc">&nbsp;                switch (((ComboBox) actionEvent.getSource())</b>
+<b class="nc">&nbsp;                    .getValue()</b>
+<b class="nc">&nbsp;                    .toString()</b>
+<b class="nc">&nbsp;                    .toUpperCase()</b>
+&nbsp;                ) {
+<b class="nc">&nbsp;                    case &quot;FACILE&quot; -&gt; Difficulties.EASY;</b>
+<b class="nc">&nbsp;                    case &quot;MEDIA&quot; -&gt; Difficulties.MEDIUM;</b>
+<b class="nc">&nbsp;                    default -&gt; Difficulties.HARD;</b>
+&nbsp;                };
+<b class="nc">&nbsp;        if(SceneLoader.getPlayerView().isOffline())</b>
+<b class="nc">&nbsp;            OfflineGameController.getInstance().setBotDifficulty(newDifficulty);</b>
+&nbsp;        else
+<b class="nc">&nbsp;            Client.getInstance().send(new ChangeBotDifficultyEvent(newDifficulty));</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-06-09 22:09</div>
+</div>
+</body>
+</html>

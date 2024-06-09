@@ -1,0 +1,168 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > PointsCalculator</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: PointsCalculator (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PointsCalculator</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92,6%
+  </span>
+  <span class="absValue">
+    (25/27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.model;
+&nbsp;
+&nbsp;import it.polimi.ingsw.model.exceptions.IllegalCardConstructionException;
+&nbsp;import it.polimi.ingsw.utils.CardListUtils;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;public class PointsCalculator {
+&nbsp;    private final List&lt;Card&gt; takenCards;
+<b class="fc">&nbsp;    public PointsCalculator(List&lt;Card&gt; takenCards) {</b>
+<b class="fc">&nbsp;        this.takenCards = takenCards;</b>
+&nbsp;    }
+&nbsp;    private boolean hasGoldsPoint() {
+<b class="fc">&nbsp;        return CardListUtils.suitsCount(takenCards, Suit.GOLDS) &gt; 5;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean hasCardsPoint() {
+<b class="fc">&nbsp;        return takenCards.size() &gt; 20;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean hasSetteBelloPoint() {
+&nbsp;        try {
+<b class="fc">&nbsp;            return takenCards.contains(new Card(Suit.GOLDS, 7));</b>
+<b class="nc">&nbsp;        } catch (IllegalCardConstructionException e) {</b>
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean hasPrimieraPoint() {
+<b class="fc">&nbsp;        if(!hasAtLeastACardPerSuit())</b>
+<b class="fc">&nbsp;            return false;</b>
+<b class="fc">&nbsp;        int nOfSeven = CardListUtils.numbersCount(takenCards, 7);</b>
+<b class="fc">&nbsp;        int nOfSix = CardListUtils.numbersCount(takenCards, 6);</b>
+<b class="fc">&nbsp;        int nOfOne = CardListUtils.numbersCount(takenCards, 1);</b>
+<b class="fc">&nbsp;        int nOfFive = CardListUtils.numbersCount(takenCards, 5);</b>
+<b class="fc">&nbsp;        int nOfFour = CardListUtils.numbersCount(takenCards, 4);</b>
+<b class="fc">&nbsp;        int nOfThree = CardListUtils.numbersCount(takenCards, 3);</b>
+<b class="fc">&nbsp;        int nOfTwo = CardListUtils.numbersCount(takenCards, 2);</b>
+<b class="fc">&nbsp;        return nOfSeven &gt; 2 ||</b>
+&nbsp;                nOfSeven == 2 &amp;&amp; nOfSix &gt; 2 ||
+&nbsp;                nOfSix == 2 &amp;&amp; nOfOne &gt; 2 ||
+&nbsp;                nOfOne == 2 &amp;&amp; nOfFive &gt; 2 ||
+&nbsp;                nOfFive == 2 &amp;&amp; nOfFour &gt; 2 ||
+&nbsp;                nOfFour == 2 &amp;&amp; nOfThree &gt; 2 ||
+&nbsp;                nOfThree == 2 &amp;&amp; nOfTwo &gt; 2;
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean hasAtLeastACardPerSuit() {
+<b class="fc">&nbsp;        return  CardListUtils.suitsCount(takenCards, Suit.GOLDS) &gt; 0 &amp;&amp;</b>
+<b class="fc">&nbsp;                CardListUtils.suitsCount(takenCards, Suit.CLUBS) &gt; 0 &amp;&amp;</b>
+<b class="fc">&nbsp;                CardListUtils.suitsCount(takenCards, Suit.CUPS) &gt; 0 &amp;&amp;</b>
+<b class="fc">&nbsp;                CardListUtils.suitsCount(takenCards, Suit.SWORDS) &gt; 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Points&gt; getPoints() {
+<b class="fc">&nbsp;        List&lt;Points&gt; points = new ArrayList&lt;&gt;();</b>
+<b class="fc">&nbsp;        if(hasCardsPoint()) points.add(Points.CARDS);</b>
+<b class="fc">&nbsp;        if(hasPrimieraPoint()) points.add(Points.PRIMIERA);</b>
+<b class="fc">&nbsp;        if(hasGoldsPoint()) points.add(Points.GOLD);</b>
+<b class="fc">&nbsp;        if(hasSetteBelloPoint()) points.add(Points.SETTEBELLO);</b>
+<b class="fc">&nbsp;        return points;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-06-09 22:09</div>
+</div>
+</body>
+</html>

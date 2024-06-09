@@ -1,0 +1,176 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > SceneLoader</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view</a>
+</div>
+
+<h1>Coverage Summary for Class: SceneLoader (it.polimi.ingsw.view)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SceneLoader</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.view;
+&nbsp;
+&nbsp;import it.polimi.ingsw.view.viewcontroller.ViewController;
+&nbsp;import javafx.fxml.FXMLLoader;
+&nbsp;import javafx.scene.Parent;
+&nbsp;import javafx.scene.Scene;
+&nbsp;import javafx.stage.Stage;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Class that contains all static method to set and swap stages
+&nbsp; */
+<b class="nc">&nbsp;public class SceneLoader {</b>
+<b class="nc">&nbsp;    private static Stage currentStage = new Stage();</b>
+&nbsp;    private static ViewController controller;
+&nbsp;    public static Scene currentScene;
+&nbsp;    private static PlayerView playerView;
+&nbsp;
+&nbsp;    public static void initialize() {
+<b class="nc">&nbsp;        playerView = new PlayerView();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Draws the first Stage that represents the game menu
+&nbsp;     * @param stage menu Stage
+&nbsp;     * @param sceneFXML menu FXML scene to load
+&nbsp;     */
+&nbsp;    public static void drawMenu(Stage stage, String sceneFXML) throws IOException {
+<b class="nc">&nbsp;        FXMLLoader fxmlLoader = new FXMLLoader(View.class.getResource(sceneFXML));</b>
+&nbsp;
+<b class="nc">&nbsp;        Scene scene = new Scene(fxmlLoader.load());</b>
+<b class="nc">&nbsp;        controller = fxmlLoader.getController();</b>
+<b class="nc">&nbsp;        currentStage = stage;</b>
+<b class="nc">&nbsp;        currentScene = scene;</b>
+<b class="nc">&nbsp;        stage.setScene(scene);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static ViewController getCurrentController() {
+<b class="nc">&nbsp;        return controller;</b>
+&nbsp;    }
+&nbsp;    public static boolean isCurrentController(ViewController testController) {
+<b class="nc">&nbsp;        return controller.equals(testController);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static Stage getCurrentStage() {
+<b class="nc">&nbsp;        return currentStage;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static PlayerView getPlayerView() {
+<b class="nc">&nbsp;        return playerView;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Changes the scene to the passed FXML scene
+&nbsp;     * @param sceneFXML the Scene to load
+&nbsp;     */
+&nbsp;    public static void changeScene(String sceneFXML) {
+<b class="nc">&nbsp;        FXMLLoader fxmlLoader = new FXMLLoader(View.class.getResource(sceneFXML));</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            Parent root = fxmlLoader.load();</b>
+<b class="nc">&nbsp;            controller = fxmlLoader.getController();</b>
+<b class="nc">&nbsp;            currentScene.setRoot(root);</b>
+<b class="nc">&nbsp;        } catch (IOException e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="nc">&nbsp;            throw new RuntimeException();</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        currentStage.setOnCloseRequest(event -&gt; System.exit(0));</b>
+<b class="nc">&nbsp;        currentStage.show();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-06-09 22:09</div>
+</div>
+</body>
+</html>
