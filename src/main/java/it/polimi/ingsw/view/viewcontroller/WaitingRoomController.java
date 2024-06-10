@@ -71,18 +71,18 @@ public class WaitingRoomController implements ViewController, Initializable {
         popup.setVisible(false);
     }
 
-    public void onStartGameButtonClick(ActionEvent actionEvent) {
+    public void onStartGameButtonClick() {
         if(startAnywayButton.getStyleClass().contains("button-non-clickable"))
             return;
         popup.setVisible(true);
     }
 
-    public void onExitButtonClick(ActionEvent actionEvent) {
+    public void onExitButtonClick() {
         Platform.runLater(() -> SceneLoader.changeScene("fxml/menu.fxml"));
         Client.getInstance().stop();
     }
 
-    public void onStartAnywayButtonClick(ActionEvent actionEvent) {
+    public void onStartAnywayButtonClick() {
         Client.getInstance().send(new StartGameEvent());
     }
 

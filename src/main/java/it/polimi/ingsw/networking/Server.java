@@ -12,7 +12,6 @@ import java.util.Map;
 
 /**
  * Singleton class that contains all fundamental methods to handle a server
- * TODO: maybe bring back connected clients as List if is not necessary to close the Threads
  */
 public class Server {
     /**

@@ -4,12 +4,9 @@ import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.networking.Server;
 import it.polimi.ingsw.view.SceneLoader;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,7 +24,7 @@ public class OptionsController implements ViewController, Initializable {
         serverPort.setText(port + "");
     }
 
-    public void onBackButtonClick(ActionEvent actionEvent) {
+    public void onBackButtonClick() {
         Platform.runLater(() -> SceneLoader.changeScene("fxml/menu.fxml"));
     }
 
@@ -39,11 +36,11 @@ public class OptionsController implements ViewController, Initializable {
         return address;
     }
 
-    public void onServerAddressChange(KeyEvent keyEvent) {
+    public void onServerAddressChange() {
         address = serverAddress.getText();
     }
 
-    public void onServerPortChange(KeyEvent keyEvent) {
+    public void onServerPortChange() {
         String portString = serverPort.getText();
         try {
             port = Integer.parseInt(portString);

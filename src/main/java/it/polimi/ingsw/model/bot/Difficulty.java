@@ -9,16 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+/**
+ * Abstract class representing a bot difficulty. It contains all weights associated to the choosing criteria
+ */
 public abstract class Difficulty {
-    protected static int IN_HAND_VALUE_WEIGHT = 5; // Prioritizes low number cards with more intensity in the first turns
-    protected static int TAKEN_CARDS_WEIGHT = 20; // Prioritizes cards that takes card
-    protected static int DOES_SCOPA_WEIGHT = 300; // Prioritizes cards that does Scopa
-    protected static int SEVEN_PROFICIENCY_WEIGHT = 70; // prioritizes its placement only if it takes at least a card
-    protected static int TAKES_SEVEN_WEIGHT = 60; // Prioritizes its placement if it takes a 7
-    protected static int GOLD_PROFICIENCY_WEIGHT = 60; // If it's a GOLDS, prioritizes its placement only if it takes at least a card
-    protected static int TAKES_GOLDS_WEIGHT = 25; // Prioritizes its placement if it takes a GOLDS card
-    protected static int SCOPA_RISK_WEIGHT = 80; // Calculates the risk that by placing this card the next player might do scopa
-    protected static int SEVEN_RISK_WEIGHT = 70; // Calculates the risk that by placing this card the next player might take a seven.
+    protected final static int IN_HAND_VALUE_WEIGHT = 5; // Prioritizes low number cards with more intensity in the first turns
+    protected final static int TAKEN_CARDS_WEIGHT = 20; // Prioritizes cards that takes card
+    protected final static int DOES_SCOPA_WEIGHT = 300; // Prioritizes cards that does Scopa
+    protected final static int SEVEN_PROFICIENCY_WEIGHT = 70; // prioritizes its placement only if it takes at least a card
+    protected final static int TAKES_SEVEN_WEIGHT = 60; // Prioritizes its placement if it takes a 7
+    protected final static int GOLD_PROFICIENCY_WEIGHT = 60; // If it's a GOLDS, prioritizes its placement only if it takes at least a card
+    protected final static int TAKES_GOLDS_WEIGHT = 25; // Prioritizes its placement if it takes a GOLDS card
+    protected final static int SCOPA_RISK_WEIGHT = 80; // Calculates the risk that by placing this card the next player might do scopa
+    protected final static int SEVEN_RISK_WEIGHT = 70; // Calculates the risk that by placing this card the next player might take a seven.
     public abstract Card chooseCard(List<Card> inHandList, List<Card> onTableList, List<Card> playedCards);
 
     /**

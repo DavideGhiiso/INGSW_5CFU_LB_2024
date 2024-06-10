@@ -8,15 +8,14 @@ import it.polimi.ingsw.model.exceptions.MaxPlayersReachedException;
 import it.polimi.ingsw.model.exceptions.NonexistentPlayerException;
 import it.polimi.ingsw.model.exceptions.UsernameTakenException;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
+/**
+ * Game controller children class used to control a multiplayer game
+ */
 public class OnlineGameController extends GameController {
     private static OnlineGameController instance = null;
-
-
 
     private OnlineGameController(Game game) {
         super(game);
@@ -33,11 +32,6 @@ public class OnlineGameController extends GameController {
     }
     public static OnlineGameController getInstance() {
         return instance;
-    }
-
-    @Override
-    public void endMatch() {
-
     }
 
     public boolean isPlayerPresent(String username) {
@@ -65,6 +59,10 @@ public class OnlineGameController extends GameController {
         }
     }
 
+    /**
+     * Tries to add a bot to the game's player list
+     * @throws MaxPlayersReachedException thrown if the game is already full
+     */
     public void addBot() throws MaxPlayersReachedException {
         int index = 0;
         while(true) {
@@ -77,7 +75,10 @@ public class OnlineGameController extends GameController {
         if(game.isFull()) throw new MaxPlayersReachedException();
         game.addPlayer(new Player("BOT" + index, dealer.getCardsHand(), true));
     }
-
+    /**
+     * Tries to replace a bot with a client inside the game's player list
+     * @throws MaxPlayersReachedException thrown if no bot player is present
+     */
     public void replaceBotWithClient(String username) throws MaxPlayersReachedException {
         Player firstBot;
         try {
@@ -117,11 +118,19 @@ public class OnlineGameController extends GameController {
             removePlayer(player);
     }
 
+    /**
+     * Replace a player with a bot during a game
+     * @param player Player instance to replace
+     */
     private void replaceClientWithBot(Player player) {
         player.setBot(true);
-        player.setName(player.getName() + "_BOT");
+        player.setName(player.getName() + " (BOT)");
     }
 
+    /**
+     * Removes a player from the game when the game isn't started yet
+     * @param player Player instance to remove
+     */
     private void removePlayer(Player player) {
         dealer.takeBackHand(player.getHand());
         game.removePlayer(player);

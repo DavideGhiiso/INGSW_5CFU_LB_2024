@@ -6,6 +6,9 @@ import it.polimi.ingsw.utils.CardListUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that contains all methods necessary to calculate end game results
+ */
 public class PointsCalculator {
     private final List<Card> takenCards;
     public PointsCalculator(List<Card> takenCards) {

@@ -1,14 +1,10 @@
 package it.polimi.ingsw.view.viewcontroller.transitions;
 
-import it.polimi.ingsw.view.View;
-import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
-import java.net.URL;
 
 public class GroupCardTransition {
     private final TranslateTransition translateTransition;

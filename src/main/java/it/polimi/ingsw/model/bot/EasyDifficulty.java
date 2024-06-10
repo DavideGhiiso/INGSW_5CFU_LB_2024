@@ -5,6 +5,10 @@ import it.polimi.ingsw.utils.CardListUtils;
 
 import java.util.List;
 
+/**
+ * Class representing the easy difficulty of the bot. The player only knows his cards and adds a level of randomness
+ * (uncertainty) to its choice
+ */
 public class EasyDifficulty extends Difficulty {
     private static final int UNCERTAINTY_WEIGHT = 20; // Weight that adds a certain level of uncertainty to the bot choice
     public EasyDifficulty() {

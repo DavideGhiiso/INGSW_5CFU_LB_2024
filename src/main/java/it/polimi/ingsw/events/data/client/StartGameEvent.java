@@ -2,9 +2,10 @@ package it.polimi.ingsw.events.data.client;
 
 import it.polimi.ingsw.events.data.BaseEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Event used by the server to notify the clients that are waiting that the game is starting.
+ * It contains the username of the players and the points totalized by the players
+ */
 public class StartGameEvent extends BaseEvent {
     private String[] fistTeamNames;
     private String[] secondTeamNames;

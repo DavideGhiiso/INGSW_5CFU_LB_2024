@@ -2,8 +2,10 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.view.View;
 
-import java.util.Arrays;
 
+/**
+ * Software entry point
+ */
 public class Main {
     public static void main(String[] args) {
         if (args.length == 0) {

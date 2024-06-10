@@ -2,6 +2,9 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.networking.Server;
 
+/**
+ * Server entry point
+ */
 public class ServerApp {
     public static void main(String[] args) {
         Server server;

@@ -41,7 +41,7 @@ public class EasyDifficultyTest {
         Collections.shuffle(tableCards);
         tableCards = tableCards.subList(0,4);
         List<Card> placedCards = new ArrayList<>();
-        System.out.println(tableCards.toString());
+        System.out.println(tableCards);
         Card chosenCard = bot.chooseCard(inHandCards, tableCards, placedCards);
         System.out.println("Chosen: "+chosenCard);
     }

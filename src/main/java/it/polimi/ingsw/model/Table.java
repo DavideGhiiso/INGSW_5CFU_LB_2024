@@ -6,6 +6,9 @@ import java.util.List;
 
 import it.polimi.ingsw.utils.CardListUtils;
 
+/**
+ * Class representing the game table. It contains all cards placed on the table
+ */
 public class Table {
     private final List<Card> placedCards;
     public Table() {

@@ -11,7 +11,6 @@ import it.polimi.ingsw.view.SceneLoader;
 public class HandChangedHandler implements EventHandler {
     @Override
     public void handle(Event event) {
-        HandChangedEvent handChangedEvent = (HandChangedEvent) event.getEvent();
         SceneLoader.getCurrentController().handle(event);
     }
 }

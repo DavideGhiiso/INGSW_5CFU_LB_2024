@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.viewcontroller.transitions;
 
 import it.polimi.ingsw.view.View;
 import javafx.animation.ScaleTransition;
-import javafx.animation.SequentialTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;

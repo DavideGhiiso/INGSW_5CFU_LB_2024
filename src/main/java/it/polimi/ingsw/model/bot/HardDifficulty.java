@@ -3,10 +3,11 @@ package it.polimi.ingsw.model.bot;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.utils.CardListUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
-
+/**
+ * Class representing the medium difficulty of the bot. The player knows his cards and all the already played cards
+ */
 public class HardDifficulty extends Difficulty{
     @Override
     public Card chooseCard(List<Card> inHandList, List<Card> onTableList, List<Card> playedCards) {

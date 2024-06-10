@@ -2,6 +2,9 @@ package it.polimi.ingsw.model;
 
 import java.util.List;
 
+/**
+ * Class representing a player inside the game
+ */
 public class Player {
     private String name;
     private List<Card> hand;

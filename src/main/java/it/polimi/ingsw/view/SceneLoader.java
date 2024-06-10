@@ -39,13 +39,6 @@ public class SceneLoader {
     public static ViewController getCurrentController() {
         return controller;
     }
-    public static boolean isCurrentController(ViewController testController) {
-        return controller.equals(testController);
-    }
-
-    public static Stage getCurrentStage() {
-        return currentStage;
-    }
 
     public static PlayerView getPlayerView() {
         return playerView;

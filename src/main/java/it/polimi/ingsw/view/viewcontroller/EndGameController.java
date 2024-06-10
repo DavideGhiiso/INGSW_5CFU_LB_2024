@@ -5,7 +5,6 @@ import it.polimi.ingsw.events.data.client.ContinueGameEvent;
 import it.polimi.ingsw.events.data.server.EndGameResult;
 import it.polimi.ingsw.events.data.server.EndGameResultsEvent;
 import it.polimi.ingsw.events.data.Event;
-import it.polimi.ingsw.events.data.server.GameResumingWarningEvent;
 import it.polimi.ingsw.model.GameResult;
 import it.polimi.ingsw.model.Points;
 import it.polimi.ingsw.networking.Client;
@@ -13,18 +12,12 @@ import it.polimi.ingsw.view.SceneLoader;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
-import java.net.URL;
-import java.util.Objects;
-import java.util.ResourceBundle;
 
 public class EndGameController implements ViewController {
     private GameResult firstTeamResult;

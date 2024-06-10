@@ -31,8 +31,6 @@ public class TableTest {
         } catch (IllegalCardConstructionException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(table.getPlacedCards().toString());
-        System.out.println(expectedSortedCardList.toString());
         assertArrayEquals(expectedSortedCardList.toArray(), table.getPlacedCards().toArray());
     }
     @Test
@@ -55,7 +53,6 @@ public class TableTest {
             CardListUtils.getCombinations(combo, firstElement, table.getPlacedCards(), table.getPlacedCards().indexOf(card), 4);
         }
         combo.sort(Comparator.comparingInt(List::size));
-        System.out.println(combo.toString());
     }
     @Test
     public void correctPlaceCardTest() {

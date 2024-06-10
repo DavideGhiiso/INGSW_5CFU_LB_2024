@@ -7,7 +7,9 @@ import it.polimi.ingsw.utils.CardListUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
-
+/**
+ * Class representing the medium difficulty of the bot. The player knows his cards and some already played cards
+ */
 public class MediumDifficulty extends Difficulty {
     @Override
     public Card chooseCard(List<Card> inHandList, List<Card> onTableList, List<Card> playedCards) {

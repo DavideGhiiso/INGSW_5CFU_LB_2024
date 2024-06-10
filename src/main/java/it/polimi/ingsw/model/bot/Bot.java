@@ -5,12 +5,15 @@ import it.polimi.ingsw.model.Card;
 import java.util.List;
 import java.util.stream.Stream;
 
+/**
+ * Class that represent a player controlled by the CPU
+ */
 public class Bot {
     private final static int THINK_TIME = 3000;
     private Difficulty difficulty;
-    private List<Card> team1Cards;
-    private List<Card> team2Cards;
-    private List<Card> onTableList;
+    private final List<Card> team1Cards;
+    private final List<Card> team2Cards;
+    private final List<Card> onTableList;
 
     public Bot(Difficulty difficulty, List<Card> team1Cards, List<Card> team2Cards, List<Card> onTableList) {
         this.difficulty = difficulty;
@@ -23,6 +26,11 @@ public class Bot {
         this.difficulty = difficulty;
     }
 
+    /**
+     * Return a card contained in passed list based on the selected difficulty
+     * @param inHandList cards belonging to a bot player
+     * @return a card contained in passed list
+     */
     public Card playCard(List<Card> inHandList) {
         try {
             Thread.sleep(THINK_TIME);

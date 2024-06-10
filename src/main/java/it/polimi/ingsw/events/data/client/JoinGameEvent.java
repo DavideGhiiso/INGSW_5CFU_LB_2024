@@ -1,7 +1,6 @@
 package it.polimi.ingsw.events.data.client;
 
 import it.polimi.ingsw.events.data.BaseEvent;
-import it.polimi.ingsw.events.data.Event;
 
 /**
  * Class Event that represent a Client joining a game. It contains the username that the Client wants to use in the game

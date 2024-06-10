@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.viewcontroller;
 
-import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.OfflineGameController;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.model.Game;

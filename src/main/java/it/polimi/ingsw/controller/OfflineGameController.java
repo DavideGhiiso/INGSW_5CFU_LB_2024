@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.events.data.EndGameEvent;
 import it.polimi.ingsw.events.data.server.*;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.bot.Difficulties;
@@ -10,7 +9,6 @@ import it.polimi.ingsw.model.exceptions.NonexistentPlayerException;
 import it.polimi.ingsw.view.SceneLoader;
 import it.polimi.ingsw.view.viewcontroller.InGameController;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class OfflineGameController extends GameController {
@@ -144,11 +142,6 @@ public class OfflineGameController extends GameController {
         }
         else
             SceneLoader.getPlayerView().setYourTurn(true);
-    }
-
-    @Override
-    public void endMatch() {
-
     }
 
     @Override

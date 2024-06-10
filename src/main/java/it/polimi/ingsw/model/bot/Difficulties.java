@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model.bot;
 
+/**
+ * Enum containing all bot difficulties
+ */
 public enum Difficulties {
     EASY,
     MEDIUM,

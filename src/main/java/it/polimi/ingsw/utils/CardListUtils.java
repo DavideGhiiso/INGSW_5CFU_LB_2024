@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+/**
+ * Class containing all static method used to manipulate lists of cards
+ */
 public class CardListUtils {
     public static int sumOfNumbers(List<Card> cards) {
         return cards.stream()

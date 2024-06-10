@@ -79,7 +79,6 @@ public class RequestGameInfoHandler implements EventHandler {
     }
 
     private static void sendConnectedPlayers(OnlineGameController onlineGameController, RequestGameInfoEvent gameInfoEvent, Connection connection) {
-        // number of connected players
         int connectedPlayers = onlineGameController.getPlayersCount();
         if (gameInfoEvent.getOldValue().equals(connectedPlayers))
             return;

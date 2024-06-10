@@ -10,7 +10,7 @@ public class UnexpectedDisconnection implements ViewController {
 
     }
 
-    public void onButtonClick(ActionEvent actionEvent) {
+    public void onButtonClick() {
         SceneLoader.changeScene("fxml/menu.fxml");
     }
 }

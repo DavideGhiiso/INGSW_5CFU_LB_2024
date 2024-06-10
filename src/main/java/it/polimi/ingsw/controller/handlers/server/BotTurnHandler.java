@@ -14,6 +14,9 @@ import it.polimi.ingsw.networking.Server;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Internal event handler that handles all the possible consecutive bot turns
+ */
 public class BotTurnHandler implements EventHandler {
     @Override
     public void handle(Event event) {

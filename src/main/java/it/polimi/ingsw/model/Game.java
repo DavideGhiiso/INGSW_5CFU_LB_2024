@@ -53,6 +53,13 @@ public class Game {
     public List<Player> getPlayers() {
         return players;
     }
+
+    /**
+     * Returns a player instance from the players list
+     * @param username searched username
+     * @return a player instance with username that equals passed username
+     * @throws NonexistentPlayerException thrown when searched player does not exist
+     */
     public Player getPlayer(String username) throws NonexistentPlayerException {
         Player player;
         try {
@@ -64,6 +71,10 @@ public class Game {
         return player;
     }
 
+    /**
+     * Rotates the player by one place, in the sense that the first player becomes the second
+     * @return the list rotated by one place
+     */
     public List<Player> rotatePlayers() {
         players.addLast(players.removeFirst());
         return players;

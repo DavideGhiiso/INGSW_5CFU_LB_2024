@@ -18,9 +18,6 @@ public abstract class Event implements Serializable {
     }
     public abstract Connection getConnection();
     public abstract Event getEvent();
-    public boolean isLocal() {
-        return local;
-    }
     @Override
     public String toString() {
         return ID;

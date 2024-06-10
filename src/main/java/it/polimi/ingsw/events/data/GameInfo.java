@@ -4,5 +4,6 @@ public enum GameInfo {
     CONNECTED_PLAYERS,
     CURRENT_HAND,
     USERNAME,
-    CURRENT_TABLE, SCORE
+    CURRENT_TABLE,
+    SCORE
 }

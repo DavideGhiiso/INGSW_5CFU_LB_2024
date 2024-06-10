@@ -3,6 +3,9 @@ package it.polimi.ingsw.model;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Class representing a team game result. It contains the player that are part of the game and the points made
+ */
 public class GameResult implements Serializable {
     private final int scopa;
     private final List<Points> pointsMade;

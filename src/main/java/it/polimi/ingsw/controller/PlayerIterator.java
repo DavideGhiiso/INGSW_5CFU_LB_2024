@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.Player;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Iterator used to manage player turns
+ */
 public class PlayerIterator implements Iterator<Player> {
     private final List<Player> playerList;
     private int turnNumber = 0;

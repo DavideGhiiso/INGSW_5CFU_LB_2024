@@ -2,19 +2,16 @@ package it.polimi.ingsw.view.viewcontroller;
 
 import it.polimi.ingsw.events.Response;
 import it.polimi.ingsw.events.data.Event;
-import it.polimi.ingsw.events.data.GameInfo;
 import it.polimi.ingsw.events.data.server.JoinGameResponseEvent;
 import it.polimi.ingsw.events.data.client.JoinGameEvent;
 import it.polimi.ingsw.events.data.client.JoinOnGoingGameEvent;
 import it.polimi.ingsw.networking.Client;
 import it.polimi.ingsw.view.SceneLoader;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -46,7 +43,7 @@ public class OnlineLobbyController implements ViewController {
      * Handles both the click of enter key inside the usernameField TextField and the click of the enterButton Button.
      * If the length of the username is between MAX and MIN length, accepts it and empties the field
      */
-    public void onTextFieldEnter(ActionEvent actionEvent) {
+    public void onTextFieldEnter() {
         if(enterButton.getStyleClass().contains("button-clickable")) {
             popup.setVisible(true);
             SceneLoader.getPlayerView().setUsername(usernameField.getText());
@@ -72,7 +69,7 @@ public class OnlineLobbyController implements ViewController {
     /**
      * Toggles the enterButton class according to the length of the string inside the usernameField
      */
-    public void toggleEnterButtonClass(KeyEvent keyEvent) {
+    public void toggleEnterButtonClass() {
         if(usernameField.getText().length() >= MIN_USERNAME_LENGTH && usernameField.getText().length() <= MAX_USERNAME_LENGTH) {
             if (enterButton.getStyleClass().contains("button-non-clickable")) {
                 enterButton.getStyleClass().add("button-clickable");
@@ -88,7 +85,7 @@ public class OnlineLobbyController implements ViewController {
         }
     }
 
-    public void onBackButtonClick(ActionEvent actionEvent) {
+    public void onBackButtonClick() {
         if(backButton.getStyleClass().contains("button-non-clickable"))
             return;
         Platform.runLater(() -> SceneLoader.changeScene("fxml/menu.fxml"));
@@ -109,9 +106,8 @@ public class OnlineLobbyController implements ViewController {
             popupContent.setText("Stai per entrare nella partita...");
             okPopupButton.setVisible(false);
             switch (response) {
-                case OK -> {
-                    Platform.runLater(() -> SceneLoader.changeScene("fxml/waitingRoom.fxml"));
-                }
+                case OK -> Platform.runLater(() -> SceneLoader.changeScene("fxml/waitingRoom.fxml"));
+
                 case CAN_REPLACE_BOT -> {
                     closePopupButton.getStyleClass().add("button-clickable");
                     closePopupButton.getStyleClass().remove("button-non-clickable");
@@ -132,14 +128,12 @@ public class OnlineLobbyController implements ViewController {
                     Client.getInstance().stop();
                 }
 
-                case OK_ONGOING -> {
-                    Platform.runLater(() -> SceneLoader.changeScene("fxml/ingame.fxml"));
-                }
+                case OK_ONGOING -> Platform.runLater(() -> SceneLoader.changeScene("fxml/ingame.fxml"));
             }
         });
     }
 
-    public void onClosePopupClick(ActionEvent actionEvent) {
+    public void onClosePopupClick() {
         if (closePopupButton.getStyleClass().contains("button-non-clickable"))
             return;
         popup.setVisible(false);
@@ -149,7 +143,7 @@ public class OnlineLobbyController implements ViewController {
             Client.getInstance().stop();
     }
 
-    public void onOkPopupButtonClick(ActionEvent actionEvent) {
+    public void onOkPopupButtonClick() {
         if(okPopupButton.getStyleClass().contains("button-clickable"))
             Client.getInstance().send(new JoinOnGoingGameEvent(usernameField.getText()));
     }

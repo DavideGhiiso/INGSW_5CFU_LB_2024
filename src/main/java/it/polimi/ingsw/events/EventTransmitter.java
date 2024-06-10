@@ -4,8 +4,6 @@ import it.polimi.ingsw.events.data.BaseEvent;
 import it.polimi.ingsw.networking.Connection;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,24 +14,6 @@ public class EventTransmitter {
 
     public EventTransmitter(Map<Connection, Thread> connections) {
         this.connections = connections;
-    }
-
-    /**
-     * Sends the event to player identified by passed username
-     * @param username player to send the event to
-     * @param event BaseEvent object to send
-     */
-    public void sendTo(String username, BaseEvent event) {
-        for(Connection connection: connections.keySet()) {
-            if(connection.getConnectionID().equals(username)) {
-                try {
-                    connection.send(event);
-                    break;
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
     }
 
     /**

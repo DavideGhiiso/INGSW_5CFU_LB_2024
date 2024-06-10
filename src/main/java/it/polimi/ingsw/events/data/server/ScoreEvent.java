@@ -3,8 +3,10 @@ package it.polimi.ingsw.events.data.server;
 import it.polimi.ingsw.events.data.BaseEvent;
 import it.polimi.ingsw.model.Player;
 
-import java.util.Arrays;
-
+/**
+ * Event used by the server to send the team points and the team names. Sent at the beginning of each round and every
+ * time that a client replaces a bot or exits
+ */
 public class ScoreEvent extends BaseEvent {
     private final String[] fistTeamNames;
     private final String[] secondTeamNames;

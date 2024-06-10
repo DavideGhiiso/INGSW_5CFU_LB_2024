@@ -7,7 +7,6 @@ import java.util.List;
  * Class that represents a team. It contains all information necessary to calculate end game points
  */
 public class Team {
-    final static int MAX_TEAM_SIZE = 2;
     /**
      * Players that are part of the team
      */
@@ -41,9 +40,6 @@ public class Team {
         takenCards.addAll(newCards);
     }
 
-    public int getTotalScopa() {
-        return totalScopa;
-    }
     public int getRoundScopa() {
         return roundScopa;
     }

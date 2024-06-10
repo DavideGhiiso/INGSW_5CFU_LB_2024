@@ -8,6 +8,10 @@ import java.util.List;
 
 /**
  * Class used to control the game by manipulating the model. It contains the game instance, the player iterator and the bot
+ * instance and acts as an interface to the model by exposing only certain Game class functionalities
+ * @see Game
+ * @see PlayerIterator
+ * @see Bot
  */
 public abstract class GameController {
     protected Game game;
@@ -42,12 +46,20 @@ public abstract class GameController {
         return tableCards;
     }
 
+    /**
+     * Sets the "last one to take" boolean flag to the last team that took a card
+     * @param team last team that took a card
+     */
     private void setLastTeamToTake(Team team) {
         game.getFirstTeam().setLastOneToTake(false);
         game.getSecondTeam().setLastOneToTake(false);
         team.setLastOneToTake(true);
     }
 
+    /**
+     * Starts the game by initializing the Game instance, the PlayerIterator and the Bot.
+     * The Bot is set by default at the hardest difficulty
+     */
     public void startGame() {
         game.setStarted(true);
         playerIterator = new PlayerIterator(game.getPlayers());
@@ -62,6 +74,9 @@ public abstract class GameController {
         bot.setDifficulty(Difficulties.getDifficulty(difficulty));
     }
 
+    /**
+     * Starts a successive round by resetting the model and the internal state and preparing it for another round
+     */
     public void continueGame() {
         playerIterator = new PlayerIterator(game.getPlayers());
         currentPlayer = playerIterator.next();
@@ -74,8 +89,6 @@ public abstract class GameController {
         return bot.playCard(inHandList);
     }
 
-    protected abstract void endMatch();
-
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
@@ -83,6 +96,11 @@ public abstract class GameController {
         return game.getPlayers().stream().anyMatch(Player::isBot);
     }
 
+    /**
+     * Progress the match by one turn by updating the current player
+     * @throws EndGameException if the player iterator made enough round ({@link Game#N_OF_TURNS} rounds) throws the
+     * exception to signal to the caller that the game is over
+     */
     public void nextTurn() throws EndGameException {
         if (playerIterator.getTurnNumber() == Game.N_OF_TURNS) {
             throw new EndGameException();
@@ -90,6 +108,11 @@ public abstract class GameController {
         currentPlayer = playerIterator.next();
     }
 
+    /**
+     * Ends the game by generating and returning the end game results and by rotating the list of player: in this way
+     * an eventual next turn would start from another player
+     * @return two {@link GameResult} instances
+     */
     public GameResult[] endGame() {
         game.addRemainingCards();
         rotatePlayers();

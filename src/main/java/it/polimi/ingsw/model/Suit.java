@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model;
 
-import java.util.Comparator;
-
+/**
+ * Enum containing all possible cards suit
+ */
 public enum Suit {
     CUPS,
     SWORDS,

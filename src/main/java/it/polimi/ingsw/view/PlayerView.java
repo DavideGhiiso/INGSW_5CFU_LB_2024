@@ -2,6 +2,9 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.bot.Difficulties;
 
+/**
+ * Class that represent a small Client model serving as a buffer to store information received from the server
+ */
 public class PlayerView {
     private boolean yourTurn;
     private String username;

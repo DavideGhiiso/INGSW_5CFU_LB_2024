@@ -160,7 +160,7 @@ public class InGameController implements ViewController, Initializable {
      * Gets a list of ImageView that each represent a card. A style is added through passed method
      * @param cards list of cards to convert
      * @param style method to stylyze every card
-     * @return
+     * @return a list of ImageView representing a list of cards
      */
     private List<ImageView> getCardsImageViews(List<Card> cards, Method style) {
         List<ImageView> result = new ArrayList<>();
@@ -351,7 +351,7 @@ public class InGameController implements ViewController, Initializable {
         }
     }
 
-    public void onPlayCardButtonClick(ActionEvent actionEvent) {
+    public void onPlayCardButtonClick() {
         playCardButton.setVisible(false);
         SceneLoader.getPlayerView().setYourTurn(false);
         Client.getInstance().send(new PlaceCardEvent(urlToCard(selectedCard.getImage().getUrl())));
@@ -365,7 +365,7 @@ public class InGameController implements ViewController, Initializable {
         new Thread(() -> offlineGameController.placeCardAndPlayBot(placedCard)).start();
     }
 
-    public void onExitGameButtonClick(ActionEvent actionEvent) {
+    public void onExitGameButtonClick() {
         Platform.runLater(() -> SceneLoader.changeScene("fxml/menu.fxml"));
         Client.getInstance().stop();
     }

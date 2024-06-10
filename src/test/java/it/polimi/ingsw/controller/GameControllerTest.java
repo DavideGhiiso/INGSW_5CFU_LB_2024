@@ -1,14 +1,10 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.exceptions.MaxPlayersReachedException;
 import it.polimi.ingsw.model.exceptions.UsernameTakenException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameControllerTest {
     @Test

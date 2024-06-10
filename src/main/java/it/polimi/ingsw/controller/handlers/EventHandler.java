@@ -18,6 +18,11 @@ public interface EventHandler {
      */
     void handle(Event event);
 
+    /**
+     * Utility method used to broadcast the score to all connected clients
+     * @param onlineGameController current game controller
+     * @param eventTransmitter current event transmitter instance
+     */
     static void broadcastScore(OnlineGameController onlineGameController, EventTransmitter eventTransmitter) {
         // current play score
         String[] fistTeamNames = onlineGameController.getFirstTeamNames();
