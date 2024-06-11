@@ -313,7 +313,7 @@ public class InGameController implements ViewController, Initializable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        SceneLoader.changeScene("fxml/endgame.fxml");
+        SceneLoader.changeScene("fxml/endGame.fxml");
         SceneLoader.getCurrentController().handle(endGameEventBuffer);
     }
 

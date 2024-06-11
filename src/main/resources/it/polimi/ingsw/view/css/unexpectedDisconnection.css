@@ -8,9 +8,9 @@
 }
 
 Text {
-    -fx-text-fill: rgba(226,228,241,255);
+    -fx-fill: rgba(226,228,241,255);
     -fx-font-weight: bold;
-    -fx-font-size: 30pt;
+    -fx-font-size: 40pt;
 }
 
 .label {
