@@ -36,7 +36,7 @@ Separator .line {
     -fx-border-radius: 10;
     -fx-background-color: rgb(41,71,95);
     -fx-border-color: rgb(195, 208, 210);
-    -fx-max-height: 500;
+    -fx-max-height: 600;
     -fx-max-width: 650;
 }
 
@@ -50,6 +50,8 @@ Separator .line {
 }
 
 .winners-label {
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
     -fx-padding: 10px;
     -fx-font-size: 50px;
     -fx-font-weight: bold;

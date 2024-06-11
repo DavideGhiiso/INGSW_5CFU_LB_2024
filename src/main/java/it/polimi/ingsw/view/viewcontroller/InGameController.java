@@ -299,6 +299,7 @@ public class InGameController implements ViewController, Initializable {
             TakeCardTransition takeCardTransition = new TakeCardTransition(card, 700);
             takeCardTransition.setOnFinished(ev -> {
                 animationPlaying = false;
+                centralPane.getChildren().clear();
                 goToEndGameScene();
             });
             takeCardTransition.play();
@@ -306,6 +307,7 @@ public class InGameController implements ViewController, Initializable {
     }
 
     private void goToEndGameScene() {
+        centralPane.getChildren().clear();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {

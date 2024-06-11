@@ -141,8 +141,6 @@ public class EndGameController implements ViewController {
         resultTable.add(getGridPaneLabel(String.valueOf(firstTeamResult.getScopa())), 1,1); // col row
         resultTable.add(getGridPaneLabel(String.valueOf(secondTeamResult.getScopa())), 2,1);
         int row = 2;
-        System.out.println("first: "+ firstTeamResult.getPointsMade());
-        System.out.println("second: "+ secondTeamResult.getPointsMade());
         for(Points point: Points.values()) {
             if(firstTeamResult.getPointsMade().contains(point)) {
                 resultTable.add(getGridPaneLabel(TICK_SYMBOL), 1,row);
@@ -180,5 +178,10 @@ public class EndGameController implements ViewController {
 
     public void onExitButtonClick(ActionEvent actionEvent) {
         Platform.runLater(() -> SceneLoader.changeScene("fxml/menu.fxml"));
+        if(!SceneLoader.getPlayerView().isOffline())
+            try {
+                Client.getInstance().stop();
+            } catch (RuntimeException ignored) {
+            }
     }
 }
