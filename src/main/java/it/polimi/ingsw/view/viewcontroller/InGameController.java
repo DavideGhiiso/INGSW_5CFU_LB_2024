@@ -245,7 +245,7 @@ public class InGameController implements ViewController, Initializable {
     private List<String> sortPlayers(List<String> players, int selfIndex) {
         List<String> result = new ArrayList<>();
         for(int idx=0; idx < players.size(); idx++) {
-            result.add(idx, players.get((idx + selfIndex) % players.size())); // TODO: handle IndexOutOfBounds
+            result.add(idx, players.get((idx + selfIndex) % players.size()));
         }
         return result;
     }

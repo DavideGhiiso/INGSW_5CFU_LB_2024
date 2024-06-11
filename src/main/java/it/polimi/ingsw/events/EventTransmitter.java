@@ -2,6 +2,7 @@ package it.polimi.ingsw.events;
 
 import it.polimi.ingsw.events.data.BaseEvent;
 import it.polimi.ingsw.networking.Connection;
+import it.polimi.ingsw.networking.Server;
 
 import java.io.IOException;
 import java.util.Map;
@@ -22,7 +23,8 @@ public class EventTransmitter {
      */
     public void broadcast(BaseEvent event) throws IOException {
         for (Connection connection : connections.keySet()) {
-            System.out.println("Broadcast: " + event.getID());
+            if(Server.DEBUG)
+                System.out.println("Broadcast: " + event.getID());
             connection.send(event);
         }
     }

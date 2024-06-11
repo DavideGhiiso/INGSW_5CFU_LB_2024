@@ -15,7 +15,7 @@ public class Connection {
     private final ObjectInputStream inputStream;
     private final ObjectOutputStream outputStream;
     private static final int TIMEOUT = 2000;
-    private final int PING_FAILURE_THRESHOLD = 10;
+    private final int PING_FAILURE_THRESHOLD = 5;
     private int currentPingFailure = PING_FAILURE_THRESHOLD;
 
 

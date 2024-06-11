@@ -18,9 +18,7 @@ public class ServerEventListener extends EventListener implements Runnable {
         try {
             super.run();
         } catch (IOException e) {
-            System.out.println("Error:" + e.getMessage());
             new ClientDisconnectedHandler().handle(new ConnectionEvent(new ClientDisconnectedEvent(), listeningConnection));
-            // TODO: logging purpose (remove b4 release)
             System.out.println("Event Listener with "+ listeningConnection.getConnectionID() +" closed");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);

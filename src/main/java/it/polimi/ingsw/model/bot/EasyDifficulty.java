@@ -30,20 +30,4 @@ public class EasyDifficulty extends Difficulty {
          System.out.println("Unc: "+uncertainty);
         return getSumOfWeight(card, inHandList, onTableList, onTableListIfPlaced) + uncertainty;
     }
-
-    /**
-     * TODO: REMOVE
-     */
-    private static void debugPrint(Card card, List<Card> inHandList, List<Card> onTableList, List<Card> onTableListIfPlaced) {
-        System.out.println("\n" + card.toString());
-        System.out.println("\tin hand \t" + calculateInHandValueProficiency(card, inHandList));
-        System.out.println("\ttaken cards\t" + calculateTakenCardsProficiency(card, onTableList, onTableListIfPlaced));
-        System.out.println("\ttakes seven\t" + calculateTakesSevenProficiency(card, onTableList, onTableListIfPlaced));
-        System.out.println("\tdoes scopa\t" + calculateDoesScopaProficiency(onTableListIfPlaced));
-        System.out.println("\tis seven\t" + calculateSevenProficiency(card, onTableList, onTableListIfPlaced));
-        System.out.println("\tis gold \t" + calculateGoldProficiency(card, onTableList, onTableListIfPlaced));
-        System.out.println("\tscopa risk\t" + calculateScopaRisk(onTableList, onTableListIfPlaced, inHandList));
-        System.out.println("\tseven risk\t" + calculateSevenRisk(onTableListIfPlaced, inHandList));
-        System.out.println("Simulated placement: " + onTableListIfPlaced.toString());
-    }
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.events;
 
 import it.polimi.ingsw.controller.handlers.EventHandler;
 import it.polimi.ingsw.events.data.Event;
+import it.polimi.ingsw.networking.Server;
 
 import java.util.*;
 
@@ -41,7 +42,8 @@ public class EventReceiver implements Runnable {
             try {
                 eventHandlerMap.get(event.getID()).handle(event);
             } catch (NullPointerException e) {
-                System.out.println("Handler for " + event.getID() + " is null!");
+                if(Server.DEBUG)
+                    System.out.println("Handler for " + event.getID() + " is null!");
             }
     }
 
@@ -69,7 +71,7 @@ public class EventReceiver implements Runnable {
             synchronized (eventsQueue) {
                 receivedEvent = eventsQueue.remove();
             }
-            if (!receivedEvent.getID().equals("PING_EVENT") && !receivedEvent.getID().equals("PONG_EVENT"))
+            if (!receivedEvent.getID().equals("PING_EVENT") && !receivedEvent.getID().equals("PONG_EVENT") && Server.DEBUG)
                 System.out.println("Received " + receivedEvent.getID());
             sortEvent(receivedEvent);
         }

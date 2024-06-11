@@ -50,7 +50,6 @@ public class CardListUtils {
     }
 
     /**
-     * TODO: set private
      * Method that generates all possible unordered combination of a single card of length less or equal than maxLength
      * and puts them in combinationsContainer list of lists of card
      * @param combinationsContainer list of lists that will contain all combinations at the end of the recursion
