@@ -41,12 +41,12 @@ public class PointsCalculator {
         int nOfThree = CardListUtils.numbersCount(takenCards, 3);
         int nOfTwo = CardListUtils.numbersCount(takenCards, 2);
         return nOfSeven > 2 ||
-                nOfSeven == 2 && nOfSix > 2 ||
-                nOfSix == 2 && nOfOne > 2 ||
-                nOfOne == 2 && nOfFive > 2 ||
-                nOfFive == 2 && nOfFour > 2 ||
-                nOfFour == 2 && nOfThree > 2 ||
-                nOfThree == 2 && nOfTwo > 2;
+                (nOfSeven == 2 && nOfSix > 2) ||
+                (nOfSeven == 2 && nOfSix == 2 && nOfOne > 2) ||
+                (nOfSeven == 2 && nOfSix == 2 && nOfOne == 2 && nOfFive > 2) ||
+                (nOfSeven == 2 && nOfSix == 2 && nOfOne == 2 && nOfFive == 2 && nOfFour > 2) ||
+                (nOfSeven == 2 && nOfSix == 2 && nOfOne == 2 && nOfFive == 2 && nOfFour == 2 && nOfThree > 2) ||
+                (nOfSeven == 2 && nOfSix == 2 && nOfOne == 2 && nOfFive == 2 && nOfFour == 2 && nOfThree == 2 && nOfTwo > 2);
     }
 
     private boolean hasAtLeastACardPerSuit() {
