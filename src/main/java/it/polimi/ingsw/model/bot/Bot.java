@@ -9,7 +9,7 @@ import java.util.stream.Stream;
  * Class that represent a player controlled by the CPU
  */
 public class Bot {
-    private final static int THINK_TIME = 3000;
+    private final static int THINK_TIME = 2200;
     private Difficulty difficulty;
     private final List<Card> team1Cards;
     private final List<Card> team2Cards;

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.handlers.server.BotTurnHandler;
+import it.polimi.ingsw.events.data.server.BotTurnEvent;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.Dealer;
 import it.polimi.ingsw.model.Game;
@@ -16,6 +18,7 @@ import java.util.NoSuchElementException;
  */
 public class OnlineGameController extends GameController {
     private static OnlineGameController instance = null;
+    public static String BOT_STRING = " (BOT)";
 
     private OnlineGameController(Game game) {
         super(game);
@@ -124,7 +127,7 @@ public class OnlineGameController extends GameController {
      */
     private void replaceClientWithBot(Player player) {
         player.setBot(true);
-        player.setName(player.getName() + " (BOT)");
+        player.setName(player.getName() + BOT_STRING);
     }
 
     /**

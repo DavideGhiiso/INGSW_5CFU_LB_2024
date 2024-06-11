@@ -134,6 +134,7 @@ public class Server {
         if(connectedClients.containsKey(connection))
             connectedClients.get(connection).interrupt();
         connectedClients.remove(connection);
+//        System.out.println(connectedClients);
     }
     public EventReceiver getEventReceiver() {
         return eventReceiver;

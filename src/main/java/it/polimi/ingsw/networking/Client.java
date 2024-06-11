@@ -6,7 +6,6 @@ import it.polimi.ingsw.events.EventReceiver;
 import it.polimi.ingsw.events.data.BaseEvent;
 import it.polimi.ingsw.events.data.GameInfo;
 import it.polimi.ingsw.events.data.client.RequestGameInfoEvent;
-import it.polimi.ingsw.view.SceneLoader;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -80,7 +79,6 @@ public class Client {
         try {
             serverConnection.send(event);
         } catch (IOException e) {
-            SceneLoader.changeScene("fxml/unexpectedDisconnection.fxml");
             throw new RuntimeException(e);
         }
     }

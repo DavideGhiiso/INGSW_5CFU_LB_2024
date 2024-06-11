@@ -22,15 +22,16 @@ public class ClientDisconnectedHandler implements EventHandler {
             Server server = Server.getInstance();
             server.removeClient(connection);
             OnlineGameController onlineGameController = OnlineGameController.getInstance();
-            String currentPlayerName = onlineGameController.getCurrentPlayer().getName();
+            onlineGameController.handleClientExit(connection.getConnectionID());
+
             if(onlineGameController.isGameStarted()) {
                 if(server.isEmpty()) {
                     onlineGameController.reset();
                     return;
                 }
-                onlineGameController.handleClientExit(connection.getConnectionID());
                 EventHandler.broadcastScore(onlineGameController, server.getEventTransmitter());
-                if(connection.getConnectionID().equals(currentPlayerName)) // if disconnecting player is playing his turn
+                String currentPlayerName = onlineGameController.getCurrentPlayer().getName();
+                if(currentPlayerName.equals(connection.getConnectionID() + " (BOT)")) // if disconnecting player is playing his turn
                     new BotTurnHandler().handle(new BotTurnEvent());
             }
             connection.close();

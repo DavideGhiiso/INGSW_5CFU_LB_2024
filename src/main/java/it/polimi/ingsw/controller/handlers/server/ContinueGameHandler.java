@@ -6,6 +6,7 @@ import it.polimi.ingsw.events.EventTransmitter;
 import it.polimi.ingsw.events.data.Event;
 import it.polimi.ingsw.events.data.client.ContinueGameEvent;
 import it.polimi.ingsw.events.data.client.StartGameEvent;
+import it.polimi.ingsw.events.data.server.BotTurnEvent;
 import it.polimi.ingsw.events.data.server.GameResumingWarningEvent;
 import it.polimi.ingsw.events.data.server.NewTurnEvent;
 import it.polimi.ingsw.networking.Server;
@@ -35,6 +36,8 @@ public class ContinueGameHandler implements EventHandler {
             int team2Points = onlineGameController.getTeam2Points();
             eventTransmitter.broadcast(new StartGameEvent(fistTeamNames, secondTeamNames, team1Points, team2Points));
             eventTransmitter.broadcast(new NewTurnEvent(onlineGameController.getCurrentPlayer().getName()));
+            if(onlineGameController.getCurrentPlayer().isBot())
+                new Thread(() -> new BotTurnHandler().handle(new BotTurnEvent())).start();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
